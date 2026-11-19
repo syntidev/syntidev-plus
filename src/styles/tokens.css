@@ -79,12 +79,13 @@
   --sombra-elevada: 0 1px 0 var(--linea), 0 12px 32px -16px rgba(14, 47, 61, .18);
 
   /* Movimiento adicional */
-  /* El pulso: barras que respiran a ritmos distintos */
-  --t-pulso-1: 2.6s;
-  --t-pulso-2: 3.4s;
-  --t-pulso-3: 4.3s;
-  --t-pulso-4: 5.1s;
-  --pulso-alto: 132px;
-  --pulso-alto-banda: 72px;
-  --pulso-hueco: 3px;
+  /* La transformación: caos que entra, orden que sale */
+  --tf-alto:        300px;
+  --tf-alto-movil:  360px;
+  --tf-nucleo:      96px;
+  --tf-nucleo-movil: 72px;
+  --t-flujo:        14s;   /* lo que tarda una nota en cruzar su mitad */
+  --t-proceso:      3.5s;  /* giro del núcleo */
+  --t-salida:       21s;   /* lo que tarda un proceso limpio en cruzar su mitad */
+  --t-salida-movil: 10s;
 }

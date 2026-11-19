@@ -1,12 +1,10 @@
 ---
 import site from '../../content/site.json';
-import Pulso from '../ui/Pulso.astro';
 const { contacto, footer } = site;
 const enlaceWhatsapp = `https://wa.me/${contacto.whatsapp}?text=${encodeURIComponent(contacto.whatsappMensaje)}`;
 ---
 
 <section class="contacto" id="contacto">
-  <Pulso variante="oscuro" barras={72} />
   <div class="wrap">
     <p class="eti">{contacto.etiqueta}</p>
     <h2>{contacto.titulo}</h2>

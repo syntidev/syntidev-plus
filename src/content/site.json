@@ -43,7 +43,7 @@
       "titulo": "Lo que escuchamos en los negocios",
       "frases": [
         "No sé cuánto gané hasta que cuadro el cuaderno.",
-        "Se fue la luz y se paró la caja.",
+        "Todo está en una sola computadora.",
         "No sé quién me debe ni desde cuándo.",
         "Cada quien anota a su manera."
       ]
@@ -85,7 +85,7 @@
       "Qué pasa si dos cajeras cobran el mismo producto a la vez.",
       "Quién puede ver qué, y quién puede borrar qué.",
       "Botones que se puedan usar con guantes o con prisa.",
-      "Qué hace el sistema cuando se va la luz."
+      "Que sigas operando desde el celular o la tableta si la computadora falla."
     ]
   },
   "como": {
@@ -317,5 +317,27 @@
   "footer": {
     "izquierda": "© 2026 SYNTIdev · Fundado por Carlos Bolívar",
     "derecha": "Venezuela · México · Atención remota"
+  },
+  "transformacion": {
+    "etiquetaEntrada": "Lo que llega",
+    "etiquetaSalida": "Lo que sale",
+    "entrada": [
+      "Ventas sin control",
+      "¿Quién me debe?",
+      "Notas perdidas",
+      "Errores en caja",
+      "Tasa calculada a mano",
+      "Inventario que no cuadra",
+      "Todo en una sola computadora",
+      "Cada quien anota a su manera"
+    ],
+    "salida": [
+      "Caja cuadrada",
+      "Cartera al día",
+      "Pagos conciliados",
+      "Inventario en tiempo real",
+      "Opera desde el celular",
+      "Reportes claros"
+    ]
   }
 }

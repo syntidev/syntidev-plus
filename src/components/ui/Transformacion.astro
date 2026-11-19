@@ -1,0 +1,181 @@
+---
+// La transformación: por la izquierda llega el caos del negocio (notas torcidas,
+// dudas, errores), entra al isotipo de SYNTI, y por la derecha sale ordenado en
+// carriles rectos. CSS puro: cada pieza recorre su mitad de la banda en bucle,
+// con desfases distintos para que el flujo nunca se vea sincronizado.
+import site from '../../content/site.json';
+const { transformacion: tf } = site;
+---
+
+<div class="tf" aria-label="De problemas sueltos a procesos ordenados">
+  <p class="eti tf__eti tf__eti--in">{tf.etiquetaEntrada}</p>
+  <p class="eti tf__eti tf__eti--out">{tf.etiquetaSalida}</p>
+
+  <!-- Guías: a la izquierda trazos ondulados e irregulares, a la derecha carriles rectos -->
+  <svg class="tf__guias" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
+    <path class="guia guia--caos" d="M0,80 C80,40 140,140 220,90 S360,30 430,150 L500,150" />
+    <path class="guia guia--caos" d="M0,220 C70,260 150,170 230,230 S360,270 430,150 L500,150" />
+    <path class="guia guia--orden" d="M500,150 L560,110 L1000,110" />
+    <path class="guia guia--orden" d="M500,150 L560,190 L1000,190" />
+  </svg>
+
+  <ul class="tf__caos" aria-label={tf.etiquetaEntrada}>
+    {tf.entrada.map((t) => <li><span>{t}</span></li>)}
+  </ul>
+
+  <div class="tf__nucleo" aria-hidden="true">
+    <svg viewBox="0 0 100 100">
+      <g class="nucleo__giro">
+        <path d="M 18,18 L 48,18 Q 54,18 54,24 L 54,30 L 30,30 L 30,54 L 24,54 Q 18,54 18,48 Z" />
+        <path d="M 82,82 L 52,82 Q 46,82 46,76 L 46,70 L 70,70 L 70,46 L 76,46 Q 82,46 82,52 Z" />
+      </g>
+      <circle class="nucleo__punto" cx="71" cy="29" r="13" />
+      <circle class="nucleo__punto nucleo__punto--2" cx="29" cy="71" r="13" />
+    </svg>
+  </div>
+
+  <ul class="tf__orden" aria-label={tf.etiquetaSalida}>
+    {tf.salida.map((t) => <li><span>{t}</span></li>)}
+  </ul>
+</div>
+
+<style>
+  .tf {
+    position: relative;
+    container-type: inline-size;
+    height: var(--tf-alto);
+    overflow: hidden;
+    border-block: var(--borde);
+    background: var(--espuma);
+  }
+
+  .tf__eti { position: absolute; top: var(--s-4); z-index: 3; }
+  .tf__eti--in { left: var(--margen); }
+  .tf__eti--out { right: var(--margen); color: var(--caribe); }
+
+  /* Guías */
+  .tf__guias { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .guia { fill: none; vector-effect: non-scaling-stroke; }
+  .guia--caos { stroke: var(--coral); stroke-width: 1; stroke-dasharray: 3 6; opacity: .35; }
+  .guia--orden { stroke: var(--caribe); stroke-width: 1.5; opacity: .3; }
+
+  /* Núcleo: el isotipo procesa */
+  .tf__nucleo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: var(--tf-nucleo);
+    height: var(--tf-nucleo);
+    translate: -50% -50%;
+    z-index: 2;
+    background: var(--espuma);
+    border-radius: var(--radio-pill);
+    box-shadow: 0 0 0 var(--s-3) var(--espuma);
+  }
+  .tf__nucleo svg { width: 100%; height: 100%; overflow: visible; }
+  .nucleo__giro { fill: var(--caribe); transform-origin: 50px 50px; animation: tf-procesa var(--t-proceso) var(--ola-marea) infinite; }
+  .nucleo__punto { fill: var(--sol); transform-origin: 50px 50px; animation: tf-late var(--t-proceso) var(--ola-suave) infinite; }
+  @keyframes tf-procesa {
+    0%, 55% { transform: rotate(0deg); }
+    80%, 100% { transform: rotate(90deg); }
+  }
+  @keyframes tf-late {
+    0%, 50%, 100% { transform: scale(1); }
+    65% { transform: scale(1.12); }
+  }
+
+  /* Caos: notas torcidas que derivan hacia el núcleo y se desvanecen al entrar */
+  .tf__caos li, .tf__orden li {
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: nowrap;
+    will-change: transform, opacity;
+  }
+  .tf__caos li {
+    animation: tf-llega var(--t-flujo) linear infinite both;
+  }
+  .tf__caos span {
+    display: inline-block;
+    padding: var(--s-1) var(--s-3);
+    background: var(--arena);
+    border: 1px dashed var(--coral);
+    border-radius: var(--radio);
+    font: italic 400 var(--fs-peq) var(--fuente-titulo);
+    color: var(--grafito);
+    animation: tf-tambalea 2.8s var(--ola-marea) infinite alternate;
+  }
+  @keyframes tf-llega {
+    0%   { transform: translate(-110%, var(--y)) rotate(var(--r)) scale(1); opacity: 0; }
+    8%   { opacity: 1; }
+    70%  { opacity: 1; }
+    100% { transform: translate(calc(50cqw - 50%), calc(var(--tf-alto) / 2 - 50%)) rotate(0deg) scale(.4); opacity: 0; }
+  }
+  @keyframes tf-tambalea { from { rotate: -3deg; } to { rotate: 3deg; } }
+
+  /* Orden: salen del núcleo y avanzan derechas por dos carriles */
+  .tf__orden li { animation: tf-sale var(--t-salida) linear infinite both; }
+  .tf__orden span {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    padding: var(--s-1) var(--s-3);
+    background: var(--blanco);
+    border: 1px solid var(--caribe);
+    border-radius: var(--radio-pill);
+    font: 500 var(--fs-eti) var(--fuente-mono);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--caribe);
+  }
+  .tf__orden span::before { content: '✓'; color: var(--sol); font-weight: 600; }
+  @keyframes tf-sale {
+    0%   { transform: translate(calc(50cqw - 50%), calc(var(--tf-alto) / 2 - 50%)) scale(.4); opacity: 0; }
+    12%  { transform: translate(calc(56cqw), calc(var(--carril) - 50%)) scale(1); opacity: 1; }
+    88%  { opacity: 1; }
+    100% { transform: translate(calc(100cqw + 10%), calc(var(--carril) - 50%)) scale(1); opacity: 0; }
+  }
+
+  /* Posición vertical, giro y desfase de cada nota de caos */
+  .tf__caos li:nth-child(1) { --y: 34px;  --r: -6deg; animation-delay: 0s; }
+  .tf__caos li:nth-child(2) { --y: 200px; --r: 5deg;  animation-delay: -1.75s; }
+  .tf__caos li:nth-child(3) { --y: 112px; --r: -3deg; animation-delay: -3.5s; }
+  .tf__caos li:nth-child(4) { --y: 240px; --r: 7deg;  animation-delay: -5.25s; }
+  .tf__caos li:nth-child(5) { --y: 66px;  --r: 4deg;  animation-delay: -7s; }
+  .tf__caos li:nth-child(6) { --y: 170px; --r: -7deg; animation-delay: -8.75s; }
+  .tf__caos li:nth-child(7) { --y: 128px; --r: 6deg;  animation-delay: -10.5s; }
+  .tf__caos li:nth-child(8) { --y: 220px; --r: -4deg; animation-delay: -12.25s; }
+  .tf__caos li:nth-child(even) span { animation-duration: 3.6s; }
+
+  /* Carril y desfase de cada proceso limpio (alternan entre los dos carriles) */
+  .tf__orden li:nth-child(odd)  { --carril: calc(var(--tf-alto) * .3667); }
+  .tf__orden li:nth-child(even) { --carril: calc(var(--tf-alto) * .6333); }
+  /* 6 procesos en 21 s: en cada carril sale uno cada 7 s, sin que se encimen */
+  .tf__orden li:nth-child(1) { animation-delay: -0.9s; }
+  .tf__orden li:nth-child(2) { animation-delay: -4.4s; }
+  .tf__orden li:nth-child(3) { animation-delay: -7.9s; }
+  .tf__orden li:nth-child(4) { animation-delay: -11.4s; }
+  .tf__orden li:nth-child(5) { animation-delay: -14.9s; }
+  .tf__orden li:nth-child(6) { animation-delay: -18.4s; }
+
+  @media (max-width: 700px) {
+    .tf { --tf-alto: var(--tf-alto-movil); }
+    .tf__nucleo { width: var(--tf-nucleo-movil); height: var(--tf-nucleo-movil); }
+    .tf__caos li:nth-child(n + 6) { display: none; }
+    /* En móvil el carril es corto: un solo proceso por carril para que nunca se encimen */
+    .tf__orden li { animation-duration: var(--t-salida-movil); }
+    .tf__orden li:nth-child(n + 3) { display: none; }
+    .tf__orden li:nth-child(2) { animation-delay: calc(var(--t-salida-movil) / -2 - .9s); }
+    .tf__caos span, .tf__orden span { font-size: var(--fs-eti); }
+  }
+
+  /* Sin movimiento: composición quieta y legible, caos a la izquierda, orden a la derecha */
+  @media (prefers-reduced-motion: reduce) {
+    .tf__caos li, .tf__orden li { animation: none !important; opacity: 1; }
+    .tf__caos li { transform: translate(var(--margen), var(--y)) rotate(var(--r)) scale(1); }
+    .tf__caos li:nth-child(n + 5), .tf__orden li:nth-child(n + 5) { display: none; }
+    .tf__orden li { transform: translate(calc(60cqw), calc(var(--carril) - 50%)); }
+    .tf__orden li:nth-child(3) { transform: translate(calc(75cqw), calc(var(--carril) - 50%)); }
+    .tf__orden li:nth-child(4) { transform: translate(calc(75cqw), calc(var(--carril) - 50%)); }
+  }
+</style>

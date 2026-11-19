@@ -1,6 +1,5 @@
 ---
 import site from '../../content/site.json';
-import Pulso from '../ui/Pulso.astro';
 const { hero } = site;
 ---
 
@@ -26,11 +25,10 @@ const { hero } = site;
       </ul>
     </aside>
   </div>
-  <Pulso />
 </section>
 
 <style>
-  .hero { position: relative; padding-block: var(--s-9) var(--s-10); overflow: hidden; }
+  .hero { position: relative; padding-block: var(--s-9) var(--s-8); overflow: hidden; }
   .hero__in { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: var(--s-8); align-items: end; }
 
   .hero__titulo { font-size: var(--fs-h1); margin: var(--s-5) 0 var(--s-6); }
