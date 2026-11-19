@@ -1,6 +1,6 @@
 # SYSTEM_MAP.md — syntidev-plus
 # Árbitro único del estado real. Se actualiza al cerrar cada fase.
-# Última actualización: 2026-11-19 · Fase actual: 0 (pre-inicio)
+# Última actualización: 2026-11-19 (tarde) · Fase actual: F1 en producción
 
 ---
 
@@ -8,7 +8,10 @@
 
 - Repo: `github.com/syntidev/syntidev-plus` · rama `main` · commit inicial 7104015 (solo README)
 - Local: `C:\laragon\www\syntidev-plus` — creada, git inicializado
-- Producción actual de synti.dev: Astro estático en Hostinger (repo `syntidev-astro`, deploy FTP). **Sigue vivo hasta el corte de la Fase 4.**
+- **synti.dev EN PRODUCCIÓN desde el VPS (2026-11-19):** PM2 `syntidev` en 127.0.0.1:3005, Nginx vhost `synti.dev` + `www`, Let's Encrypt (vence 2027-02-17, renovación automática). Cloudflare en DNS only.
+- Staging: `nuevo.synti.dev` (mismo proceso, Nginx con X-Robots-Tag noindex).
+- Sitio viejo: sigue en Hostinger (82.198.236.90) como respaldo. Rollback = devolver el A de synti.dev en Cloudflare a esa IP. Borrar solo tras unos días estable.
+- Deploy: `/var/www/syntidev/deploy.sh` (pendiente de su primera ejecución real).
 - Puerto VPS: **3005** (libre, verificado 2026-11-19), solo 127.0.0.1
 - Staging: `nuevo.synti.dev` → VPS
 - DB: MySQL 8.0 del VPS (no MariaDB) · base `syntidev` · usuario `syntidev_app`
@@ -17,8 +20,8 @@
 ## Regla del Policía
 
 ```
-F0 Fundación (scaffold + tokens + deploy esqueleto)   ⏳ siguiente
-F1 Sitio público (secciones + movimiento)             🔒
+F0 Fundación (scaffold + tokens + deploy esqueleto)   ✅ certificada
+F1 Sitio público (secciones + movimiento)             🟢 en producción · pendiente aprobación visual final
 F2 La esponja (registro de visitas, eventos, leads)   🔒
 F3 Panel privado (/panel)                              🔒
 F4 Calidad + corte de DNS desde Hostinger             🔒
@@ -44,6 +47,14 @@ Prisma: `Visit`, `Event`, `Lead`, `WaClick`. Endpoints: `POST /api/e` (eventos c
 
 ### F4 — Calidad y lanzamiento
 Auditoría CLI-C, Playwright completo, Lighthouse, SEO (sitemap, OG, schema Organization), política de privacidad, corte de DNS de Hostinger al VPS.
+
+## Pendientes operativos
+
+- Reactivar proxy de Cloudflare con SSL Full (strict)
+- Primera ejecución real de deploy.sh
+- finca.synti.dev (HTML estático) sigue en Hostinger vía comodín: migrar al VPS antes de dar de baja Hostinger
+- Certificados vencidos ajenos en el VPS (lleva.app-0001, ordena.menu, socialia, syntiweb.com-0001)
+- F2: la esponja debe leer la IP real desde CF-Connecting-IP cuando el proxy esté activo
 
 ## Decisiones abiertas (Carlos)
 

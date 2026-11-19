@@ -228,6 +228,14 @@
         "tipo": "prod"
       },
       {
+        "nombre": "MecaFlow",
+        "texto": "Gestión de talleres y flotas: órdenes de servicio paso a paso, evidencia fotográfica, historial por unidad, proveedores y varias sucursales en un mismo panel.",
+        "adaptado": "Incluye monitor de taller para TV, alertas de órdenes demoradas y exportación a Excel.",
+        "enlaces": [],
+        "estado": "Demo disponible",
+        "tipo": "prod"
+      },
+      {
         "nombre": "SYNTIweb",
         "texto": "Páginas web y presencia digital para negocios, con dos marcas propias: cartas digitales para restaurantes y catálogos para tiendas.",
         "adaptado": "",
