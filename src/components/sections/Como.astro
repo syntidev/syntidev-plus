@@ -1,0 +1,62 @@
+---
+import site from '../../content/site.json';
+const { como } = site;
+---
+
+<section class="sec" id="como">
+  <div class="wrap">
+    <div class="sec__cab revela">
+      <p class="eti">{como.numero}</p>
+      <h2>{como.titulo}</h2>
+    </div>
+
+    <ol class="pasos">
+      {
+        como.pasos.map((p, i) => (
+          <li class="paso revela">
+            <span class="paso__num">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{p.titulo}</h3>
+            <p>{p.texto}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="eti formas__tit">{como.formasTitulo}</p>
+    <div class="formas">
+      {
+        como.formas.map((f) => (
+          <article class="forma revela">
+            <p class="eti">{f.etiqueta}</p>
+            <h3>{f.titulo}</h3>
+            <p>{f.texto}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .pasos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: var(--linea-gruesa) solid var(--tinta); }
+  .paso { padding: var(--s-5) var(--s-5) 0 0; }
+  .paso__num { font: 500 var(--fs-num) var(--fuente-mono); color: var(--caribe); }
+  .paso h3 { font-size: var(--fs-h3); margin: var(--s-2) 0; }
+  .paso p { font-size: var(--fs-peq); color: var(--grafito); }
+
+  .formas__tit { margin: var(--s-8) 0 var(--s-3); }
+  .formas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: var(--borde-tinta); }
+  .forma { padding: var(--s-5); border-right: var(--borde-tinta); transition: background var(--t-rapido) var(--ola-suave); }
+  .forma:last-child { border-right: 0; }
+  .forma:hover { background: var(--espuma); }
+  .forma h3 { font-size: var(--fs-h3); margin: var(--s-2) 0; }
+  .forma p:last-child { font-size: var(--fs-peq); color: var(--grafito); }
+
+  @media (max-width: 860px) {
+    .pasos { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--s-6); }
+    .formas { grid-template-columns: minmax(0, 1fr); }
+    .forma { border-right: 0; border-bottom: var(--borde-tinta); }
+    .forma:last-child { border-bottom: 0; }
+  }
+  @media (max-width: 520px) { .pasos { grid-template-columns: minmax(0, 1fr); } }
+</style>

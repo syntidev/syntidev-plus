@@ -1,0 +1,50 @@
+---
+import site from '../../content/site.json';
+const { nav } = site;
+---
+
+<header class="nav">
+  <div class="wrap nav__in">
+    <a class="marca" href="#inicio" aria-label="SYNTI.dev, inicio">
+      <svg class="marca__iso" viewBox="0 0 100 100" aria-hidden="true">
+        <path class="iso-br" d="M 18,18 L 48,18 Q 54,18 54,24 L 54,30 L 30,30 L 30,54 L 24,54 Q 18,54 18,48 Z" />
+        <path class="iso-br" d="M 82,82 L 52,82 Q 46,82 46,76 L 46,70 L 70,70 L 70,46 L 76,46 Q 82,46 82,52 Z" />
+        <circle class="iso-a" cx="71" cy="29" r="13" />
+        <circle class="iso-b" cx="29" cy="71" r="13" />
+      </svg>
+      <span class="marca__txt">SYNTI<span class="marca__punto">.</span><span class="marca__dev">dev</span></span>
+    </a>
+    <nav aria-label="Principal">
+      <ul class="nav__links">
+        {nav.enlaces.map((e) => <li><a href={e.href}>{e.texto}</a></li>)}
+      </ul>
+    </nav>
+    <a class="btn btn--accion nav__cta" href="#contacto">{nav.cta}</a>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--arena) 90%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: var(--borde);
+  }
+  .nav__in { display: flex; align-items: center; justify-content: space-between; gap: var(--s-5); height: var(--nav-alto); }
+  .marca { display: inline-flex; align-items: center; gap: var(--s-3); text-decoration: none; }
+  .marca__iso { width: var(--iso); height: var(--iso); transition: transform var(--t-medio) var(--ola-suave); }
+  .marca:hover .marca__iso { transform: rotate(90deg); }
+  .iso-br { fill: var(--caribe); }
+  .iso-a { fill: var(--sol); }
+  .iso-b { fill: var(--sol); }
+  .marca__txt { font: 600 var(--fs-marca) var(--fuente-titulo); letter-spacing: -.01em; }
+  .marca__punto { font: 500 var(--fs-peq) var(--fuente-mono); color: var(--sol); }
+  .marca__dev { font: 500 var(--fs-peq) var(--fuente-mono); color: var(--caribe); }
+  .nav__links { display: flex; gap: var(--s-6); font-size: var(--fs-peq); }
+  .nav__links a { text-decoration: none; color: var(--grafito); transition: color var(--t-rapido) var(--ola-suave); }
+  .nav__links a:hover { color: var(--tinta); }
+  .nav__cta { min-height: var(--toque-compacto); padding-block: var(--s-2); }
+  @media (max-width: 960px) { .nav__links { display: none; } }
+</style>

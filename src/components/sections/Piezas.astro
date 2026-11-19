@@ -1,0 +1,94 @@
+---
+import site from '../../content/site.json';
+const { piezas, contacto } = site;
+const demo = `https://wa.me/${contacto.whatsapp}?text=${encodeURIComponent(piezas.demoMensaje)}`;
+---
+
+<section class="sec" id="piezas">
+  <div class="wrap">
+    <div class="sec__cab revela">
+      <p class="eti">{piezas.numero}</p>
+      <div>
+        <h2>{piezas.titulo}</h2>
+        <p>{piezas.bajada}</p>
+      </div>
+    </div>
+
+    <ul class="tabla">
+      {
+        piezas.lista.map((p) => (
+          <li class="fila revela">
+            <h3>{p.nombre}</h3>
+            <div class="fila__cuerpo">
+              <p>{p.texto}</p>
+              {p.adaptado && <p class="fila__adaptado">{p.adaptado}</p>}
+              {p.enlaces.length > 0 && (
+                <p class="fila__enlaces">
+                  {p.enlaces.map((e) => (
+                    <a href={e.href} rel="noopener" target="_blank">{e.texto} ↗</a>
+                  ))}
+                </p>
+              )}
+            </div>
+            <span class={`estado estado--${p.tipo}`}>{p.estado}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="cierre revela">
+      <p class="cierre__consejo">{piezas.consejo}</p>
+      <a class="btn btn--accion" href={demo} rel="noopener" target="_blank">{piezas.demo}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tabla { border-top: var(--borde-tinta); }
+  .fila {
+    display: grid;
+    grid-template-columns: var(--col-pieza) minmax(0, 1fr) var(--col-estado);
+    gap: var(--s-5);
+    align-items: baseline;
+    padding: var(--s-5) 0;
+    border-bottom: var(--borde);
+    transition: padding var(--t-medio) var(--ola-suave), background var(--t-medio) var(--ola-suave);
+  }
+  .fila:hover { padding-inline: var(--s-3); background: var(--espuma); }
+  .fila h3 { font-size: var(--fs-h3); }
+  .fila__cuerpo { display: grid; gap: var(--s-2); }
+  .fila__cuerpo > p:first-child { color: var(--grafito); font-size: var(--fs-peq); }
+  .fila__adaptado { font: italic 400 var(--fs-peq) var(--fuente-titulo); color: var(--caribe); }
+  .fila__enlaces { display: flex; flex-wrap: wrap; gap: var(--s-4); }
+  .fila__enlaces a {
+    font: 500 var(--fs-eti) var(--fuente-mono);
+    letter-spacing: .04em;
+    color: var(--caribe);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 1px;
+  }
+  .fila__enlaces a:hover { color: var(--tinta); }
+
+  .estado { font: 500 var(--fs-eti) var(--fuente-mono); letter-spacing: var(--tracking-eti); text-transform: uppercase; text-align: right; }
+  .estado--prod { color: var(--caribe); }
+  .estado--dev { color: var(--coral); }
+
+  .cierre {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-5);
+    margin-top: var(--s-7);
+    padding: var(--s-6);
+    background: var(--espuma);
+    border: var(--borde);
+  }
+  .cierre__consejo { font: italic 400 var(--fs-cita) / 1.4 var(--fuente-titulo); max-width: 46ch; }
+
+  @media (max-width: 760px) {
+    .fila { grid-template-columns: minmax(0, 1fr); gap: var(--s-2); }
+    .estado { text-align: left; }
+  }
+</style>

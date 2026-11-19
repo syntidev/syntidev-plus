@@ -29,3 +29,62 @@
   --texto-base:    17px;
   --texto-interlinea: 1.6;
 }
+
+/* ── Ampliación F1 (estructura) ───────────────────────────── */
+:root {
+  /* Color derivado para superficies oscuras */
+  --sobre-oscuro:       #F6F1E7;  /* = arena, texto sobre mar-noche */
+  --sobre-oscuro-suave: #9FC3D1;  /* texto secundario sobre mar-noche */
+  --linea-oscura:       #244A5A;  /* trazos sobre mar-noche */
+  --blanco:             #FFFFFF;  /* texto sobre coral */
+
+  /* Espaciado */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px; --s-5: 24px;
+  --s-6: 32px; --s-7: 48px; --s-8: 64px; --s-9: 96px; --s-10: 128px;
+
+  /* Escala tipográfica */
+  --fs-eti:  12px;
+  --fs-peq:  15px;
+  --fs-cita: clamp(20px, 2.2vw, 24px);
+  --fs-h3:   clamp(19px, 1.8vw, 22px);
+  --fs-h2:   clamp(30px, 4.2vw, 46px);
+  --fs-h1:   clamp(42px, 6.4vw, 78px);
+  --fs-num:  clamp(28px, 3vw, 36px);
+  --tracking-eti: .08em;
+  --interlinea-titulo: 1.08;
+
+  /* Layout */
+  --ancho:     1160px;
+  --margen:    clamp(20px, 4vw, 40px);
+  --nav-alto:  64px;
+  --col-eti:   160px;   /* columna del número de sección */
+  --toque:     48px;    /* alto mínimo de botones (touch) */
+  --ola-alto:  5px;     /* subrayado ondulado */
+  --ola-paso:  20px;
+  --punta:      7px;
+  --toque-compacto: 40px;
+  --iso:        36px;   /* isotipo en el encabezado */
+  --fs-marca:   24px;
+  --col-pieza:  220px;
+  --col-estado: 150px;
+  --linea-gruesa: 2px;
+  --linea-acento: 3px;
+  --ancho-cita: 820px;
+
+  /* Forma */
+  --radio:       2px;
+  --radio-pill:  999px;
+  --borde:       1px solid var(--linea);
+  --borde-tinta: 1px solid var(--tinta);
+  --sombra-elevada: 0 1px 0 var(--linea), 0 12px 32px -16px rgba(14, 47, 61, .18);
+
+  /* Movimiento adicional */
+  /* El pulso: barras que respiran a ritmos distintos */
+  --t-pulso-1: 2.6s;
+  --t-pulso-2: 3.4s;
+  --t-pulso-3: 4.3s;
+  --t-pulso-4: 5.1s;
+  --pulso-alto: 132px;
+  --pulso-alto-banda: 72px;
+  --pulso-hueco: 3px;
+}

@@ -1,0 +1,72 @@
+---
+import site from '../../content/site.json';
+const { quien } = site;
+---
+
+<section class="sec" id="quien">
+  <div class="wrap">
+    <div class="sec__cab revela">
+      <p class="eti">{quien.numero}</p>
+      <h2>{quien.titulo}</h2>
+    </div>
+
+    <figure class="firma revela">
+      <blockquote>{quien.cita}</blockquote>
+      <figcaption><b>{quien.firma}</b> · {quien.cargo}</figcaption>
+    </figure>
+
+    <div class="oficios">
+      {
+        quien.oficios.map((o) => (
+          <article class="oficio revela">
+            <p class="eti">{o.etiqueta}</p>
+            <h3>{o.titulo}</h3>
+            <p class="oficio__texto">{o.texto}</p>
+            {o.origen && <p class="oficio__origen">{o.origen}</p>}
+            <p class="oficio__leccion">{o.leccion}</p>
+          </article>
+        ))
+      }
+    </div>
+
+    <ul class="invisible">
+      {
+        quien.invisible.map((t) => (
+          <li class="revela">
+            <span class="eti">{quien.invisibleTitulo}</span>
+            {t}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .firma { max-width: var(--ancho-cita); margin-bottom: var(--s-8); }
+  .firma blockquote {
+    font: 400 var(--fs-cita) / 1.45 var(--fuente-titulo);
+    border-left: var(--linea-acento) solid var(--coral);
+    padding-left: var(--s-5);
+  }
+  .firma figcaption { margin: var(--s-4) 0 0 calc(var(--s-5) + var(--linea-acento)); font-size: var(--fs-peq); color: var(--grafito); }
+  .firma b { color: var(--tinta); }
+
+  .oficios { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: var(--borde-tinta); background: var(--espuma); }
+  .oficio { padding: var(--s-6); border-right: var(--borde-tinta); display: flex; flex-direction: column; gap: var(--s-3); }
+  .oficio:last-child { border-right: 0; }
+  .oficio h3 { font-size: var(--fs-h3); }
+  .oficio__texto { font-size: var(--fs-peq); color: var(--grafito); flex: 1; }
+  .oficio__origen { font: 400 var(--fs-eti) / 1.6 var(--fuente-mono); color: var(--grafito); letter-spacing: .02em; }
+  .oficio__leccion { font: italic 400 var(--fs-h3) / 1.35 var(--fuente-titulo); color: var(--caribe); border-top: var(--borde); padding-top: var(--s-4); }
+
+  .invisible { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: var(--s-7); border-top: var(--borde); }
+  .invisible li { padding: var(--s-4) var(--s-4) var(--s-4) 0; border-bottom: var(--borde); font-size: var(--fs-peq); }
+  .invisible .eti { display: block; margin-bottom: var(--s-1); }
+
+  @media (max-width: 860px) {
+    .oficios, .invisible { grid-template-columns: minmax(0, 1fr); }
+    .oficio { border-right: 0; border-bottom: var(--borde-tinta); }
+    .oficio:last-child { border-bottom: 0; }
+  }
+</style>

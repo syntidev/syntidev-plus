@@ -1,17 +1,313 @@
 {
   "meta": {
-    "titulo": "[PENDIENTE: título del sitio (title)]",
-    "descripcion": "[PENDIENTE: descripción del sitio (meta description)]"
+    "titulo": "SYNTIdev — Vamos a donde está el problema",
+    "descripcion": "Soluciones de sistemas para negocios: entendemos cómo trabajas y construimos sobre piezas que ya funcionan en otros negocios. Más de 25 años de oficio en operación crítica.",
+    "url": "https://synti.dev/",
+    "imagen": "/img/og-syntidev.png",
+    "imagenAlt": "SYNTI.dev — Vamos a donde está el problema. Y lo resolvemos con sistemas.",
+    "marca": "SYNTI.dev",
+    "fundador": "Carlos Bolívar"
   },
-  "secciones": [
-    { "id": "header", "titulo": "[PENDIENTE: texto del encabezado]" },
-    { "id": "hero", "titulo": "[PENDIENTE: titular del hero]", "subtitulo": "[PENDIENTE: subtítulo del hero]" },
-    { "id": "quien-esta-detras", "titulo": "[PENDIENTE: título de Quién está detrás]" },
-    { "id": "como-trabajamos", "titulo": "[PENDIENTE: título de Cómo trabajamos]" },
-    { "id": "cuaderno-de-campo", "titulo": "[PENDIENTE: título del Cuaderno de campo]" },
-    { "id": "piezas-probadas", "titulo": "[PENDIENTE: título de Piezas probadas]" },
-    { "id": "principio-accion-social", "titulo": "[PENDIENTE: título de Principio y acción social]" },
-    { "id": "contacto", "titulo": "[PENDIENTE: título de Contacto]" },
-    { "id": "footer", "titulo": "[PENDIENTE: texto del pie, incluida la dirección aprobada]" }
-  ]
+  "nav": {
+    "enlaces": [
+      {
+        "texto": "Quién está detrás",
+        "href": "#quien"
+      },
+      {
+        "texto": "Cómo trabajamos",
+        "href": "#como"
+      },
+      {
+        "texto": "Cuaderno de campo",
+        "href": "#cuaderno"
+      },
+      {
+        "texto": "Piezas",
+        "href": "#piezas"
+      }
+    ],
+    "cta": "Conversemos"
+  },
+  "hero": {
+    "etiqueta": "SYNTIdev · Soluciones de sistemas para negocios",
+    "lineas": [
+      "Vamos a donde",
+      "está el problema."
+    ],
+    "remate": "Y lo resolvemos con sistemas.",
+    "bajada": "Entendemos cómo trabaja tu negocio y construimos la solución sobre piezas que ya funcionan en otros: más rápido, más barato y con menos riesgo que empezar de cero. Detrás hay más de 25 años de oficio en operación crítica.",
+    "ctaPrincipal": "Cuéntanos tu caso",
+    "ctaSecundario": "Ver el cuaderno de campo",
+    "escuchamos": {
+      "titulo": "Lo que escuchamos en los negocios",
+      "frases": [
+        "No sé cuánto gané hasta que cuadro el cuaderno.",
+        "Se fue la luz y se paró la caja.",
+        "No sé quién me debe ni desde cuándo.",
+        "Cada quien anota a su manera."
+      ]
+    }
+  },
+  "quien": {
+    "numero": "01 — Quién está detrás",
+    "titulo": "Tres oficios antes de escribir una línea de código.",
+    "cita": "Hoy cualquiera puede generar un sistema. Que no se caiga, que cargue con la señal que tenemos y que el dueño entienda sus números, eso sigue siendo oficio. Es lo que pongo en cada proyecto de SYNTIdev.",
+    "firma": "Carlos Bolívar",
+    "cargo": "Fundador de SYNTIdev",
+    "oficios": [
+      {
+        "etiqueta": "Operación crítica",
+        "titulo": "Sistemas que no pueden detenerse",
+        "texto": "Una década sosteniendo la operación de agencias bancarias y redes de telecomunicaciones: servidores, virtualización, seguridad y continuidad del servicio.",
+        "origen": "Banco de Venezuela (Grupo Santander) · Banco Mercantil · Digitel · CANTV y Movilnet con Compaq y HP",
+        "leccion": "Saber cómo se cae un sistema, y qué hacer para que no pase."
+      },
+      {
+        "etiqueta": "Negocio",
+        "titulo": "Del inventario al cliente final",
+        "texto": "Gerencia de negocios internacionales: importación, administración de recursos, logística y venta al cliente final en México.",
+        "origen": "",
+        "leccion": "Entender el margen, el inventario y la cobranza desde el lado del dueño."
+      },
+      {
+        "etiqueta": "Construcción",
+        "titulo": "Arquitectura de soluciones",
+        "texto": "Desde 2010 diseñando y orquestando sistemas para negocios reales en Venezuela y México, de la idea a la operación diaria.",
+        "origen": "",
+        "leccion": "Las herramientas modernas dan velocidad. El criterio da confianza."
+      }
+    ],
+    "invisibleTitulo": "Lo que no se ve",
+    "invisible": [
+      "Qué tan pesada es tu página con los datos móviles de aquí.",
+      "Dónde vive tu base de datos y cómo se respalda.",
+      "Qué pasa si dos cajeras cobran el mismo producto a la vez.",
+      "Quién puede ver qué, y quién puede borrar qué.",
+      "Botones que se puedan usar con guantes o con prisa.",
+      "Qué hace el sistema cuando se va la luz."
+    ]
+  },
+  "como": {
+    "numero": "02 — Cómo trabajamos",
+    "titulo": "Primero entendemos. Después construimos.",
+    "pasos": [
+      {
+        "titulo": "Vamos a tu negocio",
+        "texto": "Vemos cómo operas hoy. Dónde se pierde dinero y dónde se pierde tiempo."
+      },
+      {
+        "titulo": "Resolvemos lo urgente",
+        "texto": "Un solo problema primero, funcionando en semanas, no en meses."
+      },
+      {
+        "titulo": "Crece contigo",
+        "texto": "Cada módulo nuevo se suma al mismo sistema. No acumulas programas sueltos."
+      },
+      {
+        "titulo": "Tus datos son tuyos",
+        "texto": "Acceso de soporte visible y autorizado por ti. Si te vas, te llevas todo."
+      }
+    ],
+    "formasTitulo": "Formas de trabajar",
+    "formas": [
+      {
+        "etiqueta": "Forma 1",
+        "titulo": "Listo para usar",
+        "texto": "Una pieza que ya existe resuelve lo tuyo. Empiezas en días, con suscripción mensual."
+      },
+      {
+        "etiqueta": "Forma 2",
+        "titulo": "Adaptado a ti",
+        "texto": "La misma base con tu marca, tu dominio y tus reglas de negocio."
+      },
+      {
+        "etiqueta": "Forma 3",
+        "titulo": "A la medida",
+        "texto": "Se construye por etapas. Pagas cada etapa cuando la recibes funcionando."
+      }
+    ]
+  },
+  "cuaderno": {
+    "numero": "03 — Cuaderno de campo",
+    "titulo": "Vamos a donde está el problema. Esto es lo que encontramos.",
+    "bajada": "Carnicería, helados, bicicletas, hamburguesas, flotas, fincas. Ninguno se parece al otro, y ese es el punto.",
+    "entradas": [
+      {
+        "meta": [
+          "Entrada 01",
+          "Llanos venezolanos",
+          "2026"
+        ],
+        "rubro": "Carnicería",
+        "problema": "Las cuentas del día vivían en cuadernos y los kilos vendidos se calculaban a mano desde los bolívares.",
+        "encontramos": "Una res entra entera y sale en cortes con costos distintos. El sistema genérico que tenían de referencia la trataba como cualquier tienda.",
+        "construimos": "Del despiece a la vitrina y a la venta en un solo flujo, costo por lote, cierre de caja con cuadre y dos sucursales en un mismo panel.",
+        "estado": "En producción"
+      },
+      {
+        "meta": [
+          "Entrada 02",
+          "Llanos venezolanos",
+          "2025"
+        ],
+        "rubro": "Fábrica de helados",
+        "problema": "Los revendedores no tenían con qué vender, y los colores nuevos se probaban directo en la línea de producción.",
+        "encontramos": "Dos fugas de tiempo y material que nadie miraba como un problema de sistemas.",
+        "construimos": "Un portafolio de arte listo para compartir con revendedores y un simulador de colores antes de producir.",
+        "estado": "En uso"
+      },
+      {
+        "meta": [
+          "Entrada 03",
+          "Venezuela",
+          "2026"
+        ],
+        "rubro": "Tienda de ciclismo",
+        "problema": "Cientos de cuentas por cobrar vivían en papel y en conversaciones de WhatsApp.",
+        "encontramos": "Pagos por Zelle y Binance que llegaban sin saber quién los hizo ni a qué cuenta iban.",
+        "construimos": "Cuenta corriente por cliente, cartera vencida con semáforo y conciliación con comprobante. Después, el taller sobre la misma base.",
+        "estado": "En producción"
+      },
+      {
+        "meta": [
+          "Entrada 04",
+          "Venezuela",
+          "2026"
+        ],
+        "rubro": "Hamburguesería",
+        "problema": "Necesitaba una carta propia, con pedidos desde el teléfono y precios que no hubiera que recalcular cada día.",
+        "encontramos": "La tasa cambia a diario y el cliente quiere ver el precio en dólares y en bolívares.",
+        "construimos": "Carta digital en su propio dominio, pedidos desde el teléfono y precios en ambas monedas a la tasa del día.",
+        "estado": "En producción"
+      },
+      {
+        "meta": [
+          "Entrada 05",
+          "México",
+          "2025"
+        ],
+        "rubro": "Flota corporativa",
+        "problema": "Varias sucursales daban mantenimiento a la misma flota sin un historial común por unidad.",
+        "encontramos": "Vehículos que se atendían en una sede distinta a la suya sin que la otra se enterara.",
+        "construimos": "Órdenes de servicio con fotos de entrada, técnico responsable, historial por vehículo y atención entre sucursales.",
+        "estado": "Entregado"
+      },
+      {
+        "meta": [
+          "Entrada 06",
+          "Laboratorio",
+          "2026"
+        ],
+        "rubro": "Fincas",
+        "problema": "Insumos, maquinaria y ganado se controlan en libretas que se mojan, se pierden o se quedan en la oficina.",
+        "encontramos": "En el campo se trabaja con guantes, con prisa y con poca señal.",
+        "construimos": "Un prototipo armado con piezas de los proyectos anteriores, con botones grandes para usarse en el campo.",
+        "estado": "Prototipo"
+      }
+    ],
+    "etiquetaEncontramos": "Lo que encontramos",
+    "etiquetaConstruimos": "Lo que construimos"
+  },
+  "piezas": {
+    "numero": "04 — Lo más reciente",
+    "titulo": "Quizás tu solución ya existe.",
+    "bajada": "Y si no, la adaptamos a tu negocio. Esto es lo más reciente que tenemos en marcha; detrás hay otras soluciones que hoy no están en vitrina.",
+    "lista": [
+      {
+        "nombre": "ActivoPOS",
+        "texto": "Punto de venta, inventario, finanzas y catálogo para comercios.",
+        "adaptado": "La misma base funciona hoy con marca propia en una tienda de ciclismo y en una hamburguesería.",
+        "enlaces": [
+          {
+            "texto": "activopos.com",
+            "href": "https://activopos.com"
+          }
+        ],
+        "estado": "En producción",
+        "tipo": "prod"
+      },
+      {
+        "nombre": "SYNTIweb",
+        "texto": "Páginas web y presencia digital para negocios, con dos marcas propias: cartas digitales para restaurantes y catálogos para tiendas.",
+        "adaptado": "",
+        "enlaces": [
+          {
+            "texto": "syntiweb.com",
+            "href": "https://syntiweb.com"
+          },
+          {
+            "texto": "ordena.menu",
+            "href": "https://ordena.menu"
+          },
+          {
+            "texto": "lleva.app",
+            "href": "https://lleva.app"
+          }
+        ],
+        "estado": "En producción",
+        "tipo": "prod"
+      },
+      {
+        "nombre": "Kredix",
+        "texto": "Crédito, cobranza, conciliación de pagos y taller.",
+        "adaptado": "Nació como cuentas por cobrar y creció con la operación del negocio.",
+        "enlaces": [],
+        "estado": "En producción",
+        "tipo": "prod"
+      },
+      {
+        "nombre": "Desarrollos a medida",
+        "texto": "Infraestructura privada para empresas: sistemas internos de flota, producción y control que operan puertas adentro.",
+        "adaptado": "",
+        "enlaces": [],
+        "estado": "Privado",
+        "tipo": "prod"
+      },
+      {
+        "nombre": "Sport Bar",
+        "texto": "Pedidos y atención para locales de alta afluencia.",
+        "adaptado": "",
+        "enlaces": [],
+        "estado": "En desarrollo",
+        "tipo": "dev"
+      },
+      {
+        "nombre": "Gestión de fincas",
+        "texto": "Insumos, maquinaria y ganado, pensado para usarse en el campo.",
+        "adaptado": "",
+        "enlaces": [],
+        "estado": "En desarrollo",
+        "tipo": "dev"
+      }
+    ],
+    "consejo": "A veces la mejor solución no es más software, sino cambiar un paso de la operación. Si es así, también te lo decimos.",
+    "demo": "¿Quieres verla funcionando? Agendamos una demo",
+    "demoMensaje": "Hola, vengo de synti.dev y quiero agendar una demo."
+  },
+  "principio": {
+    "etiqueta": "05 — Principio",
+    "titulo": "Si no es funcional, no es SYNTI.",
+    "texto": "Nuestro fundador pasó años levantando servicios caídos en agencias bancarias a primera hora. Ese criterio no cambia porque el negocio sea pequeño.",
+    "cita": "Si una agencia bancaria no puede quedarse sin sistema, tu negocio tampoco."
+  },
+  "social": {
+    "etiqueta": "Acción social",
+    "titulo": "Protege Colitas",
+    "texto": "Después de los terremotos de junio de 2026, SYNTIdev levantó como servicio social una plataforma para reunir mascotas perdidas con sus familias, con veterinarios voluntarios y centros de acopio en varios estados.",
+    "enlaceTexto": "protegecolitas.org",
+    "enlace": "https://protegecolitas.org"
+  },
+  "contacto": {
+    "etiqueta": "Contacto",
+    "titulo": "Cuéntanos tu problema, no tu presupuesto.",
+    "texto": "La primera conversación es para entender. Si lo que necesitas ya existe y no nos necesitas, te lo decimos. Y hablas directamente con quien diseña tu solución.",
+    "whatsappTexto": "Escribir por WhatsApp",
+    "whatsapp": "584243244788",
+    "whatsappMensaje": "Hola, vengo de synti.dev y quiero contarles mi caso."
+  },
+  "footer": {
+    "izquierda": "© 2026 SYNTIdev · Fundado por Carlos Bolívar",
+    "derecha": "Venezuela · México · Atención remota"
+  }
 }

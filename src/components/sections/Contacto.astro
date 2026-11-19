@@ -1,0 +1,31 @@
+---
+import site from '../../content/site.json';
+import Pulso from '../ui/Pulso.astro';
+const { contacto, footer } = site;
+const enlaceWhatsapp = `https://wa.me/${contacto.whatsapp}?text=${encodeURIComponent(contacto.whatsappMensaje)}`;
+---
+
+<section class="contacto" id="contacto">
+  <Pulso variante="oscuro" barras={72} />
+  <div class="wrap">
+    <p class="eti">{contacto.etiqueta}</p>
+    <h2>{contacto.titulo}</h2>
+    <p class="contacto__texto">{contacto.texto}</p>
+    <a class="btn btn--accion" href={enlaceWhatsapp} rel="noopener" target="_blank">{contacto.whatsappTexto}</a>
+  </div>
+  <footer class="pie">
+    <div class="wrap pie__in">
+      <span>{footer.izquierda}</span>
+      <span>{footer.derecha}</span>
+    </div>
+  </footer>
+</section>
+
+<style>
+  .contacto { position: relative; overflow: hidden; background: var(--mar-noche); color: var(--sobre-oscuro); padding-top: var(--s-10); }
+  .contacto .eti { color: var(--sobre-oscuro-suave); }
+  .contacto h2 { font-size: var(--fs-h1); max-width: 14ch; margin: var(--s-4) 0 var(--s-5); }
+  .contacto__texto { color: var(--sobre-oscuro-suave); max-width: 54ch; margin-bottom: var(--s-6); font-size: var(--fs-cita); line-height: 1.5; }
+  .pie { margin-top: var(--s-10); border-top: 1px solid var(--linea-oscura); padding-block: var(--s-5); font-size: var(--fs-peq); color: var(--sobre-oscuro-suave); }
+  .pie__in { display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--s-3); }
+</style>

@@ -1,0 +1,14 @@
+{
+  "name": "SYNTI.dev",
+  "short_name": "SYNTI.dev",
+  "description": "Soluciones de sistemas para negocios.",
+  "lang": "es",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#F6F1E7",
+  "theme_color": "#F6F1E7",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

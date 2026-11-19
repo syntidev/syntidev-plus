@@ -1,10 +1,26 @@
 ---
 import Base from '../layouts/Base.astro';
-import site from '../content/site.json';
-
-const hero = site.secciones.find((s) => s.id === 'hero');
+import Trazo from '../components/ui/Trazo.astro';
+import Header from '../components/sections/Header.astro';
+import Hero from '../components/sections/Hero.astro';
+import Quien from '../components/sections/Quien.astro';
+import Como from '../components/sections/Como.astro';
+import Cuaderno from '../components/sections/Cuaderno.astro';
+import Piezas from '../components/sections/Piezas.astro';
+import Principio from '../components/sections/Principio.astro';
+import Contacto from '../components/sections/Contacto.astro';
 ---
 
 <Base>
-  <h1>{hero?.titulo}</h1>
+  <Trazo />
+  <Header />
+  <main>
+    <Hero />
+    <Quien />
+    <Como />
+    <Cuaderno />
+    <Piezas />
+    <Principio />
+    <Contacto />
+  </main>
 </Base>

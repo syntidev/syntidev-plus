@@ -1,0 +1,45 @@
+---
+// El trazo que te lleva: línea en el margen izquierdo que se dibuja con el scroll (CSS puro).
+---
+
+<div class="trazo" aria-hidden="true"><span class="trazo__linea"></span><span class="trazo__punta"></span></div>
+
+<style>
+  .trazo { display: none; }
+
+  @supports (animation-timeline: scroll()) {
+    @media (min-width: 1100px) {
+      .trazo {
+        display: block;
+        position: fixed;
+        top: var(--nav-alto);
+        bottom: var(--s-5);
+        left: var(--s-5);
+        width: 1px;
+        background: var(--linea);
+        z-index: 5;
+      }
+      .trazo__linea {
+        position: absolute;
+        inset: 0;
+        background: var(--caribe);
+        transform-origin: top;
+        animation: dibuja linear both;
+        animation-timeline: scroll(root);
+      }
+      .trazo__punta {
+        position: absolute;
+        left: 50%;
+        width: var(--punta);
+        height: var(--punta);
+        margin-left: calc(var(--punta) / -2);
+        border-radius: var(--radio-pill);
+        background: var(--sol);
+        animation: avanza linear both;
+        animation-timeline: scroll(root);
+      }
+    }
+  }
+  @keyframes dibuja { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  @keyframes avanza { from { top: 0; } to { top: 100%; } }
+</style>
