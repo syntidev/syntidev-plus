@@ -64,7 +64,8 @@ Planes de varios pasos: `1. [qué] → verifico con: [check]`.
 | Local | `C:\laragon\www\syntidev-plus\` |
 | Repo | `github.com/syntidev/syntidev-plus` · rama `main` |
 | VPS | `187.124.241.213` · `/var/www/syntidev` · PM2 `syntidev` |
-| Puerto | **[PENDIENTE: confirmar — 3002, 3003, 4321 y 8055 ocupados]** |
+| Puerto | **3005**, escuchando SOLO en `127.0.0.1` (`HOST=127.0.0.1`). Nginx es la única puerta de entrada. |
+| Staging | `nuevo.synti.dev` (hasta el corte de F4) |
 | Producción actual | `syntidev-astro` (Astro estático en Hostinger) — vivo hasta el corte de F4 |
 
 ### Documentación (leer en este orden)
@@ -85,7 +86,7 @@ Astro 7.x            → Framework. Público prerenderizado (HTML puro, 0 KB JS 
 @astrojs/node        → Modo standalone, solo para /api/* y /panel/*  (prerender = false)
 TypeScript 5.x       → strict, nunca `any`, interfaces en src/types/
 CSS + tokens         → src/styles/tokens.css + <style> con scope de Astro. Sin Tailwind.
-Prisma 7.x + MariaDB → misma instancia del VPS, DB propia: syntidev
+Prisma 7.x + MySQL 8 → instancia del VPS (es MySQL 8.0, no MariaDB). DB propia: syntidev · usuario propio: syntidev_app
 Zod 4.x              → validación en endpoints (.issues, NO .errors)
 argon2               → hash de la contraseña del panel
 jose                 → sesión del panel, HS256 fail-closed (sin secretos de respaldo)

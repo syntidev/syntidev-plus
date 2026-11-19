@@ -9,7 +9,10 @@
 - Repo: `github.com/syntidev/syntidev-plus` · rama `main` · commit inicial 7104015 (solo README)
 - Local: `C:\laragon\www\syntidev-plus` — creada, git inicializado
 - Producción actual de synti.dev: Astro estático en Hostinger (repo `syntidev-astro`, deploy FTP). **Sigue vivo hasta el corte de la Fase 4.**
-- Puerto VPS: **[PENDIENTE: confirmar]**
+- Puerto VPS: **3005** (libre, verificado 2026-11-19), solo 127.0.0.1
+- Staging: `nuevo.synti.dev` → VPS
+- DB: MySQL 8.0 del VPS (no MariaDB) · base `syntidev` · usuario `syntidev_app`
+- F0 local: certificada y aprobada ("LISTO F0") · pendiente: deploy esqueleto en staging
 
 ## Regla del Policía
 
