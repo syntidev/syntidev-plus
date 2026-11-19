@@ -1,0 +1,10 @@
+---
+import Base from '../layouts/Base.astro';
+import site from '../content/site.json';
+
+const hero = site.secciones.find((s) => s.id === 'hero');
+---
+
+<Base>
+  <h1>{hero?.titulo}</h1>
+</Base>

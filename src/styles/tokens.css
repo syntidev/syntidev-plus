@@ -1,0 +1,31 @@
+/* Tokens de BRAND_OLA.md §3 (color), §4 (tipografía) y §5 (movimiento). Valores exactos. */
+:root {
+  /* Color — "Caribe al mediodía" */
+  --arena:        #F6F1E7;  /* fondo principal */
+  --arena-2:      #ECE4D4;  /* superficies secundarias */
+  --espuma:       #FBF8F2;  /* superficies elevadas, tarjetas */
+  --tinta:        #14212B;  /* texto principal */
+  --grafito:      #55606A;  /* texto secundario */
+  --linea:        #DCD3C1;  /* trazos de 1px */
+  --caribe:       #0B5D7A;  /* color de marca */
+  --caribe-claro: #2E8BA8;  /* hovers, estados */
+  --mar-noche:    #0E2F3D;  /* bandas oscuras (caso, contacto, pie) */
+  --coral:        #C9442A;  /* SOLO acciones principales */
+  --coral-hondo:  #A93720;  /* hover del coral */
+  --sol:          #E9B44C;  /* destello mínimo: 1 detalle por pantalla como máximo */
+
+  /* Movimiento — "la ola" */
+  --ola-suave:   cubic-bezier(.22, .61, .36, 1);  /* entradas */
+  --ola-marea:   cubic-bezier(.45, .05, .25, 1);  /* cambios de estado */
+  --t-rapido:    240ms;  /* hovers */
+  --t-medio:     600ms;  /* entradas de elementos */
+  --t-lento:     900ms;  /* revelados grandes */
+  --t-marea:     24s;    /* ciclos ambientales (olas del hero) */
+
+  /* Tipografía — BRAND_OLA §4 */
+  --fuente-titulo: 'Source Serif 4', Georgia, serif;
+  --fuente-texto:  'IBM Plex Sans', system-ui, sans-serif;
+  --fuente-mono:   'IBM Plex Mono', ui-monospace, monospace;
+  --texto-base:    17px;
+  --texto-interlinea: 1.6;
+}

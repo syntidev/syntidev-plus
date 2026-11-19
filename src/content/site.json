@@ -1,0 +1,17 @@
+{
+  "meta": {
+    "titulo": "[PENDIENTE: título del sitio (title)]",
+    "descripcion": "[PENDIENTE: descripción del sitio (meta description)]"
+  },
+  "secciones": [
+    { "id": "header", "titulo": "[PENDIENTE: texto del encabezado]" },
+    { "id": "hero", "titulo": "[PENDIENTE: titular del hero]", "subtitulo": "[PENDIENTE: subtítulo del hero]" },
+    { "id": "quien-esta-detras", "titulo": "[PENDIENTE: título de Quién está detrás]" },
+    { "id": "como-trabajamos", "titulo": "[PENDIENTE: título de Cómo trabajamos]" },
+    { "id": "cuaderno-de-campo", "titulo": "[PENDIENTE: título del Cuaderno de campo]" },
+    { "id": "piezas-probadas", "titulo": "[PENDIENTE: título de Piezas probadas]" },
+    { "id": "principio-accion-social", "titulo": "[PENDIENTE: título de Principio y acción social]" },
+    { "id": "contacto", "titulo": "[PENDIENTE: título de Contacto]" },
+    { "id": "footer", "titulo": "[PENDIENTE: texto del pie, incluida la dirección aprobada]" }
+  ]
+}
