@@ -1,3 +1,11 @@
+/* Hallmark · shape: Tablero del oficio · genre: editorial · theme: custom (pinned by the user's DESIGN.md) · redesign: full · job: hire · idea: "la página entera es el trabajo de SYNTIdev: arranca con lo que dicen los negocios, pasa por el isotipo y termina en carriles ordenados" · vibe: "calma con oficio y buena vibra caribeña" · hero: Stage, titular y una frase arriba y la transformación caos a orden como escenario · nav: wordmark, cuatro anclas y una acción, línea fina · footer: banda mar-noche con enlaces legales · imagery: ninguna, el isotipo y la transformación · signature: la transformación caos, isotipo, orden, con las palabras reales del cliente
+ * axes: light/roman-serif/warm · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: E, el pliegue de 1280x800 queda justo; la escena baja a 280px para que el botón y el núcleo entren */
+/* Hallmark · waive 65 · paleta crema, serif y coral fijadas por DESIGN.md · la identidad de SYNTIdev está sellada */
+/* Hallmark · waive 80 · el núcleo de la escena es el isotipo de SYNTIdev, su logo · el isotipo es el logo de SYNTIdev y no una ilustración de la escena */
+/* Hallmark · waive 71 · los h3 de cuaderno y piezas son filas de un índice con hairline · el espacio de cada fila vive en su padding, no entre títulos sueltos */
+/* Hallmark · dismissed 59 · diez bloques porque la escena y el contacto cuentan aparte de las ocho secciones de contenido */
+
 /* Tokens de BRAND_OLA.md §3 (color), §4 (tipografía) y §5 (movimiento). Valores exactos. */
 :root {
   /* Color — "Caribe al mediodía" */
@@ -45,16 +53,17 @@
   /* Escala tipográfica */
   --fs-eti:  12px;
   --fs-peq:  15px;
-  --fs-cita: clamp(20px, 2.2vw, 24px);
-  --fs-h3:   clamp(19px, 1.8vw, 22px);
-  --fs-h2:   clamp(30px, 4.2vw, 46px);
-  --fs-h1:   clamp(42px, 6.4vw, 78px);
+  --fs-cita: clamp(21px, 2.3vw, 28px);
+  --fs-h3:   clamp(22px, 2.2vw, 30px);
+  --fs-h2:   clamp(34px, 4.8vw, 64px);
+  --fs-h1:   clamp(46px, 7.2vw, 100px);
+  --fs-frase: clamp(26px, 3.4vw, 46px);
   --fs-num:  clamp(28px, 3vw, 36px);
   --tracking-eti: .08em;
   --interlinea-titulo: 1.08;
 
   /* Layout */
-  --ancho:     1160px;
+  --ancho:     1280px;
   --margen:    clamp(20px, 4vw, 40px);
   --nav-alto:  64px;
   --toque:     48px;    /* alto mínimo de botones (touch) */
@@ -79,10 +88,9 @@
 
   /* Movimiento adicional */
   /* La transformación: caos que entra, orden que sale */
-  --tf-alto:        300px;
+  --tf-alto:        280px;
   --tf-alto-movil:  360px;
   --tf-nucleo:      96px;
   --tf-nucleo-movil: 72px;
-  --t-proceso:      3.5s;  /* giro del núcleo */
-  --t-turno:        6s;    /* T: cada etiqueta dura 5T y solo se mueve en el primer 20% (= T); 5 por carril, un carril desfasado T/2 */
+  --t-turno:        3s;    /* ritmo único: cada ítem dura 10T, entra una nota por turno, viaja 2T, el núcleo procesa 1T y la salida sale 2.2T después */
 }

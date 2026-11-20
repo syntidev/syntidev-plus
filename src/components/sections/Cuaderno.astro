@@ -5,34 +5,34 @@ const { cuaderno } = site;
 
 <section class="sec cuaderno" id="cuaderno">
   <div class="wrap">
-    <div class="sec__cab revela">
-      <div>
-        <h2>{cuaderno.titulo}</h2>
-        <p>{cuaderno.bajada}</p>
-      </div>
+    <div class="cuaderno__cab">
+      <h2 class="sec__h revela">{cuaderno.titulo}</h2>
+      <p class="cuaderno__bajada revela">{cuaderno.bajada}</p>
     </div>
 
-    <div class="entradas">
+    <div class="ledger">
       {
         cuaderno.entradas.map((e) => (
-          <article class="entrada revela">
-            <header class="entrada__cab">
-              <p class="eti entrada__meta">{e.meta.map((m) => <span>{m}</span>)}</p>
+          <details class="entrada" name="cuaderno">
+            <summary>
+              <h3 class="entrada__rubro">{e.rubro}</h3>
+              <span class="entrada__meta">{e.meta.slice(1).map((m) => <span>{m}</span>)}</span>
               <span class={`estado ${e.estado === 'Prototipo' ? 'estado--lab' : ''}`}>{e.estado}</span>
-            </header>
-            <h3 class="entrada__rubro">{e.rubro}</h3>
-            <p class="entrada__problema">{e.problema}</p>
-            <dl class="entrada__notas">
-              <div>
-                <dt class="eti">{cuaderno.etiquetaEncontramos}</dt>
-                <dd>{e.encontramos}</dd>
-              </div>
-              <div>
-                <dt class="eti">{cuaderno.etiquetaConstruimos}</dt>
-                <dd>{e.construimos}</dd>
-              </div>
-            </dl>
-          </article>
+            </summary>
+            <div class="entrada__cuerpo">
+              <p class="entrada__problema">{e.problema}</p>
+              <dl class="entrada__notas">
+                <div>
+                  <dt class="rotulo">{cuaderno.etiquetaEncontramos}</dt>
+                  <dd>{e.encontramos}</dd>
+                </div>
+                <div>
+                  <dt class="rotulo">{cuaderno.etiquetaConstruimos}</dt>
+                  <dd>{e.construimos}</dd>
+                </div>
+              </dl>
+            </div>
+          </details>
         ))
       }
     </div>
@@ -41,51 +41,26 @@ const { cuaderno } = site;
 
 <style>
   .cuaderno { background: var(--arena-2); }
-  .entradas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-5); }
+  .cuaderno__cab { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--s-5); align-items: end; margin-bottom: var(--s-8); }
+  .cuaderno__cab .sec__h { grid-column: 1 / 8; margin-bottom: 0; max-width: 20ch; }
+  .cuaderno__bajada { grid-column: 9 / 13; color: var(--grafito); }
 
-  /* Cada entrada es una hoja del cuaderno: papel claro, renglón fino, margen rojo tenue */
-  .entrada {
-    position: relative;
-    background: var(--espuma);
-    border: var(--borde);
-    border-radius: var(--radio);
-    padding: var(--s-6) var(--s-6) var(--s-6) calc(var(--s-6) + var(--s-3));
-    box-shadow: var(--sombra-elevada);
-    transition: transform var(--t-medio) var(--ola-marea), box-shadow var(--t-medio) var(--ola-marea);
-  }
-  .entrada::before {
-    content: '';
-    position: absolute;
-    top: 0; bottom: 0;
-    left: var(--s-5);
-    width: 1px;
-    background: var(--coral);
-    opacity: .35;
-  }
-  @media (hover: hover) {
-    .entrada:nth-child(odd):hover { transform: translateY(-3px) rotate(-.4deg); }
-    .entrada:nth-child(even):hover { transform: translateY(-3px) rotate(.4deg); }
-  }
-
-  .entrada__cab { display: flex; justify-content: space-between; align-items: center; gap: var(--s-3); }
-  .entrada__meta { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-3); }
-  .estado {
-    font: 500 var(--fs-eti) var(--fuente-mono);
-    letter-spacing: var(--tracking-eti);
-    text-transform: uppercase;
-    color: var(--caribe);
-    border: 1px solid currentColor;
-    border-radius: var(--radio-pill);
-    padding: var(--s-1) var(--s-3);
-    white-space: nowrap;
-  }
+  .entrada summary { grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) minmax(0, 3fr) var(--s-5); }
+  .entrada__rubro { font-size: var(--fs-h3); }
+  .entrada__meta { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-4); font-size: var(--fs-peq); color: var(--grafito); }
+  .estado { font: 600 var(--fs-peq) var(--fuente-texto); color: var(--caribe); }
   .estado--lab { color: var(--grafito); }
 
-  .entrada__rubro { font-size: var(--fs-h3); margin: var(--s-4) 0 var(--s-2); color: var(--caribe); }
-  .entrada__problema { font: italic 400 var(--fs-cita) / 1.4 var(--fuente-titulo); margin-bottom: var(--s-5); }
+  .entrada__cuerpo { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: var(--s-7); padding: var(--s-5) 0 var(--s-7); border-bottom: var(--borde); }
+  .entrada__problema { font: italic 400 var(--fs-cita) / 1.4 var(--fuente-titulo); }
+  .entrada__notas { display: grid; gap: var(--s-5); }
+  .entrada__notas dd { margin-top: var(--s-1); color: var(--grafito); font-size: var(--fs-peq); }
 
-  .entrada__notas { display: grid; gap: var(--s-4); border-top: var(--borde); padding-top: var(--s-4); }
-  .entrada__notas dd { font-size: var(--fs-peq); color: var(--grafito); margin-top: var(--s-1); }
-
-  @media (max-width: 860px) { .entradas { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 860px) {
+    .cuaderno__cab { grid-template-columns: minmax(0, 1fr); }
+    .cuaderno__cab .sec__h, .cuaderno__bajada { grid-column: 1; }
+    .entrada summary { grid-template-columns: minmax(0, 1fr) var(--s-5); gap: var(--s-1) var(--s-4); }
+    .entrada summary::after { grid-column: 2; grid-row: 1 / span 3; }
+    .entrada__cuerpo { grid-template-columns: minmax(0, 1fr); gap: var(--s-5); }
+  }
 </style>

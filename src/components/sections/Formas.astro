@@ -1,0 +1,35 @@
+---
+// Formas de trabajar: tres filas ordenadas en carril, justo antes del contacto.
+import site from '../../content/site.json';
+const { como } = site;
+---
+
+<section class="sec formas" id="formas">
+  <div class="wrap">
+    <h2 class="sec__h revela">{como.formasTitulo}</h2>
+    <div class="filas">
+      {
+        como.formas.map((f) => (
+          <article class="forma revela">
+            <p class="rotulo">{f.etiqueta}</p>
+            <h3>{f.titulo}</h3>
+            <p class="forma__texto">{f.texto}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .sec__h { overflow-wrap: break-word; min-width: 0; }
+  .formas { background: var(--espuma); border-block: var(--borde); }
+  .filas { border-top: var(--borde-tinta); }
+  .forma { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 4fr) minmax(0, 6fr); gap: var(--s-5); align-items: baseline; padding-block: var(--s-6); border-bottom: var(--borde); }
+  .forma h3 { font-size: var(--fs-h3); }
+  .forma__texto { color: var(--grafito); max-width: 52ch; }
+
+  @media (max-width: 860px) {
+    .forma { grid-template-columns: minmax(0, 1fr); gap: var(--s-2); }
+  }
+</style>

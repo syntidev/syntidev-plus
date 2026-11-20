@@ -5,61 +5,67 @@ const { quien } = site;
 
 <section class="sec" id="quien">
   <div class="wrap">
-    <div class="sec__cab revela">
-      <h2>{quien.titulo}</h2>
+    <div class="quien__cab">
+      <h2 class="sec__h revela">{quien.titulo}</h2>
+      <figure class="firma revela">
+        <blockquote>{quien.cita}</blockquote>
+        <figcaption><b>{quien.firma}</b>, {quien.cargo}</figcaption>
+      </figure>
     </div>
 
-    <figure class="firma revela">
-      <blockquote>{quien.cita}</blockquote>
-      <figcaption><b>{quien.firma}</b> · {quien.cargo}</figcaption>
-    </figure>
-
-    <div class="oficios">
+    <div class="ledger">
       {
         quien.oficios.map((o) => (
-          <article class="oficio revela">
-            <p class="rotulo">{o.etiqueta}</p>
-            <h3>{o.titulo}</h3>
-            <p class="oficio__texto">{o.texto}</p>
-            {o.origen && <p class="oficio__origen">{o.origen}</p>}
-            <p class="oficio__leccion">{o.leccion}</p>
-          </article>
+          <details class="oficio">
+            <summary>
+              <span class="rotulo">{o.etiqueta}</span>
+              <h3>{o.titulo}</h3>
+            </summary>
+            <div class="oficio__cuerpo">
+              <p class="oficio__texto">{o.texto}</p>
+              {o.origen && <p class="oficio__origen">{o.origen}</p>}
+              <p class="oficio__leccion">{o.leccion}</p>
+            </div>
+          </details>
         ))
       }
     </div>
 
-    <p class="rotulo invisible__tit">{quien.invisibleTitulo}</p>
-    <ul class="invisible">
-      {quien.invisible.map((t) => <li class="revela">{t}</li>)}
-    </ul>
+    <details class="ledger invisible">
+      <summary><span class="rotulo">{quien.invisibleTitulo}</span></summary>
+      <ul class="invisible__lista">
+        {quien.invisible.map((t) => <li>{t}</li>)}
+      </ul>
+    </details>
   </div>
 </section>
 
 <style>
-  .firma { max-width: var(--ancho-cita); margin-bottom: var(--s-8); }
-  .firma blockquote {
-    font: 400 var(--fs-cita) / 1.45 var(--fuente-titulo);
-    border-left: var(--linea-acento) solid var(--coral);
-    padding-left: var(--s-5);
-  }
+  .quien__cab { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--s-7) var(--s-5); margin-bottom: var(--s-8); }
+  .quien__cab .sec__h { grid-column: 1 / 6; margin-bottom: 0; }
+  .firma { grid-column: 7 / 13; align-self: end; }
+  .firma blockquote { font: 400 var(--fs-cita) / 1.45 var(--fuente-titulo); border-left: var(--linea-acento) solid var(--caribe); padding-left: var(--s-5); }
   .firma figcaption { margin: var(--s-4) 0 0 calc(var(--s-5) + var(--linea-acento)); font-size: var(--fs-peq); color: var(--grafito); }
   .firma b { color: var(--tinta); }
 
-  .oficios { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: var(--borde-tinta); background: var(--espuma); }
-  .oficio { padding: var(--s-6); border-right: var(--borde-tinta); display: flex; flex-direction: column; gap: var(--s-3); }
-  .oficio:last-child { border-right: 0; }
+  .oficio summary { grid-template-columns: minmax(0, 3fr) minmax(0, 8fr) var(--s-5); }
   .oficio h3 { font-size: var(--fs-h3); }
-  .oficio__texto { font-size: var(--fs-peq); color: var(--grafito); flex: 1; }
-  .oficio__origen { font: 400 var(--fs-eti) / 1.6 var(--fuente-mono); color: var(--grafito); letter-spacing: .02em; }
-  .oficio__leccion { font: italic 400 var(--fs-h3) / 1.35 var(--fuente-titulo); color: var(--caribe); border-top: var(--borde); padding-top: var(--s-4); }
+  .oficio__cuerpo { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 5fr) minmax(0, 3fr); gap: var(--s-5); padding: var(--s-5) 0 var(--s-6); border-bottom: var(--borde); }
+  .oficio__texto { grid-column: 2; color: var(--grafito); }
+  .oficio__origen { grid-column: 2; font-size: var(--fs-peq); color: var(--grafito); }
+  .oficio__leccion { grid-column: 3; grid-row: 1 / span 2; font: italic 400 var(--fs-cita) / 1.35 var(--fuente-titulo); color: var(--caribe); }
 
-  .invisible__tit { margin-top: var(--s-7); }
-  .invisible { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: var(--s-3); border-top: var(--borde); }
-  .invisible li { padding: var(--s-4) var(--s-4) var(--s-4) 0; border-bottom: var(--borde); font-size: var(--fs-peq); }
+  .invisible { margin-top: var(--s-7); }
+  .invisible summary { grid-template-columns: minmax(0, 1fr) var(--s-5); }
+  .invisible__lista { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4) var(--s-7); padding: var(--s-5) 0 var(--s-6); border-bottom: var(--borde); font-size: var(--fs-peq); }
 
   @media (max-width: 860px) {
-    .oficios, .invisible { grid-template-columns: minmax(0, 1fr); }
-    .oficio { border-right: 0; border-bottom: var(--borde-tinta); }
-    .oficio:last-child { border-bottom: 0; }
+    .quien__cab { grid-template-columns: minmax(0, 1fr); }
+    .quien__cab .sec__h, .firma { grid-column: 1; }
+    .oficio summary { grid-template-columns: minmax(0, 1fr) var(--s-5); gap: var(--s-1) var(--s-4); }
+    .oficio summary::after { grid-column: 2; grid-row: 1 / span 2; }
+    .oficio__cuerpo { grid-template-columns: minmax(0, 1fr); }
+    .oficio__texto, .oficio__origen, .oficio__leccion { grid-column: 1; grid-row: auto; }
+    .invisible__lista { grid-template-columns: minmax(0, 1fr); }
   }
 </style>

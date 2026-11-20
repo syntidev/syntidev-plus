@@ -6,34 +6,34 @@ const demo = `https://wa.me/${contacto.whatsapp}?text=${encodeURIComponent(pieza
 
 <section class="sec" id="piezas">
   <div class="wrap">
-    <div class="sec__cab revela">
-      <div>
-        <h2>{piezas.titulo}</h2>
-        <p>{piezas.bajada}</p>
-      </div>
+    <div class="piezas__cab">
+      <h2 class="sec__h revela">{piezas.titulo}</h2>
+      <p class="piezas__bajada revela">{piezas.bajada}</p>
     </div>
 
-    <ul class="tabla">
+    <div class="ledger">
       {
         piezas.lista.map((p) => (
-          <li class="fila revela">
-            <h3>{p.nombre}</h3>
-            <div class="fila__cuerpo">
-              <p>{p.texto}</p>
-              {p.adaptado && <p class="fila__adaptado">{p.adaptado}</p>}
+          <details class="pieza" name="piezas">
+            <summary>
+              <h3>{p.nombre}</h3>
+              <span class={`estado estado--${p.tipo}`}>{p.estado}</span>
+            </summary>
+            <div class="pieza__cuerpo">
+              <p class="pieza__texto">{p.texto}</p>
+              {p.adaptado && <p class="pieza__adaptado">{p.adaptado}</p>}
               {p.enlaces.length > 0 && (
-                <p class="fila__enlaces">
+                <p class="pieza__enlaces">
                   {p.enlaces.map((e) => (
                     <a href={e.href} rel="noopener" target="_blank">{e.texto}</a>
                   ))}
                 </p>
               )}
             </div>
-            <span class={`estado estado--${p.tipo}`}>{p.estado}</span>
-          </li>
+          </details>
         ))
       }
-    </ul>
+    </div>
 
     <div class="cierre revela">
       <p class="cierre__consejo">{piezas.consejo}</p>
@@ -43,52 +43,29 @@ const demo = `https://wa.me/${contacto.whatsapp}?text=${encodeURIComponent(pieza
 </section>
 
 <style>
-  .tabla { border-top: var(--borde-tinta); }
-  .fila {
-    display: grid;
-    grid-template-columns: var(--col-pieza) minmax(0, 1fr) var(--col-estado);
-    gap: var(--s-5);
-    align-items: baseline;
-    padding: var(--s-5) 0;
-    border-bottom: var(--borde);
-    transition: background var(--t-medio) var(--ola-suave);
-  }
-  .fila:hover { background: var(--espuma); }
-  .fila h3 { font-size: var(--fs-h3); }
-  .fila__cuerpo { display: grid; gap: var(--s-2); }
-  .fila__cuerpo > p:first-child { color: var(--grafito); font-size: var(--fs-peq); }
-  .fila__adaptado { font: italic 400 var(--fs-peq) var(--fuente-titulo); color: var(--caribe); }
-  .fila__enlaces { display: flex; flex-wrap: wrap; gap: var(--s-4); }
-  .fila__enlaces a {
-    font: 500 var(--fs-eti) var(--fuente-mono);
-    letter-spacing: .04em;
-    color: var(--caribe);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-  .fila__enlaces a:hover, .fila__enlaces a:active { color: var(--tinta); }
+  .piezas__cab { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--s-5); align-items: end; margin-bottom: var(--s-8); }
+  .piezas__cab .sec__h { grid-column: 1 / 8; margin-bottom: 0; }
+  .piezas__bajada { grid-column: 9 / 13; color: var(--grafito); }
 
-  .estado { font: 500 var(--fs-eti) var(--fuente-mono); letter-spacing: var(--tracking-eti); text-transform: uppercase; text-align: right; }
+  .pieza summary { grid-template-columns: minmax(0, 8fr) minmax(0, 3fr) var(--s-5); }
+  .pieza h3 { font-size: var(--fs-h3); }
+  .estado { font: 600 var(--fs-peq) var(--fuente-texto); }
   .estado--prod { color: var(--caribe); }
   .estado--dev { color: var(--grafito); }
 
-  .cierre {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--s-5);
-    margin-top: var(--s-7);
-    padding: var(--s-6);
-    background: var(--espuma);
-    border: var(--borde);
-  }
+  .pieza__cuerpo { display: grid; gap: var(--s-3); max-width: 62ch; padding: var(--s-5) 0 var(--s-6); border-bottom: var(--borde); }
+  .pieza__texto { color: var(--grafito); }
+  .pieza__adaptado { font: italic 400 var(--fs-peq) var(--fuente-titulo); color: var(--caribe); }
+  .pieza__enlaces { display: flex; flex-wrap: wrap; gap: var(--s-5); }
+  .pieza__enlaces a { display: inline-flex; align-items: center; min-height: var(--toque); font: 600 var(--fs-peq) var(--fuente-texto); color: var(--caribe); text-decoration: underline; text-underline-offset: 3px; }
+  .pieza__enlaces a:hover, .pieza__enlaces a:active { color: var(--tinta); }
+
+  .cierre { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-5); margin-top: var(--s-8); }
   .cierre__consejo { font: italic 400 var(--fs-cita) / 1.4 var(--fuente-titulo); max-width: 46ch; }
 
-  @media (max-width: 760px) {
-    .fila { grid-template-columns: minmax(0, 1fr); gap: var(--s-2); }
-    .estado { text-align: left; }
-    /* Área táctil ≥ 44px en móvil */
-    .fila__enlaces a { padding-block: var(--s-4); }
+  @media (max-width: 860px) {
+    .piezas__cab { grid-template-columns: minmax(0, 1fr); }
+    .piezas__cab .sec__h, .piezas__bajada { grid-column: 1; }
+    .pieza summary { grid-template-columns: minmax(0, 1fr) auto var(--s-5); gap: var(--s-4); }
   }
 </style>

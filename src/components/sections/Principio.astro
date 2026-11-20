@@ -3,27 +3,42 @@ import site from '../../content/site.json';
 const { principio, social } = site;
 ---
 
-<section class="sec">
-  <div class="wrap dos">
-    <div class="revela">
-      <h2>{principio.titulo}</h2>
-      <p class="dos__texto">{principio.texto}</p>
-      <blockquote>{principio.cita}</blockquote>
-    </div>
-    <div class="social revela">
-      <h3>{social.titulo}</h3>
-      <p class="dos__texto">{social.texto}</p>
-      <a class="btn" href={social.enlace} rel="noopener" target="_blank">{social.enlaceTexto}</a>
+<section class="sec sec--ancha noche" id="principio">
+  <div class="wrap">
+    <h2 class="sec__h revela">{principio.titulo}</h2>
+    <div class="dos">
+      <div class="revela">
+        <p class="dos__texto">{principio.texto}</p>
+        <blockquote>{principio.cita}</blockquote>
+      </div>
+      <div class="social revela">
+        <details class="ledger">
+          <summary><h3>{social.titulo}</h3></summary>
+          <p class="social__texto">{social.texto}</p>
+        </details>
+        <a class="btn btn--claro" href={social.enlace} rel="noopener" target="_blank">{social.enlaceTexto}</a>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .dos { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--s-8); align-items: start; }
-  .dos h2 { font-size: var(--fs-h2); margin: var(--s-3) 0 var(--s-4); max-width: 16ch; }
-  .dos__texto { color: var(--grafito); margin-bottom: var(--s-5); }
-  blockquote { font: italic 400 var(--fs-cita) / 1.4 var(--fuente-titulo); border-left: var(--linea-acento) solid var(--caribe); padding-left: var(--s-5); }
-  .social { border: var(--borde); background: var(--espuma); padding: var(--s-6); }
-  .social h3 { font-size: var(--fs-h3); margin: var(--s-3) 0 var(--s-2); }
-  @media (max-width: 860px) { .dos { grid-template-columns: minmax(0, 1fr); gap: var(--s-7); } }
+  .noche { background: var(--mar-noche); color: var(--sobre-oscuro); }
+  .noche :focus-visible { outline-color: var(--sobre-oscuro); }
+  .noche .sec__h { max-width: 24ch; font-size: var(--fs-h1); margin-bottom: var(--s-8); overflow-wrap: break-word; min-width: 0; }
+  .dos { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--s-9); align-items: start; }
+  .dos__texto { color: var(--sobre-oscuro-suave); max-width: 46ch; margin-bottom: var(--s-6); }
+  blockquote { font: italic 400 var(--fs-cita) / 1.4 var(--fuente-titulo); border-left: var(--linea-acento) solid var(--sol); padding-left: var(--s-5); max-width: 40ch; }
+
+  .social { display: grid; gap: var(--s-5); }
+  .social .ledger { border-top-color: var(--linea-oscura); }
+  .social :global(.ledger summary) { border-bottom-color: var(--linea-oscura); grid-template-columns: minmax(0, 1fr) var(--s-5); }
+  .social :global(.ledger summary:hover) { background: transparent; }
+  .social :global(.ledger summary::after) { border-color: var(--sobre-oscuro); }
+  .social h3 { font-size: var(--fs-h3); }
+  .social__texto { color: var(--sobre-oscuro-suave); padding-block: var(--s-4); }
+  .btn--claro { justify-self: start; color: var(--sobre-oscuro); border-color: var(--sobre-oscuro); }
+  .btn--claro:active { background: var(--linea-oscura); }
+
+  @media (max-width: 860px) { .dos { grid-template-columns: minmax(0, 1fr); gap: var(--s-8); } }
 </style>

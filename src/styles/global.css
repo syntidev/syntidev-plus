@@ -25,23 +25,14 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Grano de papel: ruido SVG muy tenue sobre la arena */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 100;
-  opacity: .035;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
 h1, h2, h3 {
   font-family: var(--fuente-titulo);
   font-weight: 600;
   line-height: var(--interlinea-titulo);
   letter-spacing: -.012em;
   text-wrap: balance;
+  overflow-wrap: break-word;
+  min-width: 0;
 }
 
 a { color: inherit; }
@@ -54,19 +45,8 @@ img, svg { display: block; max-width: 100%; }
 /* ── Piezas compartidas ─────────────────────────────────── */
 .wrap { width: min(var(--ancho), 100% - 2 * var(--margen)); margin-inline: auto; }
 
-.eti {
-  font-family: var(--fuente-mono);
-  font-size: var(--fs-eti);
-  font-weight: 500;
-  letter-spacing: var(--tracking-eti);
-  text-transform: uppercase;
-  color: var(--grafito);
-}
-
-/* Rótulo: texto de apoyo en minúsculas y sin tracking (lo que no es dato) */
+/* Rótulo: texto de apoyo en minúsculas y sin tracking */
 .rotulo { font: 400 var(--fs-peq) / 1.4 var(--fuente-texto); color: var(--grafito); }
-
-.pendiente { outline: 1px dashed var(--coral); outline-offset: 2px; }
 
 .btn {
   position: relative;
@@ -86,7 +66,7 @@ img, svg { display: block; max-width: 100%; }
 .btn:hover { transform: translateY(-2px); }
 .btn:active { transform: translateY(0); background: var(--arena-2); }
 
-.btn--accion { background: var(--coral); border-color: var(--coral); color: var(--blanco); }
+.btn--accion { background: var(--coral); border-color: var(--coral); color: var(--espuma); }
 .btn--accion:hover { background: var(--coral-hondo); border-color: var(--coral-hondo); }
 .btn--accion:active { background: var(--coral-hondo); border-color: var(--coral-hondo); }
 /* Subrayado ondulado en "sol" que se desliza al pasar el cursor */
@@ -104,14 +84,39 @@ img, svg { display: block; max-width: 100%; }
 .btn--accion:hover::after { opacity: 1; animation: oleaje 1.2s linear infinite; }
 @keyframes oleaje { to { -webkit-mask-position: var(--ola-paso) 0; mask-position: var(--ola-paso) 0; } }
 
-/* Encabezado de sección estilo cuaderno: número a la izquierda, título a la derecha */
-.sec { padding-block: var(--s-9); border-top: var(--borde); }
-.sec__cab { margin-bottom: var(--s-7); }
-.sec__cab h2 { font-size: var(--fs-h2); max-width: 20ch; }
-.sec__cab p { color: var(--grafito); max-width: 60ch; margin-top: var(--s-4); }
-@media (max-width: 860px) {
-  .sec { padding-block: var(--s-8); }
+/* Sección: respiro generoso y título grande */
+.sec { padding-block: var(--s-9); }
+.sec--ancha { padding-block: var(--s-10); }
+.sec__h { font-size: var(--fs-h2); max-width: 18ch; margin-bottom: var(--s-7); }
+
+/* Libro de registro: filas que se abren (details nativo, sin JS) */
+.ledger { border-top: var(--borde-tinta); }
+.ledger summary {
+  display: grid;
+  align-items: baseline;
+  gap: var(--s-5);
+  min-height: var(--toque);
+  padding-block: var(--s-5);
+  border-bottom: var(--borde);
+  cursor: pointer;
+  list-style: none;
+  transition: background var(--t-rapido) var(--ola-suave);
 }
+.ledger summary::-webkit-details-marker { display: none; }
+.ledger summary:hover { background: color-mix(in srgb, var(--espuma) 70%, transparent); }
+.ledger summary::after {
+  content: '';
+  justify-self: end;
+  width: var(--s-3);
+  height: var(--s-3);
+  border-right: var(--linea-gruesa) solid var(--caribe);
+  border-bottom: var(--linea-gruesa) solid var(--caribe);
+  transform: rotate(45deg);
+  transition: transform var(--t-rapido) var(--ola-suave);
+}
+.ledger details[open] > summary::after, .ledger[open] > summary::after { transform: rotate(225deg); }
+/* Lo cerrado no se muestra ni cuenta como texto en pantalla */
+details:not([open]) > :not(summary) { display: none !important; }
 
 /* Marea al aparecer (CSS puro, solo donde el navegador lo soporte) */
 @supports (animation-timeline: view()) {
