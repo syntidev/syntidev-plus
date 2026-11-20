@@ -65,6 +65,8 @@ Reglas:
 | Etiquetas, años, estados | **IBM Plex Mono** 12px, mayúsculas, +0.08em | El "cuaderno de campo" |
 | Citas de clientes | **Source Serif 4 itálica** | La voz del dueño del negocio |
 
+**Regla de las etiquetas:** mono en mayúsculas solo para datos (metas, estados, años, pasos). Nunca como adorno sobre un título.
+
 Autoalojadas en `public/fonts/`, woff2, subset latino.
 **Prohibido:** Inter, Poppins, Space Grotesk, Montserrat (se ven a plantilla).
 

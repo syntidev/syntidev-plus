@@ -13,6 +13,7 @@
 * { margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; scroll-padding-top: var(--nav-alto); }
+html, body { overflow-x: clip; }
 
 body {
   background: var(--arena);
@@ -40,9 +41,11 @@ h1, h2, h3 {
   font-weight: 600;
   line-height: var(--interlinea-titulo);
   letter-spacing: -.012em;
+  text-wrap: balance;
 }
 
 a { color: inherit; }
+a:not(.btn):active { color: var(--caribe); }
 ul, ol { list-style: none; }
 img, svg { display: block; max-width: 100%; }
 
@@ -59,6 +62,9 @@ img, svg { display: block; max-width: 100%; }
   text-transform: uppercase;
   color: var(--grafito);
 }
+
+/* Rótulo: texto de apoyo en minúsculas y sin tracking (lo que no es dato) */
+.rotulo { font: 400 var(--fs-peq) / 1.4 var(--fuente-texto); color: var(--grafito); }
 
 .pendiente { outline: 1px dashed var(--coral); outline-offset: 2px; }
 
@@ -78,9 +84,11 @@ img, svg { display: block; max-width: 100%; }
   transition: transform var(--t-rapido) var(--ola-suave), background var(--t-rapido) var(--ola-suave);
 }
 .btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); background: var(--arena-2); }
 
 .btn--accion { background: var(--coral); border-color: var(--coral); color: var(--blanco); }
 .btn--accion:hover { background: var(--coral-hondo); border-color: var(--coral-hondo); }
+.btn--accion:active { background: var(--coral-hondo); border-color: var(--coral-hondo); }
 /* Subrayado ondulado en "sol" que se desliza al pasar el cursor */
 .btn--accion::after {
   content: '';
@@ -98,18 +106,20 @@ img, svg { display: block; max-width: 100%; }
 
 /* Encabezado de sección estilo cuaderno: número a la izquierda, título a la derecha */
 .sec { padding-block: var(--s-9); border-top: var(--borde); }
-.sec__cab { display: grid; grid-template-columns: var(--col-eti) minmax(0, 1fr); gap: var(--s-5); margin-bottom: var(--s-7); }
+.sec__cab { margin-bottom: var(--s-7); }
 .sec__cab h2 { font-size: var(--fs-h2); max-width: 20ch; }
 .sec__cab p { color: var(--grafito); max-width: 60ch; margin-top: var(--s-4); }
 @media (max-width: 860px) {
   .sec { padding-block: var(--s-8); }
-  .sec__cab { grid-template-columns: minmax(0, 1fr); gap: var(--s-3); }
 }
 
 /* Marea al aparecer (CSS puro, solo donde el navegador lo soporte) */
 @supports (animation-timeline: view()) {
   .revela {
-    animation: marea linear both;
+    /* Longhands a propósito: con el shorthand el minificador fusiona animation-timeline y Chrome lo descarta */
+    animation-name: marea;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
     animation-timeline: view();
     animation-range: entry 0% cover 28%;
   }

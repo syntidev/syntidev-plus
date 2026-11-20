@@ -6,7 +6,6 @@ const enlaceWhatsapp = `https://wa.me/${contacto.whatsapp}?text=${encodeURICompo
 
 <section class="contacto" id="contacto">
   <div class="wrap">
-    <p class="eti">{contacto.etiqueta}</p>
     <h2>{contacto.titulo}</h2>
     <p class="contacto__texto">{contacto.texto}</p>
     <a class="btn btn--accion" href={enlaceWhatsapp} rel="noopener" target="_blank">{contacto.whatsappTexto}</a>
@@ -21,7 +20,7 @@ const enlaceWhatsapp = `https://wa.me/${contacto.whatsapp}?text=${encodeURICompo
 
 <style>
   .contacto { position: relative; overflow: hidden; background: var(--mar-noche); color: var(--sobre-oscuro); padding-top: var(--s-10); }
-  .contacto .eti { color: var(--sobre-oscuro-suave); }
+  .contacto :focus-visible { outline-color: var(--sobre-oscuro); }
   .contacto h2 { font-size: var(--fs-h1); max-width: 14ch; margin: var(--s-4) 0 var(--s-5); }
   .contacto__texto { color: var(--sobre-oscuro-suave); max-width: 54ch; margin-bottom: var(--s-6); font-size: var(--fs-cita); line-height: 1.5; }
   .pie { margin-top: var(--s-10); border-top: 1px solid var(--linea-oscura); padding-block: var(--s-5); font-size: var(--fs-peq); color: var(--sobre-oscuro-suave); }

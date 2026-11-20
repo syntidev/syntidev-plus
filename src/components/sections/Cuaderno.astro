@@ -6,7 +6,6 @@ const { cuaderno } = site;
 <section class="sec cuaderno" id="cuaderno">
   <div class="wrap">
     <div class="sec__cab revela">
-      <p class="eti">{cuaderno.numero}</p>
       <div>
         <h2>{cuaderno.titulo}</h2>
         <p>{cuaderno.bajada}</p>
@@ -18,7 +17,7 @@ const { cuaderno } = site;
         cuaderno.entradas.map((e) => (
           <article class="entrada revela">
             <header class="entrada__cab">
-              <p class="eti">{e.meta.join(' · ')}</p>
+              <p class="eti entrada__meta">{e.meta.map((m) => <span>{m}</span>)}</p>
               <span class={`estado ${e.estado === 'Prototipo' ? 'estado--lab' : ''}`}>{e.estado}</span>
             </header>
             <h3 class="entrada__rubro">{e.rubro}</h3>
@@ -69,6 +68,7 @@ const { cuaderno } = site;
   }
 
   .entrada__cab { display: flex; justify-content: space-between; align-items: center; gap: var(--s-3); }
+  .entrada__meta { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-3); }
   .estado {
     font: 500 var(--fs-eti) var(--fuente-mono);
     letter-spacing: var(--tracking-eti);

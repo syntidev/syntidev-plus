@@ -7,7 +7,6 @@ const demo = `https://wa.me/${contacto.whatsapp}?text=${encodeURIComponent(pieza
 <section class="sec" id="piezas">
   <div class="wrap">
     <div class="sec__cab revela">
-      <p class="eti">{piezas.numero}</p>
       <div>
         <h2>{piezas.titulo}</h2>
         <p>{piezas.bajada}</p>
@@ -25,7 +24,7 @@ const demo = `https://wa.me/${contacto.whatsapp}?text=${encodeURIComponent(pieza
               {p.enlaces.length > 0 && (
                 <p class="fila__enlaces">
                   {p.enlaces.map((e) => (
-                    <a href={e.href} rel="noopener" target="_blank">{e.texto} ↗</a>
+                    <a href={e.href} rel="noopener" target="_blank">{e.texto}</a>
                   ))}
                 </p>
               )}
@@ -52,9 +51,9 @@ const demo = `https://wa.me/${contacto.whatsapp}?text=${encodeURIComponent(pieza
     align-items: baseline;
     padding: var(--s-5) 0;
     border-bottom: var(--borde);
-    transition: padding var(--t-medio) var(--ola-suave), background var(--t-medio) var(--ola-suave);
+    transition: background var(--t-medio) var(--ola-suave);
   }
-  .fila:hover { padding-inline: var(--s-3); background: var(--espuma); }
+  .fila:hover { background: var(--espuma); }
   .fila h3 { font-size: var(--fs-h3); }
   .fila__cuerpo { display: grid; gap: var(--s-2); }
   .fila__cuerpo > p:first-child { color: var(--grafito); font-size: var(--fs-peq); }
@@ -64,15 +63,14 @@ const demo = `https://wa.me/${contacto.whatsapp}?text=${encodeURIComponent(pieza
     font: 500 var(--fs-eti) var(--fuente-mono);
     letter-spacing: .04em;
     color: var(--caribe);
-    text-decoration: none;
-    border-bottom: 1px solid currentColor;
-    padding-bottom: 1px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
-  .fila__enlaces a:hover { color: var(--tinta); }
+  .fila__enlaces a:hover, .fila__enlaces a:active { color: var(--tinta); }
 
   .estado { font: 500 var(--fs-eti) var(--fuente-mono); letter-spacing: var(--tracking-eti); text-transform: uppercase; text-align: right; }
   .estado--prod { color: var(--caribe); }
-  .estado--dev { color: var(--coral); }
+  .estado--dev { color: var(--grafito); }
 
   .cierre {
     display: flex;
@@ -90,5 +88,7 @@ const demo = `https://wa.me/${contacto.whatsapp}?text=${encodeURIComponent(pieza
   @media (max-width: 760px) {
     .fila { grid-template-columns: minmax(0, 1fr); gap: var(--s-2); }
     .estado { text-align: left; }
+    /* Área táctil ≥ 44px en móvil */
+    .fila__enlaces a { padding-block: var(--s-4); }
   }
 </style>

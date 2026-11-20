@@ -1,10 +1,10 @@
 {
   "meta": {
-    "titulo": "SYNTIdev — Vamos a donde está el problema",
+    "titulo": "SYNTIdev | Vamos a donde está el problema",
     "descripcion": "Soluciones de sistemas para negocios: entendemos cómo trabajas y construimos sobre piezas que ya funcionan en otros negocios. Más de 25 años de oficio en operación crítica.",
     "url": "https://synti.dev/",
     "imagen": "/img/og-syntidev.png",
-    "imagenAlt": "SYNTI.dev — Vamos a donde está el problema. Y lo resolvemos con sistemas.",
+    "imagenAlt": "SYNTI.dev. Vamos a donde está el problema. Y lo resolvemos con sistemas.",
     "marca": "SYNTI.dev",
     "fundador": "Carlos Bolívar"
   },
@@ -30,13 +30,12 @@
     "cta": "Conversemos"
   },
   "hero": {
-    "etiqueta": "SYNTIdev · Soluciones de sistemas para negocios",
     "lineas": [
       "Vamos a donde",
       "está el problema."
     ],
     "remate": "Y lo resolvemos con sistemas.",
-    "bajada": "Entendemos cómo trabaja tu negocio y construimos la solución sobre piezas que ya funcionan en otros: más rápido, más barato y con menos riesgo que empezar de cero. Detrás hay más de 25 años de oficio en operación crítica.",
+    "bajada": "Entendemos cómo trabaja tu negocio y lo resolvemos sobre piezas que ya funcionan en otros: más rápido, más barato y con menos riesgo.",
     "ctaPrincipal": "Cuéntanos tu caso",
     "ctaSecundario": "Ver el cuaderno de campo",
     "escuchamos": {
@@ -50,7 +49,6 @@
     }
   },
   "quien": {
-    "numero": "01 — Quién está detrás",
     "titulo": "Tres oficios antes de escribir una línea de código.",
     "cita": "Hoy cualquiera puede generar un sistema. Que no se caiga, que cargue con la señal que tenemos y que el dueño entienda sus números, eso sigue siendo oficio. Es lo que pongo en cada proyecto de SYNTIdev.",
     "firma": "Carlos Bolívar",
@@ -60,7 +58,7 @@
         "etiqueta": "Operación crítica",
         "titulo": "Sistemas que no pueden detenerse",
         "texto": "Una década sosteniendo la operación de agencias bancarias y redes de telecomunicaciones: servidores, virtualización, seguridad y continuidad del servicio.",
-        "origen": "Banco de Venezuela (Grupo Santander) · Banco Mercantil · Digitel · CANTV y Movilnet con Compaq y HP",
+        "origen": "Banco de Venezuela (Grupo Santander), Banco Mercantil, Digitel, CANTV y Movilnet con Compaq y HP",
         "leccion": "Saber cómo se cae un sistema, y qué hacer para que no pase."
       },
       {
@@ -89,7 +87,6 @@
     ]
   },
   "como": {
-    "numero": "02 — Cómo trabajamos",
     "titulo": "Primero entendemos. Después construimos.",
     "pasos": [
       {
@@ -129,7 +126,6 @@
     ]
   },
   "cuaderno": {
-    "numero": "03 — Cuaderno de campo",
     "titulo": "Vamos a donde está el problema. Esto es lo que encontramos.",
     "bajada": "Carnicería, helados, bicicletas, hamburguesas, flotas, fincas. Ninguno se parece al otro, y ese es el punto.",
     "entradas": [
@@ -210,7 +206,6 @@
     "etiquetaConstruimos": "Lo que construimos"
   },
   "piezas": {
-    "numero": "04 — Lo más reciente",
     "titulo": "Quizás tu solución ya existe.",
     "bajada": "Y si no, la adaptamos a tu negocio. Esto es lo más reciente que tenemos en marcha; detrás hay otras soluciones que hoy no están en vitrina.",
     "lista": [
@@ -290,24 +285,21 @@
       }
     ],
     "consejo": "A veces la mejor solución no es más software, sino cambiar un paso de la operación. Si es así, también te lo decimos.",
-    "demo": "¿Quieres verla funcionando? Agendamos una demo",
+    "demo": "Agendar una demo",
     "demoMensaje": "Hola, vengo de synti.dev y quiero agendar una demo."
   },
   "principio": {
-    "etiqueta": "05 — Principio",
     "titulo": "Si no es funcional, no es SYNTI.",
     "texto": "Nuestro fundador pasó años levantando servicios caídos en agencias bancarias a primera hora. Ese criterio no cambia porque el negocio sea pequeño.",
     "cita": "Si una agencia bancaria no puede quedarse sin sistema, tu negocio tampoco."
   },
   "social": {
-    "etiqueta": "Acción social",
     "titulo": "Protege Colitas",
     "texto": "Después de los terremotos de junio de 2026, SYNTIdev levantó como servicio social una plataforma para reunir mascotas perdidas con sus familias, con veterinarios voluntarios y centros de acopio en varios estados.",
     "enlaceTexto": "protegecolitas.org",
     "enlace": "https://protegecolitas.org"
   },
   "contacto": {
-    "etiqueta": "Contacto",
     "titulo": "Cuéntanos tu problema, no tu presupuesto.",
     "texto": "La primera conversación es para entender. Si lo que necesitas ya existe y no nos necesitas, te lo decimos. Y hablas directamente con quien diseña tu solución.",
     "whatsappTexto": "Escribir por WhatsApp",
@@ -316,7 +308,7 @@
   },
   "footer": {
     "izquierda": "© 2026 SYNTIdev · Fundado por Carlos Bolívar",
-    "derecha": "Venezuela · México · Atención remota"
+    "derecha": "Venezuela, México y atención remota"
   },
   "transformacion": {
     "etiquetaEntrada": "Lo que llega",

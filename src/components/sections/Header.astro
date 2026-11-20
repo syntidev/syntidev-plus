@@ -33,7 +33,7 @@ const { nav } = site;
     border-bottom: var(--borde);
   }
   .nav__in { display: flex; align-items: center; justify-content: space-between; gap: var(--s-5); height: var(--nav-alto); }
-  .marca { display: inline-flex; align-items: center; gap: var(--s-3); text-decoration: none; }
+  .marca { display: inline-flex; align-items: center; gap: var(--s-3); min-height: var(--toque); text-decoration: none; }
   .marca__iso { width: var(--iso); height: var(--iso); transition: transform var(--t-medio) var(--ola-suave); }
   .marca:hover .marca__iso { transform: rotate(90deg); }
   .iso-br { fill: var(--caribe); }
@@ -46,5 +46,8 @@ const { nav } = site;
   .nav__links a { text-decoration: none; color: var(--grafito); transition: color var(--t-rapido) var(--ola-suave); }
   .nav__links a:hover { color: var(--tinta); }
   .nav__cta { min-height: var(--toque-compacto); padding-block: var(--s-2); }
-  @media (max-width: 960px) { .nav__links { display: none; } }
+  @media (max-width: 960px) {
+    .nav__links { display: none; }
+    .nav__cta { min-height: var(--toque); }
+  }
 </style>

@@ -6,7 +6,6 @@ const { quien } = site;
 <section class="sec" id="quien">
   <div class="wrap">
     <div class="sec__cab revela">
-      <p class="eti">{quien.numero}</p>
       <h2>{quien.titulo}</h2>
     </div>
 
@@ -19,7 +18,7 @@ const { quien } = site;
       {
         quien.oficios.map((o) => (
           <article class="oficio revela">
-            <p class="eti">{o.etiqueta}</p>
+            <p class="rotulo">{o.etiqueta}</p>
             <h3>{o.titulo}</h3>
             <p class="oficio__texto">{o.texto}</p>
             {o.origen && <p class="oficio__origen">{o.origen}</p>}
@@ -29,15 +28,9 @@ const { quien } = site;
       }
     </div>
 
+    <p class="rotulo invisible__tit">{quien.invisibleTitulo}</p>
     <ul class="invisible">
-      {
-        quien.invisible.map((t) => (
-          <li class="revela">
-            <span class="eti">{quien.invisibleTitulo}</span>
-            {t}
-          </li>
-        ))
-      }
+      {quien.invisible.map((t) => <li class="revela">{t}</li>)}
     </ul>
   </div>
 </section>
@@ -60,9 +53,9 @@ const { quien } = site;
   .oficio__origen { font: 400 var(--fs-eti) / 1.6 var(--fuente-mono); color: var(--grafito); letter-spacing: .02em; }
   .oficio__leccion { font: italic 400 var(--fs-h3) / 1.35 var(--fuente-titulo); color: var(--caribe); border-top: var(--borde); padding-top: var(--s-4); }
 
-  .invisible { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: var(--s-7); border-top: var(--borde); }
+  .invisible__tit { margin-top: var(--s-7); }
+  .invisible { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: var(--s-3); border-top: var(--borde); }
   .invisible li { padding: var(--s-4) var(--s-4) var(--s-4) 0; border-bottom: var(--borde); font-size: var(--fs-peq); }
-  .invisible .eti { display: block; margin-bottom: var(--s-1); }
 
   @media (max-width: 860px) {
     .oficios, .invisible { grid-template-columns: minmax(0, 1fr); }

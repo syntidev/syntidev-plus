@@ -14,7 +14,7 @@ Resumen para herramientas de diseño (Hallmark, Stitch). Fuente completa: `.doc/
 ## Tipografía (no cambiar)
 - Títulos: Source Serif 4 (600; itálica 400 para citas y frases de clientes)
 - Texto: IBM Plex Sans 17px / 1.6
-- Etiquetas, años y estados: IBM Plex Mono 12px en mayúsculas
+- Etiquetas, años y estados: IBM Plex Mono 12px en mayúsculas. Mono mayúsculas solo para datos (metas, estados, años, pasos). Nunca como adorno sobre un título.
 
 ## Marca
 Isotipo de dos corchetes en azul Caribe con dos puntos sol. Wordmark: "SYNTI" (serif) + "." (sol) + "dev" (mono, Caribe).

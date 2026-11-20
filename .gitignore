@@ -20,6 +20,9 @@ pnpm-debug.log*
 # capturas de Playwright MCP
 .playwright-mcp/
 
+# registros y capturas de Hallmark
+.hallmark/
+
 # macOS-specific files
 .DS_Store
 

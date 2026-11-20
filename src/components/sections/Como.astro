@@ -6,7 +6,6 @@ const { como } = site;
 <section class="sec" id="como">
   <div class="wrap">
     <div class="sec__cab revela">
-      <p class="eti">{como.numero}</p>
       <h2>{como.titulo}</h2>
     </div>
 
@@ -22,12 +21,12 @@ const { como } = site;
       }
     </ol>
 
-    <p class="eti formas__tit">{como.formasTitulo}</p>
+    <p class="rotulo formas__tit">{como.formasTitulo}</p>
     <div class="formas">
       {
         como.formas.map((f) => (
           <article class="forma revela">
-            <p class="eti">{f.etiqueta}</p>
+            <p class="rotulo">{f.etiqueta}</p>
             <h3>{f.titulo}</h3>
             <p>{f.texto}</p>
           </article>
