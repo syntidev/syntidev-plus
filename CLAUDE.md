@@ -65,8 +65,9 @@ Planes de varios pasos: `1. [qué] → verifico con: [check]`.
 | Repo | `github.com/syntidev/syntidev-plus` · rama `main` |
 | VPS | `187.124.241.213` · `/var/www/syntidev` · PM2 `syntidev` |
 | Puerto | **3005**, escuchando SOLO en `127.0.0.1` (`HOST=127.0.0.1`). Nginx es la única puerta de entrada. |
-| Staging | `nuevo.synti.dev` (hasta el corte de F4) |
-| Producción actual | `syntidev-astro` (Astro estático en Hostinger) — vivo hasta el corte de F4 |
+| Producción | `synti.dev` + `www` desde este VPS (desde 2026-11-19) |
+| Staging | `nuevo.synti.dev` (mismo proceso, `noindex`) |
+| Sitio anterior | `syntidev-astro` en Hostinger: solo respaldo de rollback, no se toca |
 
 ### Documentación (leer en este orden)
 ```
@@ -74,6 +75,7 @@ Planes de varios pasos: `1. [qué] → verifico con: [check]`.
 2. .doc/SYSTEM_MAP.md      → estado real y fases (árbitro del avance)
 3. .doc/AGENTS.md          → protocolo multi-agente y skills
 4. .doc/BRAND_OLA.md       → identidad, tokens, movimiento, tono
+5. DESIGN.md               → resumen de identidad para herramientas de diseño (Hallmark, Stitch)
 ```
 **Si no leíste estos 4 archivos, cualquier acción es potencialmente destructiva.**
 
@@ -233,7 +235,7 @@ NUNCA `git stash` en el VPS. Verificar SIEMPRE `.env` y `.env.production` del VP
 ## ⛔ LO QUE NUNCA SE TOCA
 
 - `C:\laragon\www\synticorex\`, `syntimeat\`, `activopos\` — producción activa de otros proyectos
-- `C:\laragon\www\syntidev-astro\` — producción actual de synti.dev, solo lectura hasta F4
+- `C:\laragon\www\syntidev-astro\` — sitio anterior (respaldo), solo lectura
 - `src/content/` — solo por instrucción explícita de Carlos
 - `git stash` en el VPS
 
@@ -290,6 +292,16 @@ Las skills están instaladas de forma global. **No se copian al repo** (duplicar
 | redesign-existing-projects | Auditoría de patrones genéricos en F4 (CLI-C) |
 | stitch-design-taste | Generar el DESIGN.md para mockups en Stitch |
 | ui-ux-pro-max | Consulta de patrones UX |
+| hallmark | Auditoría anti-plantilla (`sloplint`) y rediseño de layout, SOLO con las reglas de la sección "Hallmark en este proyecto" |
+
+### Hallmark en este proyecto (reglas obligatorias)
+1. **Primero auditar, después rediseñar.** `/hallmark audit` sobre `dist/client/index.html`. Ningún rediseño sin que Carlos apruebe los hallazgos.
+2. **Identidad sellada:** NO usar ninguno de los 50 temas de Hallmark. Siempre modo **custom** leyendo `DESIGN.md` y `src/styles/tokens.css`. Colores, fuentes, isotipo y movimiento no se cambian.
+3. **Fotos:** PROHIBIDAS las fotos de Wikimedia Commons. Solo fotos reales aportadas por Carlos. Si falta una foto, se deja el espacio `[PENDIENTE: foto]`.
+4. **Arquitectura:** el resultado sigue siendo componentes `.astro` en `src/components/`, con TODO el texto en `src/content/site.json`. Prohibido convertir la página en un HTML suelto o escribir textos dentro de componentes.
+5. **Rediseño seguro:** correr `sloplint --before` antes y `sloplint --kept` después. Si se pierde un enlace, botón o sección, el rediseño no se acepta.
+6. **Presupuesto:** sigue vigente (≤ 25 KB JS, LCP ≤ 2.5 s). Si Hallmark propone algo que lo rompe, se descarta.
+7. **Gates de Hallmark:** el Floor (contraste, foco, movimiento reducido, datos inventados, móvil) es obligatorio. Los "Reflex gates" solo se omiten con la razón escrita en el reporte.
 
 **Vetadas (no invocar):**
 | Skill | Por qué |
