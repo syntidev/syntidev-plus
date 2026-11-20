@@ -75,15 +75,17 @@ const { transformacion: tf } = site;
     box-shadow: 0 0 0 var(--s-3) var(--espuma);
   }
   .tf__nucleo svg { width: 100%; height: 100%; overflow: visible; }
-  .nucleo__giro { fill: var(--caribe); transform-origin: 50px 50px; animation: tf-procesa var(--t-proceso) var(--ola-marea) infinite; }
-  .nucleo__punto { fill: var(--sol); transform-origin: 50px 50px; animation: tf-late var(--t-proceso) var(--ola-suave) infinite; }
+  /* Periodo = 1 turno, delay = 2 turnos: arranca justo cuando llega la primera nota y repite con cada una */
+  .nucleo__giro { fill: var(--caribe); transform-origin: 50px 50px; animation: tf-procesa var(--t-turno) var(--ola-marea) calc(var(--t-turno) * 2) infinite both; }
+  .nucleo__punto { fill: var(--sol); transform-origin: 50px 50px; animation: tf-late var(--t-turno) var(--ola-suave) calc(var(--t-turno) * 2) infinite both; }
+  /* Gira al llegar la nota (inicio del ciclo). 180° es simétrico para los dos corchetes: el reinicio no se nota */
   @keyframes tf-procesa {
-    0%, 55% { transform: rotate(0deg); }
-    80%, 100% { transform: rotate(90deg); }
+    0% { transform: rotate(0deg); }
+    40%, 100% { transform: rotate(180deg); }
   }
   @keyframes tf-late {
-    0%, 50%, 100% { transform: scale(1); }
-    65% { transform: scale(1.12); }
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.12); }
   }
 
   .tf__caos li, .tf__orden li {
@@ -94,8 +96,9 @@ const { transformacion: tf } = site;
     will-change: transform, opacity;
   }
 
-  /* ── Caos: notas torcidas que derivan hacia el núcleo, en turnos (2 carriles, 5 por carril) ── */
-  .tf__caos li { animation: tf-llega calc(var(--t-turno) * 5) linear infinite both; animation-delay: calc(var(--t-turno) * var(--k)); }
+  /* ── Entrada: cada nota dura 10 turnos, sale cada turno (delay k × turno) y viaja 2 turnos al núcleo ── */
+  /* --xe: borde derecho donde termina la nota, siempre antes del núcleo (nunca pasa por debajo) */
+  .tf__caos li { --xe: calc(50cqw - var(--tf-nucleo) / 2 - var(--s-4)); animation: tf-llega calc(var(--t-turno) * 10) linear infinite both; animation-delay: calc(var(--t-turno) * var(--k)); }
   .tf__caos span {
     display: inline-block;
     padding: var(--s-1) var(--s-3);
@@ -106,13 +109,14 @@ const { transformacion: tf } = site;
     color: var(--tinta);
     animation: tf-tambalea 2.8s var(--ola-marea) infinite alternate;
   }
-  /* Solo se mueve en el primer 20% del ciclo (= T); legible hasta el 85% del recorrido */
+  /* Ciclo de 10 turnos: nace fuera del borde izquierdo, viaja 2 turnos (0 a 20%) con ease-in (se acelera al ser
+     absorbida), llega con scale .6, giro 0 y opacity 0; opaca hasta el 85% del recorrido (17%) y oculta el resto */
   @keyframes tf-llega {
-    0%   { transform: translate(var(--margen), var(--y)) rotate(var(--r)); scale: 1; opacity: 0; }
-    2%   { opacity: 1; }
-    17%  { opacity: 1; scale: 1; }
-    20%  { transform: translate(calc(var(--xc, 50cqw) - 50%), calc(var(--yf) - 50%)) rotate(0deg); scale: .4; opacity: 0; }
-    100% { transform: translate(calc(var(--xc, 50cqw) - 50%), calc(var(--yf) - 50%)) rotate(0deg); scale: .4; opacity: 0; }
+    0%   { transform: translate(-100%, var(--y)); rotate: var(--r); scale: 1; opacity: 0; visibility: hidden; animation-timing-function: cubic-bezier(.55, 0, 1, .45); }
+    3%   { opacity: 1; visibility: visible; }
+    17%  { opacity: 1; }
+    20%  { transform: translate(calc(var(--xe) - 100%), calc(var(--yf) - 50%)); rotate: 0deg; scale: .6; opacity: 0; visibility: hidden; }
+    100% { transform: translate(calc(var(--xe) - 100%), calc(var(--yf) - 50%)); rotate: 0deg; scale: .6; opacity: 0; visibility: hidden; }
   }
   @keyframes tf-tambalea { from { rotate: -3deg; } to { rotate: 3deg; } }
 
@@ -120,20 +124,21 @@ const { transformacion: tf } = site;
   /* cada carril entra al núcleo por su lado (40% / 60%), sin converger al mismo punto */
   .tf__caos li:nth-child(odd)  { --y: calc(var(--tf-alto) * .24); --yf: calc(var(--tf-alto) * .40); }
   .tf__caos li:nth-child(even) { --y: calc(var(--tf-alto) * .64); --yf: calc(var(--tf-alto) * .60); }
-  .tf__caos li:nth-child(1)  { --k: 0;   --r: -6deg; }
-  .tf__caos li:nth-child(2)  { --k: .5;  --r: 5deg; }
-  .tf__caos li:nth-child(3)  { --k: 1;   --r: -3deg; }
-  .tf__caos li:nth-child(4)  { --k: 1.5; --r: 7deg; }
-  .tf__caos li:nth-child(5)  { --k: 2;   --r: 4deg; }
-  .tf__caos li:nth-child(6)  { --k: 2.5; --r: -7deg; }
-  .tf__caos li:nth-child(7)  { --k: 3;   --r: 6deg; }
-  .tf__caos li:nth-child(8)  { --k: 3.5; --r: -4deg; }
-  .tf__caos li:nth-child(9)  { --k: 4;   --r: 3deg; }
-  .tf__caos li:nth-child(10) { --k: 4.5; --r: -5deg; }
+  .tf__caos li:nth-child(1)  { --k: 0; --r: -6deg; }
+  .tf__caos li:nth-child(2)  { --k: 1; --r: 5deg; }
+  .tf__caos li:nth-child(3)  { --k: 2; --r: -3deg; }
+  .tf__caos li:nth-child(4)  { --k: 3; --r: 7deg; }
+  .tf__caos li:nth-child(5)  { --k: 4; --r: 4deg; }
+  .tf__caos li:nth-child(6)  { --k: 5; --r: -7deg; }
+  .tf__caos li:nth-child(7)  { --k: 6; --r: 6deg; }
+  .tf__caos li:nth-child(8)  { --k: 7; --r: -4deg; }
+  .tf__caos li:nth-child(9)  { --k: 8; --r: 3deg; }
+  .tf__caos li:nth-child(10) { --k: 9; --r: -5deg; }
   .tf__caos li:nth-child(even) span { animation-duration: 3.6s; }
 
-  /* ── Orden (escritorio y móvil): carril secuencial ── */
-  .tf__orden li { animation: tf-sale calc(var(--t-turno) * 5) linear infinite both; animation-delay: calc(var(--t-turno) * var(--k)); }
+  /* ── Salida: ciclo de 10 turnos; delay = k × turno + 2.2 turnos (después de que el núcleo procesa la nota k) ── */
+  /* ease-out (--ola-suave) va en el elemento: var() no se resuelve dentro de un keyframe */
+  .tf__orden li { animation: tf-sale calc(var(--t-turno) * 10) var(--ola-suave) infinite both; animation-delay: calc(var(--t-turno) * (var(--k) + 2.2)); }
   .tf__orden span {
     display: inline-flex;
     align-items: center;
@@ -146,28 +151,28 @@ const { transformacion: tf } = site;
     text-transform: uppercase;
     color: var(--caribe);
   }
-  /* Solo se mueve en el primer 20% del ciclo (= T); el resto está oculta */
-  /* x0: donde asoma junto al núcleo; x1: tope derecho del carril (la etiqueta nunca se corta) */
+  /* Nace en el núcleo con scale .6 y opacity 0, sube a scale 1 y opacity 1 al 6% (0.6 turnos) y viaja 2 turnos
+     (0 a 20%) al borde derecho con ease-out (desacelera); se desvanece a los 2.25 turnos (22.5%). Sin rotación */
   @keyframes tf-sale {
-    0%   { transform: translate(calc(50cqw - 50%), calc(var(--tf-alto) / 2 - 50%)); scale: .4; opacity: 0; }
-    3%   { transform: translate(min(var(--x0, 56cqw), calc(100cqw - 100% - var(--margen))), calc(var(--carril) - 50%)); scale: 1; opacity: 1; }
-    17%  { opacity: 1; }
-    20%  { transform: translate(calc(100cqw - 100% - var(--margen)), calc(var(--carril) - 50%)); scale: 1; opacity: 0; }
-    100% { transform: translate(calc(100cqw - 100% - var(--margen)), calc(var(--carril) - 50%)); scale: 1; opacity: 0; }
+    0%    { transform: translate(calc(50cqw - 50%), calc(var(--tf-alto) / 2 - 50%)); scale: .6; opacity: 0; visibility: hidden; }
+    6%    { scale: 1; opacity: 1; visibility: visible; }
+    20%   { transform: translate(calc(100cqw - 100% - var(--margen)), calc(var(--carril) - 50%)); opacity: 1; }
+    22.5% { opacity: 0; visibility: hidden; }
+    100%  { transform: translate(calc(100cqw - 100% - var(--margen)), calc(var(--carril) - 50%)); scale: 1; opacity: 0; visibility: hidden; }
   }
   .tf__orden li:nth-child(odd)  { --carril: calc(var(--tf-alto) * .3667); }
   .tf__orden li:nth-child(even) { --carril: calc(var(--tf-alto) * .6333); }
-  /* k × T: carril de arriba 0, T, 2T, 3T, 4T; carril de abajo desfasado T/2 */
+  /* k = 0..9: una etiqueta por turno, carriles alternados (impares arriba, pares abajo) */
   .tf__orden li:nth-child(1)  { --k: 0; }
-  .tf__orden li:nth-child(2)  { --k: .5; }
-  .tf__orden li:nth-child(3)  { --k: 1; }
-  .tf__orden li:nth-child(4)  { --k: 1.5; }
-  .tf__orden li:nth-child(5)  { --k: 2; }
-  .tf__orden li:nth-child(6)  { --k: 2.5; }
-  .tf__orden li:nth-child(7)  { --k: 3; }
-  .tf__orden li:nth-child(8)  { --k: 3.5; }
-  .tf__orden li:nth-child(9)  { --k: 4; }
-  .tf__orden li:nth-child(10) { --k: 4.5; }
+  .tf__orden li:nth-child(2)  { --k: 1; }
+  .tf__orden li:nth-child(3)  { --k: 2; }
+  .tf__orden li:nth-child(4)  { --k: 3; }
+  .tf__orden li:nth-child(5)  { --k: 4; }
+  .tf__orden li:nth-child(6)  { --k: 5; }
+  .tf__orden li:nth-child(7)  { --k: 6; }
+  .tf__orden li:nth-child(8)  { --k: 7; }
+  .tf__orden li:nth-child(9)  { --k: 8; }
+  .tf__orden li:nth-child(10) { --k: 9; }
 
   /* ── Móvil: las 10 se muestran en turnos, sin encimarse, y pueden partir en dos líneas ── */
   @media (max-width: 700px) {
@@ -175,8 +180,8 @@ const { transformacion: tf } = site;
     .tf__nucleo { width: var(--tf-nucleo-movil); height: var(--tf-nucleo-movil); }
     /* Las notas terminan a la izquierda del núcleo y las etiquetas arrancan a su derecha: nunca se cruzan */
     .tf__orden li, .tf__caos li { white-space: normal; }
-    .tf__caos li { max-width: 38cqw; --xc: 40cqw; }
-    .tf__orden li { max-width: 34cqw; --x0: 60cqw; }
+    .tf__caos li { max-width: 38cqw; --xe: calc(50cqw - var(--tf-nucleo-movil) / 2 - var(--s-2)); }
+    .tf__orden li { max-width: 34cqw; }
     .tf__orden span { text-align: center; font-size: var(--fs-eti); }
   }
 
