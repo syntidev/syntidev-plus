@@ -13,6 +13,9 @@ const enlaceWhatsapp = `https://wa.me/${contacto.whatsapp}?text=${encodeURICompo
   <footer class="pie">
     <div class="wrap pie__in">
       <span>{footer.izquierda}</span>
+      <nav class="pie__legal" aria-label="Legal">
+        {footer.legal.map((e) => <a href={e.href}>{e.texto}</a>)}
+      </nav>
       <span>{footer.derecha}</span>
     </div>
   </footer>
@@ -24,5 +27,8 @@ const enlaceWhatsapp = `https://wa.me/${contacto.whatsapp}?text=${encodeURICompo
   .contacto h2 { font-size: var(--fs-h1); max-width: 14ch; margin: var(--s-4) 0 var(--s-5); }
   .contacto__texto { color: var(--sobre-oscuro-suave); max-width: 54ch; margin-bottom: var(--s-6); font-size: var(--fs-cita); line-height: 1.5; }
   .pie { margin-top: var(--s-10); border-top: 1px solid var(--linea-oscura); padding-block: var(--s-5); font-size: var(--fs-peq); color: var(--sobre-oscuro-suave); }
-  .pie__in { display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--s-3); }
+  .pie__in { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--s-3) var(--s-5); }
+  .pie__legal { display: flex; gap: var(--s-5); }
+  .pie__legal a { display: inline-flex; align-items: center; min-height: var(--toque); color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .pie__legal a:hover, .pie__legal a:active { color: var(--sobre-oscuro); }
 </style>

@@ -1,8 +1,10 @@
 ---
 // La transformación: por la izquierda llega el caos del negocio (notas torcidas,
 // dudas, errores), entra al isotipo de SYNTI, y por la derecha sale ordenado en
-// carriles rectos. CSS puro: cada pieza recorre su mitad de la banda en bucle,
-// con desfases distintos para que el flujo nunca se vea sincronizado.
+// carriles rectos. CSS puro.
+// "Lo que sale": 2 carriles, 5 etiquetas por carril, UNA a la vez. Cada etiqueta dura
+// 5T y solo se mueve en el primer 20% de su ciclo (el resto está oculta): nunca se enciman.
+// Delay = k × T dentro del carril; el segundo carril va desfasado T/2.
 import site from '../../content/site.json';
 const { transformacion: tf } = site;
 ---
@@ -84,7 +86,6 @@ const { transformacion: tf } = site;
     65% { transform: scale(1.12); }
   }
 
-  /* Caos: notas torcidas que derivan hacia el núcleo y se desvanecen al entrar */
   .tf__caos li, .tf__orden li {
     position: absolute;
     left: 0;
@@ -92,9 +93,9 @@ const { transformacion: tf } = site;
     white-space: nowrap;
     will-change: transform, opacity;
   }
-  .tf__caos li {
-    animation: tf-llega var(--t-flujo) linear infinite both;
-  }
+
+  /* ── Caos: notas torcidas que derivan hacia el núcleo, en turnos (2 carriles, 5 por carril) ── */
+  .tf__caos li { animation: tf-llega calc(var(--t-turno) * 5) linear infinite both; animation-delay: calc(var(--t-turno) * var(--k)); }
   .tf__caos span {
     display: inline-block;
     padding: var(--s-1) var(--s-3);
@@ -105,20 +106,37 @@ const { transformacion: tf } = site;
     color: var(--tinta);
     animation: tf-tambalea 2.8s var(--ola-marea) infinite alternate;
   }
+  /* Solo se mueve en el primer 20% del ciclo (= T); legible hasta el 85% del recorrido */
   @keyframes tf-llega {
-    0%   { transform: translate(-110%, var(--y)) rotate(var(--r)); scale: 1; opacity: 0; }
-    8%   { opacity: 1; }
-    85%  { opacity: 1; scale: 1; }
-    100% { transform: translate(calc(50cqw - 50%), calc(var(--tf-alto) / 2 - 50%)) rotate(0deg); scale: .4; opacity: 0; }
+    0%   { transform: translate(var(--margen), var(--y)) rotate(var(--r)); scale: 1; opacity: 0; }
+    2%   { opacity: 1; }
+    17%  { opacity: 1; scale: 1; }
+    20%  { transform: translate(calc(var(--xc, 50cqw) - 50%), calc(var(--yf) - 50%)) rotate(0deg); scale: .4; opacity: 0; }
+    100% { transform: translate(calc(var(--xc, 50cqw) - 50%), calc(var(--yf) - 50%)) rotate(0deg); scale: .4; opacity: 0; }
   }
   @keyframes tf-tambalea { from { rotate: -3deg; } to { rotate: 3deg; } }
 
-  /* Orden: salen del núcleo y avanzan derechas por dos carriles */
-  .tf__orden li { animation: tf-sale var(--t-salida) linear infinite both; }
+  /* Carril (arriba/abajo), turno k y giro de cada una de las 10 notas */
+  /* cada carril entra al núcleo por su lado (40% / 60%), sin converger al mismo punto */
+  .tf__caos li:nth-child(odd)  { --y: calc(var(--tf-alto) * .24); --yf: calc(var(--tf-alto) * .40); }
+  .tf__caos li:nth-child(even) { --y: calc(var(--tf-alto) * .64); --yf: calc(var(--tf-alto) * .60); }
+  .tf__caos li:nth-child(1)  { --k: 0;   --r: -6deg; }
+  .tf__caos li:nth-child(2)  { --k: .5;  --r: 5deg; }
+  .tf__caos li:nth-child(3)  { --k: 1;   --r: -3deg; }
+  .tf__caos li:nth-child(4)  { --k: 1.5; --r: 7deg; }
+  .tf__caos li:nth-child(5)  { --k: 2;   --r: 4deg; }
+  .tf__caos li:nth-child(6)  { --k: 2.5; --r: -7deg; }
+  .tf__caos li:nth-child(7)  { --k: 3;   --r: 6deg; }
+  .tf__caos li:nth-child(8)  { --k: 3.5; --r: -4deg; }
+  .tf__caos li:nth-child(9)  { --k: 4;   --r: 3deg; }
+  .tf__caos li:nth-child(10) { --k: 4.5; --r: -5deg; }
+  .tf__caos li:nth-child(even) span { animation-duration: 3.6s; }
+
+  /* ── Orden (escritorio y móvil): carril secuencial ── */
+  .tf__orden li { animation: tf-sale calc(var(--t-turno) * 5) linear infinite both; animation-delay: calc(var(--t-turno) * var(--k)); }
   .tf__orden span {
     display: inline-flex;
     align-items: center;
-    gap: var(--s-2);
     padding: var(--s-1) var(--s-3);
     background: var(--espuma);
     border: 1px solid var(--caribe);
@@ -128,45 +146,38 @@ const { transformacion: tf } = site;
     text-transform: uppercase;
     color: var(--caribe);
   }
-  .tf__orden span::before { content: '✓'; color: var(--sol); font-weight: 600; }
+  /* Solo se mueve en el primer 20% del ciclo (= T); el resto está oculta */
+  /* x0: donde asoma junto al núcleo; x1: tope derecho del carril (la etiqueta nunca se corta) */
   @keyframes tf-sale {
-    0%   { transform: translate(calc(50cqw - 50%), calc(var(--tf-alto) / 2 - 50%)) scale(.4); opacity: 0; }
-    12%  { transform: translate(calc(56cqw), calc(var(--carril) - 50%)) scale(1); opacity: 1; }
-    88%  { opacity: 1; }
-    100% { transform: translate(calc(100cqw + 10%), calc(var(--carril) - 50%)) scale(1); opacity: 0; }
+    0%   { transform: translate(calc(50cqw - 50%), calc(var(--tf-alto) / 2 - 50%)); scale: .4; opacity: 0; }
+    3%   { transform: translate(min(var(--x0, 56cqw), calc(100cqw - 100% - var(--margen))), calc(var(--carril) - 50%)); scale: 1; opacity: 1; }
+    17%  { opacity: 1; }
+    20%  { transform: translate(calc(100cqw - 100% - var(--margen)), calc(var(--carril) - 50%)); scale: 1; opacity: 0; }
+    100% { transform: translate(calc(100cqw - 100% - var(--margen)), calc(var(--carril) - 50%)); scale: 1; opacity: 0; }
   }
-
-  /* Posición vertical, giro y desfase de cada nota de caos */
-  .tf__caos li:nth-child(1) { --y: 34px;  --r: -6deg; animation-delay: 0s; }
-  .tf__caos li:nth-child(2) { --y: 200px; --r: 5deg;  animation-delay: -1.75s; }
-  .tf__caos li:nth-child(3) { --y: 112px; --r: -3deg; animation-delay: -3.5s; }
-  .tf__caos li:nth-child(4) { --y: 240px; --r: 7deg;  animation-delay: -5.25s; }
-  .tf__caos li:nth-child(5) { --y: 66px;  --r: 4deg;  animation-delay: -7s; }
-  .tf__caos li:nth-child(6) { --y: 170px; --r: -7deg; animation-delay: -8.75s; }
-  .tf__caos li:nth-child(7) { --y: 128px; --r: 6deg;  animation-delay: -10.5s; }
-  .tf__caos li:nth-child(8) { --y: 220px; --r: -4deg; animation-delay: -12.25s; }
-  .tf__caos li:nth-child(even) span { animation-duration: 3.6s; }
-
-  /* Carril y desfase de cada proceso limpio (alternan entre los dos carriles) */
   .tf__orden li:nth-child(odd)  { --carril: calc(var(--tf-alto) * .3667); }
   .tf__orden li:nth-child(even) { --carril: calc(var(--tf-alto) * .6333); }
-  /* 6 procesos en 21 s: en cada carril sale uno cada 7 s, sin que se encimen */
-  .tf__orden li:nth-child(1) { animation-delay: -0.9s; }
-  .tf__orden li:nth-child(2) { animation-delay: -4.4s; }
-  .tf__orden li:nth-child(3) { animation-delay: -7.9s; }
-  .tf__orden li:nth-child(4) { animation-delay: -11.4s; }
-  .tf__orden li:nth-child(5) { animation-delay: -14.9s; }
-  .tf__orden li:nth-child(6) { animation-delay: -18.4s; }
+  /* k × T: carril de arriba 0, T, 2T, 3T, 4T; carril de abajo desfasado T/2 */
+  .tf__orden li:nth-child(1)  { --k: 0; }
+  .tf__orden li:nth-child(2)  { --k: .5; }
+  .tf__orden li:nth-child(3)  { --k: 1; }
+  .tf__orden li:nth-child(4)  { --k: 1.5; }
+  .tf__orden li:nth-child(5)  { --k: 2; }
+  .tf__orden li:nth-child(6)  { --k: 2.5; }
+  .tf__orden li:nth-child(7)  { --k: 3; }
+  .tf__orden li:nth-child(8)  { --k: 3.5; }
+  .tf__orden li:nth-child(9)  { --k: 4; }
+  .tf__orden li:nth-child(10) { --k: 4.5; }
 
+  /* ── Móvil: las 10 se muestran en turnos, sin encimarse, y pueden partir en dos líneas ── */
   @media (max-width: 700px) {
     .tf { --tf-alto: var(--tf-alto-movil); }
     .tf__nucleo { width: var(--tf-nucleo-movil); height: var(--tf-nucleo-movil); }
-    .tf__caos li:nth-child(n + 6) { display: none; }
-    /* En móvil el carril es corto: un solo proceso por carril para que nunca se encimen */
-    .tf__orden li { animation-duration: var(--t-salida-movil); }
-    .tf__orden li:nth-child(n + 3) { display: none; }
-    .tf__orden li:nth-child(2) { animation-delay: calc(var(--t-salida-movil) / -2 - .9s); }
-    .tf__orden span { font-size: var(--fs-eti); }
+    /* Las notas terminan a la izquierda del núcleo y las etiquetas arrancan a su derecha: nunca se cruzan */
+    .tf__orden li, .tf__caos li { white-space: normal; }
+    .tf__caos li { max-width: 38cqw; --xc: 40cqw; }
+    .tf__orden li { max-width: 34cqw; --x0: 60cqw; }
+    .tf__orden span { text-align: center; font-size: var(--fs-eti); }
   }
 
   /* Sin movimiento: composición quieta y legible, caos a la izquierda, orden a la derecha */

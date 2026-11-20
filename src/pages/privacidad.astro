@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import Legal from '../components/sections/Legal.astro';
+import { Content, frontmatter } from '../content/legal/privacidad.md';
+---
+
+<Base titulo={`${frontmatter.titulo} | SYNTIdev`} descripcion={frontmatter.descripcion} ruta="/privacidad">
+  <Legal titulo={frontmatter.titulo} actualizado={frontmatter.actualizado}>
+    <Content />
+  </Legal>
+</Base>

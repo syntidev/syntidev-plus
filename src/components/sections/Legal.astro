@@ -1,0 +1,75 @@
+---
+// Página legal: encabezado mínimo, documento en columna de lectura y pie con enlaces.
+import site from '../../content/site.json';
+
+interface Props {
+  titulo: string;
+  actualizado: string;
+}
+const { titulo, actualizado } = Astro.props;
+const { footer } = site;
+const fecha = new Date(`${actualizado}T12:00:00`).toLocaleDateString('es-VE', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<header class="legal__cab">
+  <div class="wrap legal__cab-in">
+    <a class="marca" href="/" aria-label="SYNTI.dev, volver al inicio">
+      <svg class="marca__iso" viewBox="0 0 100 100" aria-hidden="true">
+        <path class="iso-br" d="M 18,18 L 48,18 Q 54,18 54,24 L 54,30 L 30,30 L 30,54 L 24,54 Q 18,54 18,48 Z" />
+        <path class="iso-br" d="M 82,82 L 52,82 Q 46,82 46,76 L 46,70 L 70,70 L 70,46 L 76,46 Q 82,46 82,52 Z" />
+        <circle class="iso-a" cx="71" cy="29" r="13" />
+        <circle class="iso-b" cx="29" cy="71" r="13" />
+      </svg>
+      <span class="marca__txt">SYNTI<span class="marca__punto">.</span><span class="marca__dev">dev</span></span>
+    </a>
+    <a class="volver" href="/">Volver al inicio</a>
+  </div>
+</header>
+
+<main class="wrap legal">
+  <h1>{titulo}</h1>
+  <p class="legal__fecha">Última actualización: <time datetime={actualizado}>{fecha}</time></p>
+  <article class="legal__doc">
+    <slot />
+  </article>
+</main>
+
+<footer class="legal__pie">
+  <div class="wrap legal__pie-in">
+    <span>{footer.izquierda}</span>
+    <nav aria-label="Legal">
+      <a href="/privacidad">Privacidad</a>
+      <a href="/terminos">Términos</a>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .legal__cab { border-bottom: var(--borde); background: var(--arena); }
+  .legal__cab-in { display: flex; align-items: center; justify-content: space-between; min-height: var(--nav-alto); gap: var(--s-4); }
+  .marca { display: inline-flex; align-items: center; gap: var(--s-3); min-height: var(--toque); text-decoration: none; }
+  .marca__iso { width: var(--iso); height: var(--iso); }
+  .iso-br { fill: var(--caribe); }
+  .iso-a, .iso-b { fill: var(--sol); }
+  .marca__txt { font: 600 var(--fs-marca) var(--fuente-titulo); }
+  .marca__punto { font: 500 var(--fs-peq) var(--fuente-mono); color: var(--sol); }
+  .marca__dev { font: 500 var(--fs-peq) var(--fuente-mono); color: var(--caribe); }
+  .volver { display: inline-flex; align-items: center; min-height: var(--toque); font-size: var(--fs-peq); color: var(--caribe); }
+
+  .legal { padding-block: var(--s-8) var(--s-9); }
+  .legal h1 { font-size: var(--fs-h2); max-width: 20ch; text-wrap: balance; }
+  .legal__fecha { margin-top: var(--s-3); color: var(--grafito); font-size: var(--fs-peq); }
+
+  .legal__doc { max-width: 68ch; margin-top: var(--s-7); }
+  .legal__doc :global(h2) { font-size: var(--fs-h3); margin: var(--s-7) 0 var(--s-3); text-wrap: balance; }
+  .legal__doc :global(p) { margin-bottom: var(--s-4); }
+  .legal__doc :global(ul) { list-style: disc; padding-left: var(--s-5); margin-bottom: var(--s-4); }
+  .legal__doc :global(li) { margin-bottom: var(--s-2); }
+  .legal__doc :global(strong) { font-weight: 600; }
+  .legal__doc :global(a) { color: var(--caribe); }
+
+  .legal__pie { background: var(--mar-noche); color: var(--sobre-oscuro-suave); font-size: var(--fs-peq); }
+  .legal__pie-in { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--s-3); min-height: var(--s-9); }
+  .legal__pie nav { display: flex; gap: var(--s-5); }
+  .legal__pie a { color: var(--sobre-oscuro); display: inline-flex; align-items: center; min-height: var(--toque); }
+</style>

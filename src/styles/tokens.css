@@ -83,8 +83,6 @@
   --tf-alto-movil:  360px;
   --tf-nucleo:      96px;
   --tf-nucleo-movil: 72px;
-  --t-flujo:        14s;   /* lo que tarda una nota en cruzar su mitad */
   --t-proceso:      3.5s;  /* giro del núcleo */
-  --t-salida:       21s;   /* lo que tarda un proceso limpio en cruzar su mitad */
-  --t-salida-movil: 10s;
+  --t-turno:        6s;    /* T: cada etiqueta dura 5T y solo se mueve en el primer 20% (= T); 5 por carril, un carril desfasado T/2 */
 }

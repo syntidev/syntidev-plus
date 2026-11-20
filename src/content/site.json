@@ -308,6 +308,10 @@
   },
   "footer": {
     "izquierda": "© 2026 SYNTIdev · Fundado por Carlos Bolívar",
+    "legal": [
+      { "texto": "Privacidad", "href": "/privacidad" },
+      { "texto": "Términos", "href": "/terminos" }
+    ],
     "derecha": "Venezuela, México y atención remota"
   },
   "transformacion": {
@@ -318,18 +322,24 @@
       "¿Quién me debe?",
       "Notas perdidas",
       "Errores en caja",
-      "Tasa calculada a mano",
+      "Decisiones a ciegas",
+      "Reportes que llegan tarde",
       "Inventario que no cuadra",
+      "Sucursales desconectadas",
       "Todo en una sola computadora",
-      "Cada quien anota a su manera"
+      "Todo depende de una persona"
     ],
     "salida": [
       "Caja cuadrada",
       "Cartera al día",
-      "Pagos conciliados",
-      "Inventario en tiempo real",
-      "Opera desde el celular",
-      "Reportes claros"
+      "Reportes al día",
+      "Indicadores (KPI) a la vista",
+      "Estado de resultados claro",
+      "Alertas antes del problema",
+      "Procesos automatizados",
+      "Trazabilidad de cada orden",
+      "Sucursales en un solo panel",
+      "Opera desde el celular"
     ]
   }
 }
