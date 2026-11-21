@@ -315,31 +315,19 @@
     "derecha": "Venezuela, México y atención remota"
   },
   "transformacion": {
-    "etiquetaEntrada": "Lo que llega",
-    "etiquetaSalida": "Lo que sale",
-    "entrada": [
-      "Ventas sin control",
-      "¿Quién me debe?",
-      "Notas perdidas",
-      "Errores en caja",
-      "Decisiones a ciegas",
-      "Reportes que llegan tarde",
-      "Inventario que no cuadra",
-      "Sucursales desconectadas",
-      "Todo en una sola computadora",
-      "Todo depende de una persona"
-    ],
-    "salida": [
-      "Caja cuadrada",
-      "Cartera al día",
-      "Reportes al día",
-      "Indicadores (KPI) a la vista",
-      "Estado de resultados claro",
-      "Alertas antes del problema",
-      "Procesos automatizados",
-      "Trazabilidad de cada orden",
-      "Sucursales en un solo panel",
-      "Opera desde el celular"
+    "tituloAntes": "Así nos llega un negocio.",
+    "titulo": "Así lo dejamos funcionando.",
+    "tituloEspejo": "¿Así quieres volver a trabajar?",
+    "invita": "Cuéntanos tu caso",
+    "pares": [
+      { "problema": "Ventas sin control", "solucion": "Caja cuadrada", "beneficio": "Cada venta queda registrada." },
+      { "problema": "¿Quién me debe?", "solucion": "Cartera al día", "beneficio": "Sabes quién debe y desde cuándo." },
+      { "problema": "Notas perdidas", "solucion": "Trazabilidad de cada orden", "beneficio": "Cada orden deja rastro." },
+      { "problema": "Reportes que llegan tarde", "solucion": "Reportes al día", "beneficio": "Los números listos, sin esperar." },
+      { "problema": "Decisiones a ciegas", "solucion": "Indicadores a la vista", "beneficio": "Decides con datos, no a ciegas." },
+      { "problema": "Sucursales desconectadas", "solucion": "Sucursales en un solo panel", "beneficio": "Todas tus sedes en una pantalla." },
+      { "problema": "Todo en una sola computadora", "solucion": "Opera desde el celular", "beneficio": "Si falla la computadora, sigues." },
+      { "problema": "Todo depende de una persona", "solucion": "Procesos automatizados", "beneficio": "El negocio no se detiene si alguien falta." }
     ]
   }
 }

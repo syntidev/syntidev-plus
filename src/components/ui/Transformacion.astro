@@ -1,197 +1,256 @@
 ---
-// La transformación: por la izquierda llega el caos del negocio (notas torcidas,
-// dudas, errores), entra al isotipo de SYNTI, y por la derecha sale ordenado en
-// carriles rectos. CSS puro.
-// "Lo que sale": 2 carriles, 5 etiquetas por carril, UNA a la vez. Cada etiqueta dura
-// 5T y solo se mueve en el primer 20% de su ciclo (el resto está oculta): nunca se enciman.
-// Delay = k × T dentro del carril; el segundo carril va desfasado T/2.
+// La transformación: cada problema del negocio se convierte en su solución.
+// Guiada por el scroll (CSS puro, animation-timeline): bajar ordena y voltea las
+// notas; subir devuelve al caos. "Espejo": si el visitante ya vio todo ordenado y
+// vuelve a subir, la escena le pregunta y le ofrece conversar (script de ~0,5 KB).
+// Longhands de animation a propósito: con el shorthand el minificador fusiona
+// animation-timeline y Chrome lo descarta (ver global.css, .revela).
 import site from '../../content/site.json';
 const { transformacion: tf } = site;
+
+// Desorden inicial, en % del tamaño de la carta: [dx, dy] escritorio (4 col),
+// [mdx, mdy] móvil (2 col) y giro en grados. Elegidos para que ninguna nota tape a otra.
+const desorden = [
+  [238, 218, 108, 258, -8], [-92, -12, -103, 0, 6], [119, 29, 103, -101, -5], [-238, 288, -97, 258, 10],
+  [173, -115, 0, -101, 7], [238, 69, 5, 157, -11], [-81, 17, 103, -196, 4], [-335, 35, -97, -90, -7],
+];
 ---
 
-<div class="tf" aria-label="De problemas sueltos a procesos ordenados">
-  <p class="eti tf__eti tf__eti--in">{tf.etiquetaEntrada}</p>
-  <p class="eti tf__eti tf__eti--out">{tf.etiquetaSalida}</p>
-
-  <!-- Guías: a la izquierda trazos ondulados e irregulares, a la derecha carriles rectos -->
-  <svg class="tf__guias" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
-    <path class="guia guia--caos" d="M0,80 C80,40 140,140 220,90 S360,30 430,150 L500,150" />
-    <path class="guia guia--caos" d="M0,220 C70,260 150,170 230,230 S360,270 430,150 L500,150" />
-    <path class="guia guia--orden" d="M500,150 L560,110 L1000,110" />
-    <path class="guia guia--orden" d="M500,150 L560,190 L1000,190" />
-  </svg>
-
-  <ul class="tf__caos" aria-label={tf.etiquetaEntrada}>
-    {tf.entrada.map((t) => <li><span>{t}</span></li>)}
-  </ul>
-
-  <div class="tf__nucleo" aria-hidden="true">
-    <svg viewBox="0 0 100 100">
-      <g class="nucleo__giro">
+<section class="tf" aria-labelledby="tf-titulo">
+  <div class="tf__pegado wrap">
+    <div class="tf__cab">
+      <svg class="tf__iso" viewBox="0 0 100 100" aria-hidden="true">
         <path d="M 18,18 L 48,18 Q 54,18 54,24 L 54,30 L 30,30 L 30,54 L 24,54 Q 18,54 18,48 Z" />
         <path d="M 82,82 L 52,82 Q 46,82 46,76 L 46,70 L 70,70 L 70,46 L 76,46 Q 82,46 82,52 Z" />
-      </g>
-      <circle class="nucleo__punto" cx="71" cy="29" r="13" />
-      <circle class="nucleo__punto nucleo__punto--2" cx="29" cy="71" r="13" />
-    </svg>
-  </div>
+        <circle class="tf__punto" cx="71" cy="29" r="13" />
+        <circle class="tf__punto" cx="29" cy="71" r="13" />
+      </svg>
+      <div class="tf__titulos">
+        <p class="tf__antes" aria-hidden="true">
+          <span class="tf__normal">{tf.tituloAntes}</span><span class="tf__espejo">{tf.tituloEspejo}</span>
+        </p>
+        <h2 class="tf__despues" id="tf-titulo">{tf.titulo}</h2>
+        <a class="btn btn--accion tf__invita" href="#contacto" tabindex="-1">{tf.invita}</a>
+      </div>
+    </div>
 
-  <ul class="tf__orden" aria-label={tf.etiquetaSalida}>
-    {tf.salida.map((t) => <li><span>{t}</span></li>)}
-  </ul>
-</div>
+    <ul class="tf__tablero">
+      {tf.pares.map((p, i) => {
+        const [dx, dy, mdx, mdy, r] = desorden[i % desorden.length];
+        return (
+          <li class="carta" style={`--i:${i};--dx:${dx};--dy:${dy};--mdx:${mdx};--mdy:${mdy};--r:${r}`}>
+            <div class="carta__giro">
+              <p class="cara cara--problema" aria-hidden="true">{p.problema}</p>
+              <p class="cara cara--solucion">
+                <span class="cara__antes">{p.problema}</span>
+                <b>{p.solucion}</b>
+                <small>{p.beneficio}</small>
+              </p>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
+
+<script>
+  // Espejo: solo si ya vio la escena completa y está subiendo de vuelta.
+  const s = document.querySelector<HTMLElement>('.tf');
+  const invita = s?.querySelector<HTMLAnchorElement>('.tf__invita');
+  if (s && invita && !matchMedia('(prefers-reduced-motion: reduce)').matches && CSS.supports('animation-timeline: view()')) {
+    let y = scrollY;
+    let visto = false;
+    const avance = () => { const r = s.getBoundingClientRect(); return -r.top / (r.height - innerHeight); };
+    addEventListener('scroll', () => {
+      const n = scrollY;
+      const v = avance();
+      if (v >= 0.9) visto = true;
+      const espejo = visto && n < y && v < 0.85 && v > -0.2;
+      if (espejo) { s.dataset.espejo = ''; invita.tabIndex = 0; }
+      else if (n > y) { delete s.dataset.espejo; invita.tabIndex = -1; }
+      y = n;
+    }, { passive: true });
+  }
+</script>
 
 <style>
   .tf {
-    position: relative;
-    container-type: inline-size;
-    height: var(--tf-alto);
-    overflow: hidden;
+    --tf-k: var(--tf-desorden);
+    --carta: var(--tf-carta);
+    height: var(--tf-escena);
+    view-timeline: --tf block;
+    overflow-x: clip;
+    background: var(--espuma);
     border-block: var(--borde);
-    background: var(--espuma);
+  }
+  .tf__pegado {
+    /* Pegado bajo la barra de navegación fija */
+    position: sticky; top: var(--nav-alto);
+    height: calc(100vh - var(--nav-alto)); height: calc(100svh - var(--nav-alto));
+    display: grid; align-content: center;
+    gap: clamp(var(--s-5), 5vh, var(--s-8));
   }
 
-  .tf__eti { position: absolute; top: var(--s-4); z-index: 3; }
-  .tf__eti--in { left: var(--margen); }
-  .tf__eti--out { right: var(--margen); color: var(--caribe); }
-
-  /* Guías */
-  .tf__guias { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .guia { fill: none; vector-effect: non-scaling-stroke; }
-  .guia--caos { stroke: var(--coral); stroke-width: 1; stroke-dasharray: 3 6; opacity: .35; }
-  .guia--orden { stroke: var(--caribe); stroke-width: 1.5; opacity: .3; }
-
-  /* Núcleo: el isotipo procesa */
-  .tf__nucleo {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: var(--tf-nucleo);
-    height: var(--tf-nucleo);
-    translate: -50% -50%;
-    z-index: 2;
-    background: var(--espuma);
-    border-radius: var(--radio-pill);
-    box-shadow: 0 0 0 var(--s-3) var(--espuma);
+  /* Cabecera: isotipo + títulos superpuestos */
+  .tf__cab { display: flex; align-items: center; gap: var(--s-4); }
+  .tf__iso { width: var(--iso); height: var(--iso); flex: none; transform-origin: center; }
+  .tf__iso path { fill: var(--caribe); }
+  .tf__punto { fill: var(--sol); }
+  .tf__titulos { display: grid; align-items: center; }
+  .tf__antes, .tf__despues {
+    grid-area: 1 / 1;
+    font: 600 var(--fs-h2) / var(--interlinea-titulo) var(--fuente-titulo);
+    text-wrap: balance;
   }
-  .tf__nucleo svg { width: 100%; height: 100%; overflow: visible; }
-  /* Periodo = 1 turno, delay = 2 turnos: arranca justo cuando llega la primera nota y repite con cada una */
-  .nucleo__giro { fill: var(--caribe); transform-origin: 50px 50px; animation: tf-procesa var(--t-turno) var(--ola-marea) calc(var(--t-turno) * 2) infinite both; }
-  .nucleo__punto { fill: var(--sol); transform-origin: 50px 50px; animation: tf-late var(--t-turno) var(--ola-suave) calc(var(--t-turno) * 2) infinite both; }
-  /* Gira al llegar la nota (inicio del ciclo). 180° es simétrico para los dos corchetes: el reinicio no se nota */
-  @keyframes tf-procesa {
-    0% { transform: rotate(0deg); }
-    40%, 100% { transform: rotate(180deg); }
+  .tf__despues { color: var(--caribe); }
+  .tf__espejo { display: none; color: var(--caribe); }
+  .tf[data-espejo] .tf__normal { display: none; }
+  .tf[data-espejo] .tf__espejo { display: inline; }
+  .tf__invita {
+    grid-area: 2 / 1; justify-self: start; margin-top: var(--s-3);
+    opacity: 0; visibility: hidden;
+    transition: opacity var(--t-rapido) var(--ola-suave), visibility var(--t-rapido);
   }
-  @keyframes tf-late {
-    0%, 100% { transform: scale(1); }
-    25% { transform: scale(1.12); }
-  }
+  .tf[data-espejo] .tf__invita { opacity: 1; visibility: visible; }
 
-  .tf__caos li, .tf__orden li {
-    position: absolute;
-    left: 0;
-    top: 0;
-    white-space: nowrap;
-    will-change: transform, opacity;
+  /* Tablero */
+  .tf__tablero {
+    list-style: none; padding: 0; margin: 0;
+    display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: var(--carta);
+    gap: var(--s-4);
+    perspective: 1400px;
+    margin-bottom: calc(var(--carta) * 1.5);
   }
-
-  /* ── Entrada: cada nota dura 10 turnos, sale cada turno (delay k × turno) y viaja 2 turnos al núcleo ── */
-  /* --xe: borde derecho donde termina la nota, siempre antes del núcleo (nunca pasa por debajo) */
-  .tf__caos li { --xe: calc(50cqw - var(--tf-nucleo) / 2 - var(--s-4)); animation: tf-llega calc(var(--t-turno) * 10) linear infinite both; animation-delay: calc(var(--t-turno) * var(--k)); }
-  .tf__caos span {
-    display: inline-block;
-    padding: var(--s-1) var(--s-3);
-    background: var(--espuma);
-    border: 1px solid color-mix(in srgb, var(--coral) 60%, transparent);
+  .carta { position: relative; z-index: calc(10 - var(--i)); }
+  .carta__giro { position: relative; height: 100%; transform-style: preserve-3d; }
+  .cara {
+    position: absolute; inset: 0; margin: 0;
+    backface-visibility: hidden;
+    display: flex; align-items: center;
+    padding: var(--s-4) var(--s-5);
+  }
+  .cara--problema {
+    background: var(--blanco);
+    border: var(--borde);
     border-radius: var(--radio);
-    font: italic 400 var(--texto-base) var(--fuente-titulo);
+    box-shadow: 0 10px 24px -14px rgba(20, 33, 43, .35);
+    font: italic 400 var(--fs-cita) / 1.25 var(--fuente-titulo);
     color: var(--tinta);
-    animation: tf-tambalea 2.8s var(--ola-marea) infinite alternate;
   }
-  /* Ciclo de 10 turnos: nace fuera del borde izquierdo, viaja 2 turnos (0 a 20%) con ease-in (se acelera al ser
-     absorbida), llega con scale .6, giro 0 y opacity 0; opaca hasta el 85% del recorrido (17%) y oculta el resto */
-  @keyframes tf-llega {
-    0%   { transform: translate(-100%, var(--y)); rotate: var(--r); scale: 1; opacity: 0; visibility: hidden; animation-timing-function: cubic-bezier(.55, 0, 1, .45); }
-    3%   { opacity: 1; visibility: visible; }
-    17%  { opacity: 1; }
-    20%  { transform: translate(calc(var(--xe) - 100%), calc(var(--yf) - 50%)); rotate: 0deg; scale: .6; opacity: 0; visibility: hidden; }
-    100% { transform: translate(calc(var(--xe) - 100%), calc(var(--yf) - 50%)); rotate: 0deg; scale: .6; opacity: 0; visibility: hidden; }
+  /* La cinta adhesiva: lo provisional */
+  .cara--problema::before {
+    content: ""; position: absolute; top: -9px; left: calc(50% - 32px);
+    width: 64px; height: 18px;
+    background: var(--sol); opacity: .55;
+    transform: rotate(-3deg);
   }
-  @keyframes tf-tambalea { from { rotate: -3deg; } to { rotate: 3deg; } }
+  .cara--solucion {
+    transform: rotateY(180deg);
+    flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: var(--s-1);
+    padding-top: var(--s-7);
+    border-radius: calc(var(--radio) * 2.5);
+    background: linear-gradient(160deg, var(--caribe) 0%, var(--mar-noche) 120%);
+    color: var(--blanco);
+    box-shadow: 0 18px 34px -18px rgba(14, 47, 61, .7);
+  }
+  .cara--solucion b { font: 600 var(--fs-h3) / 1.2 var(--fuente-texto); }
+  .cara--solucion small { font: 400 var(--fs-peq) / 1.35 var(--fuente-texto); color: var(--sobre-oscuro-suave); }
+  /* La luz de estado: el sistema encendido */
+  .cara--solucion::before {
+    content: ""; position: absolute; top: var(--s-4); left: var(--s-5);
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--sol);
+  }
+  .cara__antes { display: none; }
 
-  /* Carril (arriba/abajo), turno k y giro de cada una de las 10 notas */
-  /* cada carril entra al núcleo por su lado (40% / 60%), sin converger al mismo punto */
-  .tf__caos li:nth-child(odd)  { --y: calc(var(--tf-alto) * .24); --yf: calc(var(--tf-alto) * .40); }
-  .tf__caos li:nth-child(even) { --y: calc(var(--tf-alto) * .64); --yf: calc(var(--tf-alto) * .60); }
-  .tf__caos li:nth-child(1)  { --k: 0; --r: -6deg; }
-  .tf__caos li:nth-child(2)  { --k: 1; --r: 5deg; }
-  .tf__caos li:nth-child(3)  { --k: 2; --r: -3deg; }
-  .tf__caos li:nth-child(4)  { --k: 3; --r: 7deg; }
-  .tf__caos li:nth-child(5)  { --k: 4; --r: 4deg; }
-  .tf__caos li:nth-child(6)  { --k: 5; --r: -7deg; }
-  .tf__caos li:nth-child(7)  { --k: 6; --r: 6deg; }
-  .tf__caos li:nth-child(8)  { --k: 7; --r: -4deg; }
-  .tf__caos li:nth-child(9)  { --k: 8; --r: 3deg; }
-  .tf__caos li:nth-child(10) { --k: 9; --r: -5deg; }
-  .tf__caos li:nth-child(even) span { animation-duration: 3.6s; }
-
-  /* ── Salida: ciclo de 10 turnos; delay = k × turno + 2.2 turnos (después de que el núcleo procesa la nota k) ── */
-  /* ease-out (--ola-suave) va en el elemento: var() no se resuelve dentro de un keyframe */
-  .tf__orden li { animation: tf-sale calc(var(--t-turno) * 10) var(--ola-suave) infinite both; animation-delay: calc(var(--t-turno) * (var(--k) + 2.2)); }
-  .tf__orden span {
-    display: inline-flex;
-    align-items: center;
-    padding: var(--s-1) var(--s-3);
-    background: var(--espuma);
-    border: 1px solid var(--caribe);
-    border-radius: var(--radio-pill);
-    font: 500 var(--fs-eti) var(--fuente-mono);
-    letter-spacing: .04em;
-    text-transform: uppercase;
-    color: var(--caribe);
+  /* ── Escena (solo con soporte y sin movimiento reducido) ── */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .carta {
+        transform: translate(calc(var(--dx) * var(--tf-k) * 1%), calc(var(--dy) * var(--tf-k) * 1%)) rotate(calc(var(--r) * 1deg));
+        animation-name: tf-ordena; animation-fill-mode: both; animation-timing-function: var(--ola-suave);
+        animation-timeline: --tf;
+        animation-range: contain calc(10% + var(--i) * 3%) contain calc(36% + var(--i) * 3%);
+      }
+      .carta__giro {
+        animation-name: tf-voltea; animation-fill-mode: both; animation-timing-function: var(--ola-suave);
+        animation-timeline: --tf;
+        animation-range: contain calc(56% + var(--i) * 3.5%) contain calc(70% + var(--i) * 3.5%);
+      }
+      .cara--problema::before {
+        animation-name: tf-despega; animation-fill-mode: both; animation-timing-function: ease-in;
+        animation-timeline: --tf;
+        animation-range: contain calc(48% + var(--i) * 3.5%) contain calc(56% + var(--i) * 3.5%);
+      }
+      .cara--solucion::before {
+        animation-name: tf-enciende; animation-fill-mode: both; animation-timing-function: linear;
+        animation-timeline: --tf;
+        animation-range: contain calc(58% + var(--i) * 3.5%) contain calc(72% + var(--i) * 3.5%);
+      }
+      .tf__iso {
+        animation-name: tf-gira; animation-fill-mode: both; animation-timing-function: linear;
+        animation-timeline: --tf; animation-range: contain 30% contain 75%;
+      }
+      .tf__antes {
+        animation-name: tf-sale-texto; animation-fill-mode: both; animation-timing-function: linear;
+        animation-timeline: --tf; animation-range: contain 44% contain 54%;
+      }
+      .tf__despues {
+        animation-name: tf-entra-texto; animation-fill-mode: both; animation-timing-function: linear;
+        animation-timeline: --tf; animation-range: contain 52% contain 62%;
+      }
+    }
   }
-  /* Nace en el núcleo con scale .6 y opacity 0, sube a scale 1 y opacity 1 al 6% (0.6 turnos) y viaja 2 turnos
-     (0 a 20%) al borde derecho con ease-out (desacelera); se desvanece a los 2.25 turnos (22.5%). Sin rotación */
-  @keyframes tf-sale {
-    0%    { transform: translate(calc(50cqw - 50%), calc(var(--tf-alto) / 2 - 50%)); scale: .6; opacity: 0; visibility: hidden; }
-    6%    { scale: 1; opacity: 1; visibility: visible; }
-    20%   { transform: translate(calc(100cqw - 100% - var(--margen)), calc(var(--carril) - 50%)); opacity: 1; }
-    22.5% { opacity: 0; visibility: hidden; }
-    100%  { transform: translate(calc(100cqw - 100% - var(--margen)), calc(var(--carril) - 50%)); scale: 1; opacity: 0; visibility: hidden; }
+  @keyframes tf-ordena { to { transform: none; } }
+  @keyframes tf-voltea {
+    0% { transform: rotateY(0); }
+    50% { transform: translateZ(var(--tf-elevacion)) rotateY(90deg) scale(1.06); }
+    100% { transform: rotateY(180deg); }
   }
-  .tf__orden li:nth-child(odd)  { --carril: calc(var(--tf-alto) * .3667); }
-  .tf__orden li:nth-child(even) { --carril: calc(var(--tf-alto) * .6333); }
-  /* k = 0..9: una etiqueta por turno, carriles alternados (impares arriba, pares abajo) */
-  .tf__orden li:nth-child(1)  { --k: 0; }
-  .tf__orden li:nth-child(2)  { --k: 1; }
-  .tf__orden li:nth-child(3)  { --k: 2; }
-  .tf__orden li:nth-child(4)  { --k: 3; }
-  .tf__orden li:nth-child(5)  { --k: 4; }
-  .tf__orden li:nth-child(6)  { --k: 5; }
-  .tf__orden li:nth-child(7)  { --k: 6; }
-  .tf__orden li:nth-child(8)  { --k: 7; }
-  .tf__orden li:nth-child(9)  { --k: 8; }
-  .tf__orden li:nth-child(10) { --k: 9; }
-
-  /* ── Móvil: las 10 se muestran en turnos, sin encimarse, y pueden partir en dos líneas ── */
-  @media (max-width: 700px) {
-    .tf { --tf-alto: var(--tf-alto-movil); }
-    .tf__nucleo { width: var(--tf-nucleo-movil); height: var(--tf-nucleo-movil); }
-    /* Las notas terminan a la izquierda del núcleo y las etiquetas arrancan a su derecha: nunca se cruzan */
-    .tf__orden li, .tf__caos li { white-space: normal; }
-    .tf__caos li { max-width: 38cqw; --xe: calc(50cqw - var(--tf-nucleo-movil) / 2 - var(--s-2)); }
-    .tf__orden li { max-width: 34cqw; }
-    .tf__orden span { text-align: center; font-size: var(--fs-eti); }
+  @keyframes tf-despega { to { transform: translate(40px, -70px) rotate(38deg); opacity: 0; } }
+  @keyframes tf-enciende {
+    0%, 60% { box-shadow: 0 0 0 0 rgba(233, 180, 76, 0); }
+    80% { box-shadow: 0 0 0 6px rgba(233, 180, 76, .35); }
+    100% { box-shadow: 0 0 0 3px rgba(233, 180, 76, .18); }
   }
+  @keyframes tf-gira { to { transform: rotate(180deg); } }
+  @keyframes tf-sale-texto { to { opacity: 0; translate: 0 -12px; } }
+  @keyframes tf-entra-texto { from { opacity: 0; translate: 0 12px; } to { opacity: 1; translate: 0 0; } }
 
-  /* Sin movimiento: composición quieta y legible, caos a la izquierda, orden a la derecha */
+  /* ── Sin escena: estado final legible, problema tachado sobre su solución ── */
+  @supports not (animation-timeline: view()) {
+    .tf { height: auto; }
+    .tf__pegado { position: static; height: auto; padding-block: var(--s-8); }
+    .tf__tablero { margin-bottom: 0; grid-auto-rows: auto; }
+    .tf__antes, .cara--problema, .cara--solucion::before { display: none; }
+    .cara { position: static; min-height: var(--carta); }
+    .cara--solucion { transform: none; padding-top: var(--s-4); justify-content: center; }
+    .cara__antes { display: block; font: italic 400 var(--fs-peq) / 1.3 var(--fuente-titulo); color: var(--sobre-oscuro-suave); text-decoration: line-through; }
+  }
   @media (prefers-reduced-motion: reduce) {
-    .tf__caos li, .tf__orden li { animation: none !important; opacity: 1; }
-    .tf__caos li { transform: translate(var(--margen), var(--y)) rotate(var(--r)) scale(1); }
-    .tf__caos li:nth-child(n + 5), .tf__orden li:nth-child(n + 5) { display: none; }
-    .tf__orden li { transform: translate(calc(60cqw), calc(var(--carril) - 50%)); }
-    .tf__orden li:nth-child(3) { transform: translate(calc(75cqw), calc(var(--carril) - 50%)); }
-    .tf__orden li:nth-child(4) { transform: translate(calc(75cqw), calc(var(--carril) - 50%)); }
+    .tf { height: auto; }
+    .tf__pegado { position: static; height: auto; padding-block: var(--s-8); }
+    .tf__tablero { margin-bottom: 0; grid-auto-rows: auto; }
+    .tf__antes, .cara--problema, .cara--solucion::before { display: none; }
+    .cara { position: static; min-height: var(--carta); }
+    .cara--solucion { transform: none; padding-top: var(--s-4); justify-content: center; }
+    .cara__antes { display: block; font: italic 400 var(--fs-peq) / 1.3 var(--fuente-titulo); color: var(--sobre-oscuro-suave); text-decoration: line-through; }
+  }
+
+  @media (max-width: 760px) {
+    .tf { height: var(--tf-escena-movil); --carta: var(--tf-carta-movil); }
+    .tf__tablero { grid-template-columns: repeat(2, 1fr); gap: var(--s-3); margin-bottom: calc(var(--carta) * .45); }
+    .cara { padding: var(--s-3) var(--s-4); }
+    .cara--solucion { padding-top: var(--s-6); }
+    .cara--solucion b { font-size: 16px; }
+    .cara--solucion small { font-size: 13px; line-height: 1.3; }
+    .tf__pegado { gap: var(--s-4); }
+    .cara--solucion::before { top: var(--s-3); left: var(--s-4); }
+  }
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) and (max-width: 760px) {
+      .carta { transform: translate(calc(var(--mdx) * 1%), calc(var(--mdy) * 1%)) rotate(calc(var(--r) * 1deg)); }
+    }
   }
 </style>

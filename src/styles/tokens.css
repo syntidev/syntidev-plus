@@ -78,10 +78,11 @@
   --sombra-elevada: 0 1px 0 var(--linea), 0 12px 32px -16px rgba(14, 47, 61, .18);
 
   /* Movimiento adicional */
-  /* La transformación: caos que entra, orden que sale */
-  --tf-alto:        300px;
-  --tf-alto-movil:  360px;
-  --tf-nucleo:      96px;
-  --tf-nucleo-movil: 72px;
-  --t-turno:        3s;    /* ritmo único: cada ítem dura 10T, entra una nota por turno, viaja 2T, el núcleo procesa 1T y la salida sale 2.2T después */
+  /* Transformación: escena de tarjetas guiada por scroll (problema → solución) */
+  --tf-escena:       320vh;  /* recorrido de scroll de la escena (escritorio) */
+  --tf-escena-movil: 300vh;
+  --tf-carta:        clamp(128px, 17vh, 160px);
+  --tf-carta-movil:  clamp(104px, 14vh, 124px);
+  --tf-desorden:     1;      /* intensidad del desorden inicial (0 = ordenado) */
+  --tf-elevacion:    60px;   /* cuánto se levanta la tarjeta al voltear */
 }
