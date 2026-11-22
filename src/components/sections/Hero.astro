@@ -7,10 +7,10 @@ const { hero } = site;
 const e = hero.escena;
 ---
 
-<section class="hero puntos formas" id="inicio">
-  <div class="forma f-corchete" aria-hidden="true"><svg viewBox="0 0 100 100"><path class="L" d="M8 92V24Q8 8 24 8H92" /></svg></div>
-  <div class="forma f-orbita" aria-hidden="true"><svg viewBox="0 0 100 100"><circle class="c" cx="50" cy="50" r="48" stroke-width="1.6" /></svg></div>
-  <div class="forma f-punto" aria-hidden="true"><svg viewBox="0 0 10 10"><circle class="s" cx="5" cy="5" r="5" /></svg></div>
+<section class="hero puntos figuras" id="inicio">
+  <div class="figura f-corchete" aria-hidden="true"><svg viewBox="0 0 100 100"><path class="L" d="M8 92V24Q8 8 24 8H92" /></svg></div>
+  <div class="figura f-orbita" aria-hidden="true"><svg viewBox="0 0 100 100"><circle class="c" cx="50" cy="50" r="48" stroke-width="1.6" /></svg></div>
+  <div class="figura f-punto" aria-hidden="true"><svg viewBox="0 0 10 10"><circle class="s" cx="5" cy="5" r="5" /></svg></div>
 
   <div class="wrap hero__in">
     <div class="hero__texto">
@@ -105,7 +105,7 @@ const e = hero.escena;
     @keyframes tf-tel { from { opacity: 0; translate: -18px 36px; rotate: -4deg; } }
     @supports (animation-timeline: view()) {
       .hero { view-timeline: --hero block; }
-      .forma {
+      .figura {
         animation-name: hero-paralaje; animation-timing-function: linear; animation-fill-mode: both;
         animation-timeline: --hero; animation-range: exit 0% exit 100%;
       }

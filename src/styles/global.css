@@ -162,9 +162,9 @@ img, svg { display: block; max-width: 100%; }
 .banda .btn:not(.btn--accion) { border-color: rgba(255, 255, 255, .5); color: var(--sobre-oscuro); }
 
 /* Formas de marca: proporción fija, tamaño por contenedor, detrás del contenido */
-.formas { container-type: inline-size; }
-.forma { position: absolute; pointer-events: none; z-index: -1; }
-.forma svg { width: 100%; height: auto; }
-.forma .c { fill: none; stroke: var(--marca); stroke-opacity: .2; }
-.forma .L { fill: none; stroke: var(--marca); stroke-opacity: .2; stroke-width: 7; stroke-linecap: round; }
-.forma .s { fill: var(--senal); }
+.figuras { container-type: inline-size; }
+.figura { position: absolute; pointer-events: none; z-index: -1; }
+.figura svg { width: 100%; height: auto; }
+.figura .c { fill: none; stroke: var(--marca); stroke-opacity: .2; }
+.figura .L { fill: none; stroke: var(--marca); stroke-opacity: .2; stroke-width: 7; stroke-linecap: round; }
+.figura .s { fill: var(--senal); }
