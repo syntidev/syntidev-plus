@@ -23,8 +23,12 @@
         "href": "#cuaderno"
       },
       {
-        "texto": "Piezas",
-        "href": "#piezas"
+        "texto": "Por dónde empezar",
+        "href": "#escalera"
+      },
+      {
+        "texto": "Casos",
+        "href": "#casos"
       }
     ],
     "cta": "Conversemos"
