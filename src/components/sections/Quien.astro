@@ -3,7 +3,7 @@ import site from '../../content/site.json';
 const { quien } = site;
 ---
 
-<section class="sec" id="quien">
+<section class="sec banda puntos" id="quien">
   <div class="wrap">
     <div class="sec__cab revela">
       <h2>{quien.titulo}</h2>
@@ -39,15 +39,15 @@ const { quien } = site;
   .firma { max-width: var(--ancho-cita); margin-bottom: var(--s-8); }
   .firma blockquote {
     font: 400 var(--fs-cita) / 1.45 var(--fuente-titulo);
-    border-left: var(--linea-acento) solid var(--coral);
+    border-left: var(--linea-acento) solid var(--sol);
     padding-left: var(--s-5);
   }
   .firma figcaption { margin: var(--s-4) 0 0 calc(var(--s-5) + var(--linea-acento)); font-size: var(--fs-peq); color: var(--grafito); }
   .firma b { color: var(--tinta); }
 
-  .oficios { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: var(--borde-tinta); background: var(--espuma); }
-  .oficio { padding: var(--s-6); border-right: var(--borde-tinta); display: flex; flex-direction: column; gap: var(--s-3); }
-  .oficio:last-child { border-right: 0; }
+  .oficios { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-4); }
+  .oficio { border-radius: var(--r-tarjeta); background: var(--banda-superficie-luz); box-shadow: var(--e2-banda), var(--luz-borde-banda); }
+  .oficio { padding: var(--s-6); display: flex; flex-direction: column; gap: var(--s-3); }
   .oficio h3 { font-size: var(--fs-h3); }
   .oficio__texto { font-size: var(--fs-peq); color: var(--grafito); flex: 1; }
   .oficio__origen { font: 400 var(--fs-eti) / 1.6 var(--fuente-mono); color: var(--grafito); letter-spacing: .02em; }
@@ -59,7 +59,5 @@ const { quien } = site;
 
   @media (max-width: 860px) {
     .oficios, .invisible { grid-template-columns: minmax(0, 1fr); }
-    .oficio { border-right: 0; border-bottom: var(--borde-tinta); }
-    .oficio:last-child { border-bottom: 0; }
   }
 </style>

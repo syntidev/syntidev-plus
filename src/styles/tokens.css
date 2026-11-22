@@ -86,3 +86,39 @@
   --tf-desorden:     1;      /* intensidad del desorden inicial (0 = ordenado) */
   --tf-elevacion:    60px;   /* cuánto se levanta la tarjeta al voltear */
 }
+
+/* ── Sistema visual v2: roles, elevación y luz (ver .doc/SISTEMA_VISUAL.md) ── */
+:root {
+  /* Roles semánticos: los componentes nuevos usan estos, no los primitivos */
+  --fondo:             var(--arena);
+  --fondo-alterno:     var(--espuma);
+  --superficie:        var(--blanco);
+  --banda:             var(--mar-noche);
+  --banda-superficie:  var(--caribe);
+  --texto:             var(--tinta);
+  --texto-suave:       var(--grafito);
+  --marca:             var(--caribe);
+  --accion:            var(--coral);
+  --senal:             var(--sol);
+  --semaforo-ok:       #3FB37F;
+  --semaforo-riesgo:   #E0664A;
+
+  /* Elevación: una sola luz cenital; sombra de contacto + ambiente, teñida de mar-noche */
+  --e1: 0 1px 2px rgba(14, 47, 61, .08), 0 6px 14px -8px rgba(14, 47, 61, .14);
+  --e2: 0 2px 4px rgba(14, 47, 61, .10), 0 18px 36px -16px rgba(14, 47, 61, .24);
+  --e3: 0 4px 8px rgba(14, 47, 61, .12), 0 36px 72px -28px rgba(14, 47, 61, .34);
+  --e2-banda: 0 2px 4px rgba(0, 0, 0, .16), 0 22px 40px -18px rgba(0, 0, 0, .45);
+  --luz-borde:       inset 0 1px 0 rgba(255, 255, 255, .55);
+  --luz-borde-banda: inset 0 1px 0 rgba(255, 255, 255, .14);
+  --brillo-accion:   0 10px 26px -8px rgba(201, 68, 42, .55);
+  --superficie-luz:  linear-gradient(180deg, #FFFFFF, #FBF9F4);
+  --banda-superficie-luz: linear-gradient(170deg, #11698A, var(--caribe) 42%, #0A4E67);
+
+  /* Radios por jerarquía */
+  --r-nota: 4px;  --r-tarjeta: 10px;  --r-ventana: 16px;  --r-pill: 999px;
+
+  /* Textura de tecnología: cuadrícula de puntos */
+  --puntos:        rgba(11, 93, 122, .14);
+  --puntos-banda:  rgba(46, 139, 168, .22);
+  --puntos-paso:   24px;
+}

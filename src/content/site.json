@@ -38,6 +38,12 @@
     "bajada": "Entendemos cómo trabaja tu negocio y lo resolvemos sobre piezas que ya funcionan en otros: más rápido, más barato y con menos riesgo.",
     "ctaPrincipal": "Cuéntanos tu caso",
     "ctaSecundario": "Ver el cuaderno de campo",
+    "escena": {
+      "barra": "activopos.com/catalogo",
+      "ventanaAlt": "Catálogo en línea de ActivoPOS con sus categorías de productos",
+      "telefonoAlt": "Tienda en línea hecha con lleva.app vista en un teléfono",
+      "leyenda": "Pantallas reales: catálogo ActivoPOS y tienda lleva.app (demos públicas)."
+    },
     "escuchamos": {
       "titulo": "Lo que escuchamos en los negocios",
       "frases": [
@@ -328,6 +334,181 @@
       { "problema": "Sucursales desconectadas", "solucion": "Sucursales en un solo panel", "beneficio": "Todas tus sedes en una pantalla." },
       { "problema": "Todo en una sola computadora", "solucion": "Opera desde el celular", "beneficio": "Si falla la computadora, sigues." },
       { "problema": "Todo depende de una persona", "solucion": "Procesos automatizados", "beneficio": "El negocio no se detiene si alguien falta." }
+    ]
+  },
+  "escalera": {
+    "titulo": "Todo negocio empieza por algún escalón.",
+    "bajada": "Muchos negocios todavía no aparecen en internet. Empezamos por ahí y crecemos contigo hacia adentro, con piezas que ya funcionan en otros.",
+    "peldanos": [
+      {
+        "titulo": "Aparece",
+        "texto": "Tu página web, propia y rápida. Que te encuentren antes que a la competencia.",
+        "marca": "SYNTIweb",
+        "href": "https://syntiweb.com",
+        "pantallas": [
+          {
+            "src": "/img/pantallas/syntiweb.webp",
+            "w": 1200,
+            "h": 750,
+            "alt": "Página de SYNTIweb"
+          }
+        ]
+      },
+      {
+        "titulo": "Vende",
+        "texto": "Catálogo o menú en línea que recibe pedidos por WhatsApp, ordenados.",
+        "marca": "lleva.app · ordena.menu",
+        "href": "https://lleva.app",
+        "pantallas": [
+          {
+            "src": "/img/pantallas/ordena-menu.webp",
+            "w": 780,
+            "h": 1588,
+            "alt": "Menú digital de Ordena"
+          },
+          {
+            "src": "/img/pantallas/lleva-tienda.webp",
+            "w": 780,
+            "h": 1588,
+            "alt": "Tienda de lleva.app"
+          }
+        ]
+      },
+      {
+        "titulo": "Controla",
+        "texto": "Caja, inventario y finanzas del día. Sabes cuánto vendiste sin cuadrar cuadernos.",
+        "marca": "ActivoPOS",
+        "href": "https://activopos.com",
+        "pantallas": [
+          {
+            "src": "/img/pantallas/activopos-catalogo.webp",
+            "w": 2049,
+            "h": 960,
+            "alt": "Catálogo de ActivoPOS"
+          }
+        ]
+      },
+      {
+        "titulo": "Crece",
+        "texto": "Crédito y cobranza, talleres y flotas. Sistemas que ordenan lo que más dinero mueve.",
+        "marca": "Kredix · MecaFlow",
+        "href": "#casos",
+        "pantallas": []
+      }
+    ],
+    "semaforo": [
+      "Al día",
+      "Atrasado",
+      "En riesgo"
+    ],
+    "ademas": "Además: desarrollos a medida para empresas que operan puertas adentro, y otras soluciones que hoy no están en vitrina."
+  },
+  "casos": {
+    "titulo": "Casos: cómo se conectan los sistemas",
+    "selectorEtiqueta": "Elige un caso",
+    "cta": "Cuéntanos tu caso",
+    "lista": [
+      {
+        "id": "kredix",
+        "nombre": "Kredix",
+        "tipo": "caso real",
+        "real": true,
+        "modo": "circuito",
+        "titulo": "No son módulos sueltos. Es un solo sistema.",
+        "bajada": "Lo construimos para un comercio que vende a cuotas. Cada pago que entra recorre el circuito: se concilia, ordena la cartera y llega al panel admin, sin que nadie lo pase a mano.",
+        "centro": "Panel admin",
+        "nodos": [
+          {
+            "icono": "doc",
+            "nombre": "Venta a crédito",
+            "sub": "Plan de abonos armado",
+            "movil": "Plan de abonos armado"
+          },
+          {
+            "icono": "cobro",
+            "nombre": "Cobro",
+            "sub": "Efectivo o electrónico",
+            "movil": "Efectivo o electrónico, con referencia y comprobante"
+          },
+          {
+            "icono": "check",
+            "nombre": "Conciliación",
+            "sub": "Cada pago validado",
+            "movil": "Cada pago validado; ninguno se pierde",
+            "alPanel": true
+          },
+          {
+            "icono": "semaforo",
+            "nombre": "Cartera",
+            "sub": "Semáforo por antigüedad",
+            "movil": "Semáforo por antigüedad: quién debe y desde cuándo",
+            "alPanel": true
+          },
+          {
+            "icono": "barras",
+            "nombre": "Indicadores",
+            "sub": "Otorgado contra cobrado",
+            "movil": "Dinero en la calle, otorgado contra cobrado",
+            "alPanel": true
+          },
+          {
+            "icono": "llave",
+            "nombre": "Taller",
+            "sub": "Mismos clientes, otro servicio",
+            "movil": "Los mismos clientes, otro servicio"
+          }
+        ],
+        "cierre": "El primer cliente que lo usó se lo recomendó a otra empresa."
+      },
+      {
+        "id": "finca",
+        "nombre": "SYNTIfinca",
+        "tipo": "prototipo",
+        "real": false,
+        "modo": "hub",
+        "titulo": "Lo que pasa en el campo, el dueño lo ve al instante.",
+        "bajada": "Un prototipo de gestión para fincas: almacén, ganado, vehículos y personal comparten datos con un mismo panel. Listo para desarrollarse con quien lo necesite.",
+        "centro": "Panel del dueño",
+        "nodos": [
+          {
+            "icono": "parcelas",
+            "nombre": "Finca",
+            "sub": "Parcelas y configuración",
+            "movil": "Parcelas y configuración"
+          },
+          {
+            "icono": "caja",
+            "nombre": "Almacén",
+            "sub": "Insumos y stock",
+            "movil": "Insumos y stock"
+          },
+          {
+            "icono": "ganado",
+            "nombre": "Ganado",
+            "sub": "Salud y vacunas",
+            "movil": "Salud y vacunas"
+          },
+          {
+            "icono": "tractor",
+            "nombre": "Vehículos",
+            "sub": "Flota y mantenimiento",
+            "movil": "Flota y mantenimiento"
+          },
+          {
+            "icono": "persona",
+            "nombre": "Personal",
+            "sub": "Cada quien en su módulo",
+            "movil": "Cada quien en su módulo"
+          },
+          {
+            "icono": "clima",
+            "nombre": "Clima",
+            "sub": "Para decidir la siembra",
+            "movil": "Para decidir la siembra"
+          }
+        ],
+        "cierre": "¿Tienes una finca o un negocio parecido? Este prototipo puede ser el tuyo."
+      }
     ]
   }
 }

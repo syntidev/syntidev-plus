@@ -1,0 +1,214 @@
+---
+// Casos: Kredix (caso real) y SYNTIfinca (prototipo), conmutables sin JS (radios + :has).
+// Escritorio: hub SVG con pulsos (SMIL, escala con el viewBox). Kredix es un CIRCUITO:
+// el pago recorre el anillo y cada nodo se enciende cuando el pulso llega; desde
+// Conciliación, Cartera e Indicadores baja al panel. SYNTIfinca es un HUB: cada módulo
+// envía y recibe datos del panel. Móvil: el mismo recorrido en columna.
+// Sin capturas ni datos de clientes: interfaz ilustrada.
+import site from '../../content/site.json';
+const { casos } = site;
+
+type P = [number, number];
+const POS: P[] = [[130, 320], [250, 140], [750, 140], [870, 320], [750, 500], [250, 500]]; // orden del recorrido
+const C: P = [500, 320];
+const PERIODO = 3; // s entre pulsos que llegan a un mismo nodo
+const VUELTA = 9; // s que tarda un pulso en dar la vuelta al anillo (3 pulsos desfasados)
+const ICO: Record<string, string> = {
+  doc: 'M4 2h18l8 8v26H4z M22 2v8h8 M10 20h14 M10 28h10',
+  cobro: 'M2 6h32v22H2z M2 13h32 M8 22h8 M24 24l4-4 4 4',
+  check: 'M2 14l8 8L26 6 M14 22l2 2L34 6',
+  barras: 'M2 34h32 M8 34V20 M18 34V8 M28 34V16',
+  llave: 'M24 4a8 8 0 0 0-9 11L4 26l4 4 11-11a8 8 0 0 0 11-9l-5 5-4-1-1-4z',
+  caja: 'M2 10l16-8 16 8v18l-16 8-16-8z M2 10l16 8 16-8 M18 18v18',
+  ganado: 'M6 6c2 4 5 5 8 5h8c3 0 6-1 8-5 M10 11v8c0 6 4 11 8 11s8-5 8-11v-8 M14 22h.01 M22 22h.01 M15 28h6',
+  tractor: 'M4 26a5 5 0 1 0 10 0a5 5 0 1 0-10 0 M24 28a3 3 0 1 0 6 0a3 3 0 1 0-6 0 M8 20V8h10l4 10h8v8 M14 26h10',
+  persona: 'M18 4a6 6 0 1 1 0 12a6 6 0 1 1 0-12 M4 34c0-8 6-13 14-13s14 5 14 13',
+  clima: 'M12 8a6 6 0 0 1 11 2 M8 28h20a6 6 0 0 0 0-12a9 9 0 0 0-17 3a5 5 0 0 0-3 9z',
+  parcelas: 'M2 6h32v26H2z M2 18h32 M16 6v26 M24 18v14',
+};
+const dist = (a: P, b: P) => Math.hypot(a[0] - b[0], a[1] - b[1]);
+const atraso = (fase: number) => -(((PERIODO - fase) % PERIODO + PERIODO) % PERIODO); // begin negativo: ya en marcha al cargar
+
+function fases(modo: string): number[] {
+  if (modo === 'hub') return POS.map((_, i) => i * 0.5);
+  const L = POS.map((p, i) => dist(p, POS[(i + 1) % POS.length]));
+  const total = L.reduce((a, b) => a + b, 0);
+  let acum = 0;
+  return POS.map((_, i) => { const t = ((acum / total) * VUELTA) % PERIODO; acum += L[i]; return t; });
+}
+const anillo = 'M' + POS.map((p) => `${p[0]} ${p[1]}`).join(' L') + ' Z';
+const datos = casos.lista.map((c) => ({ ...c, fases: fases(c.modo) }));
+---
+
+<section class="banda casos puntos" id="casos" aria-labelledby="casos-t">
+  <div class="wrap">
+    <h2 id="casos-t" class="vh">{casos.titulo}</h2>
+    <div class="selector" role="radiogroup" aria-label={casos.selectorEtiqueta}>
+      {datos.map((c, i) => (
+        <>
+          <input type="radio" name="caso" id={`caso-${c.id}`} checked={i === 0} />
+          <label for={`caso-${c.id}`}><span class:list={['dot', { 'dot--proto': !c.real }]}></span>{c.nombre} <small>{c.tipo}</small></label>
+        </>
+      ))}
+    </div>
+
+    {datos.map((c) => (
+      <div class={`caso caso--${c.id}`}>
+        <div class="caso__cab">
+          <h3>{c.titulo}</h3>
+          <p>{c.bajada}</p>
+        </div>
+
+        <svg class="hub" viewBox="0 0 1000 690" role="img" aria-labelledby={`${c.id}-t`}>
+          <title id={`${c.id}-t`}>{c.nombre}: {c.nodos.map((n) => n.nombre).join(', ')}, conectados al {c.centro.toLowerCase()}.</title>
+          <defs>
+            <radialGradient id={`${c.id}-gn`} cx="50%" cy="30%" r="75%"><stop offset="0" stop-color="#1A7BA0" /><stop offset=".55" stop-color="#0B5D7A" /><stop offset="1" stop-color="#0A4A62" /></radialGradient>
+            <radialGradient id={`${c.id}-gc`} cx="50%" cy="30%" r="75%"><stop offset="0" stop-color="#FFFFFF" /><stop offset="1" stop-color="#EDE6D8" /></radialGradient>
+            <radialGradient id={`${c.id}-gh`}><stop offset="0" stop-color="#2E8BA8" stop-opacity=".5" /><stop offset="1" stop-color="#2E8BA8" stop-opacity="0" /></radialGradient>
+            <filter id={`${c.id}-br`} x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+            <filter id={`${c.id}-so`} x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="14" stdDeviation="12" flood-color="#000" flood-opacity=".45" /></filter>
+          </defs>
+
+          <path id={`${c.id}-anillo`} class:list={['cable', c.modo === 'circuito' ? 'cable--anillo' : 'cable--suave']} d={anillo} />
+          {POS.map((p, i) => <path id={`${c.id}-r${i}`} class:list={['cable', { 'cable--radio': c.modo === 'hub' }]} d={`M${p[0]} ${p[1]} L${C[0]} ${C[1]}`} />)}
+
+          <g class="pulsos" filter={`url(#${c.id}-br)`}>
+            {c.modo === 'circuito' && [0, 3, 6].map((b) => (
+              <circle class="pulso" r="6"><animateMotion dur={`${VUELTA}s`} begin={`-${b}s`} repeatCount="indefinite"><mpath href={`#${c.id}-anillo`} /></animateMotion></circle>
+            ))}
+            {c.nodos.map((n, i) => (c.modo === 'hub' || n.alPanel) && (
+              <circle class="pulso" r={c.modo === 'hub' ? 6 : 4.5}><animateMotion dur={`${PERIODO}s`} begin={`${atraso(c.fases[i]).toFixed(3)}s`} repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;.4;1" calcMode="linear"><mpath href={`#${c.id}-r${i}`} /></animateMotion></circle>
+            ))}
+            {c.modo === 'hub' && c.nodos.map((_, i) => (
+              <circle class="pulso pulso--vuelta" r="4"><animateMotion dur={`${PERIODO}s`} begin={`${atraso((c.fases[i] + 1.5) % PERIODO).toFixed(3)}s`} repeatCount="indefinite" keyPoints="1;0;0" keyTimes="0;.4;1" calcMode="linear"><mpath href={`#${c.id}-r${i}`} /></animateMotion></circle>
+            ))}
+          </g>
+
+          <circle cx={C[0]} cy={C[1]} r="135" fill={`url(#${c.id}-gh)`}><animate attributeName="r" values="125;145;125" dur="3s" repeatCount="indefinite" /></circle>
+          <g filter={`url(#${c.id}-so)`}><circle cx={C[0]} cy={C[1]} r="80" fill={`url(#${c.id}-gc)`} /></g>
+          <circle cx={C[0]} cy={C[1]} r="80" fill="none" stroke="#fff" stroke-opacity=".9" stroke-width="1.5" />
+          {/* Ícono del panel: una pantalla con indicadores */}
+          <g transform="translate(474 268)" class="ico-panel">
+            <rect x="0" y="0" width="52" height="38" rx="6" />
+            <path d="M10 28V20 M20 28V12 M30 28V17 M40 28V9" />
+            <path d="M18 46h16 M26 38v8" />
+          </g>
+          <circle class="led" cx="534" cy="264" r="6" />
+          <text class="t-centro" x={C[0]} y="350" text-anchor="middle">{c.centro}</text>
+
+          {c.nodos.map((n, i) => {
+            const [x, y] = POS[i];
+            const arriba = y < 200;
+            return (
+              <g class="nodo" transform={`translate(${x} ${y})`}>
+                <circle r="52" fill={`url(#${c.id}-gn)`} filter={`url(#${c.id}-so)`} />
+                <circle r="52" class="borde-luz" />
+                <circle r="58" class="aro" filter={`url(#${c.id}-br)`}><animate attributeName="stroke-opacity" values=".08;1;.08;.08" keyTimes="0;.06;.42;1" dur={`${PERIODO}s`} begin={`${atraso(c.fases[i]).toFixed(3)}s`} repeatCount="indefinite" /></circle>
+                {n.icono === 'semaforo'
+                  ? <g transform="translate(0 -20)"><circle r="6" class="sem-ok" /><circle cy="20" r="6" class="sem-medio" /><circle cy="40" r="6" class="sem-riesgo" /></g>
+                  : <g class="ico" transform="translate(-18 -18)"><path d={ICO[n.icono]} /></g>}
+                <text class="t-nodo" y={arriba ? -92 : 84} text-anchor="middle">{n.nombre}</text>
+                <text class="t-sub" y={arriba ? -70 : 106} text-anchor="middle">{n.sub}</text>
+              </g>
+            );
+          })}
+        </svg>
+
+        <ol class="movil">
+          {c.nodos.map((n) => <li><b>{n.nombre}</b><span>{n.movil}</span></li>)}
+          <li class="movil__final"><b>{c.centro}</b></li>
+        </ol>
+
+        <p class="caso__cierre"><span class:list={['led-txt', { 'led-txt--proto': !c.real }]}></span>{c.cierre}</p>
+      </div>
+    ))}
+    <div class="casos__cta"><a class="btn btn--accion" href="#contacto">{casos.cta}</a></div>
+  </div>
+</section>
+
+<style>
+  .casos { padding-block: var(--s-10); }
+  .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* Selector de caso (radios; 0 JS) */
+  .selector {
+    display: flex; justify-content: center; gap: 6px; width: max-content; max-width: 100%; margin: 0 auto var(--s-7); padding: 6px;
+    border-radius: var(--r-pill); background: rgba(255, 255, 255, .06); box-shadow: var(--luz-borde-banda), inset 0 0 0 1px rgba(255, 255, 255, .06);
+  }
+  .selector input { position: absolute; opacity: 0; pointer-events: none; }
+  .selector label {
+    display: inline-flex; align-items: center; gap: 9px; min-height: var(--toque); padding: 0 var(--s-4); border-radius: var(--r-pill); cursor: pointer;
+    font: 600 15px / 1 var(--fuente-texto); color: var(--sobre-oscuro-suave); transition: background var(--t-rapido) var(--ola-suave), color var(--t-rapido);
+  }
+  .selector label small { font-weight: 400; font-size: 13px; opacity: .85; }
+  .selector input:checked + label { background: linear-gradient(180deg, #FFFFFF, #EDE6D8); color: var(--mar-noche); box-shadow: 0 6px 18px -8px rgba(0, 0, 0, .6), inset 0 1px 0 #fff; }
+  .selector input:focus-visible + label { outline: 3px solid var(--sol); outline-offset: 2px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--sol); }
+  .dot--proto { background: transparent; box-shadow: inset 0 0 0 2px var(--sol); }
+
+  .caso + .caso { display: none; }
+  .casos:has(#caso-finca:checked) .caso--kredix { display: none; }
+  .casos:has(#caso-finca:checked) .caso--finca { display: block; }
+  @media (prefers-reduced-motion: no-preference) { .caso { animation: caso-entra .6s var(--ola-suave); } @keyframes caso-entra { from { opacity: 0; translate: 0 14px; } } }
+
+  .caso__cab { text-align: center; }
+  .caso__cab h3 { font-size: var(--fs-h2); max-width: 20ch; margin-inline: auto; }
+  .caso__cab p { margin: var(--s-4) auto 0; max-width: 60ch; color: var(--sobre-oscuro-suave); }
+
+  .hub { display: block; width: 100%; max-width: 1040px; height: auto; margin: var(--s-6) auto 0; overflow: visible; }
+  .cable { fill: none; stroke: #2E8BA8; stroke-opacity: .3; stroke-width: 1.5; }
+  .cable--anillo { stroke-opacity: .55; stroke-width: 2.5; stroke-dasharray: 3 9; stroke-linecap: round; }
+  .cable--suave { stroke-opacity: .18; stroke-width: 1.2; stroke-dasharray: 2 8; }
+  .cable--radio { stroke-opacity: .45; stroke-width: 2; }
+  .pulso { fill: var(--sol); }
+  .pulso--vuelta { fill: #FFE3A6; }
+  .borde-luz { fill: none; stroke: #fff; stroke-opacity: .22; stroke-width: 1.2; }
+  .aro { fill: none; stroke: var(--sol); stroke-width: 2.5; stroke-opacity: .08; }
+  .ico path { fill: none; stroke: #FBF8F2; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .ico-panel rect, .ico-panel path { fill: none; stroke: #0B5D7A; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+  .sem-ok { fill: var(--semaforo-ok); } .sem-medio { fill: var(--sol); } .sem-riesgo { fill: var(--semaforo-riesgo); }
+  .led { fill: var(--sol); }
+  .t-centro { font: 600 18px var(--fuente-texto); fill: #14212B; }
+  .t-nodo { font: 600 19px var(--fuente-texto); fill: #FBF8F2; }
+  .t-sub { font: 400 14.5px var(--fuente-texto); fill: #9FC3D1; }
+  @media (prefers-reduced-motion: no-preference) {
+    .led { animation: latido 2.4s ease-in-out infinite; }
+    @keyframes latido { 50% { opacity: .45; } }
+  }
+  @media (prefers-reduced-motion: reduce) { .pulsos, .aro { display: none; } }
+
+  .movil { display: none; }
+  .caso__cierre {
+    display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: var(--s-6); text-align: center;
+    font: italic 400 var(--fs-cita) / 1.35 var(--fuente-titulo); color: var(--sobre-oscuro);
+  }
+  .led-txt { width: 9px; height: 9px; flex: none; border-radius: 50%; background: var(--sol); box-shadow: 0 0 0 4px rgba(233, 180, 76, .18); }
+  .led-txt--proto { background: transparent; box-shadow: inset 0 0 0 2px var(--sol); }
+  .casos__cta { margin-top: var(--s-5); display: flex; justify-content: center; }
+
+  @media (max-width: 860px) {
+    .selector label { padding: 0 var(--s-3); font-size: 14px; white-space: nowrap; gap: 6px; }
+    .selector label small { font-size: 12px; }
+    .hub { display: none; }
+    .movil { display: block; position: relative; margin-top: var(--s-6); padding-left: 30px; }
+    .movil::before { content: ''; position: absolute; left: 9px; top: 10px; bottom: 30px; border-left: 2px dashed rgba(46, 139, 168, .55); }
+    .movil li {
+      position: relative; margin-bottom: var(--s-3); padding: 14px var(--s-4); border-radius: var(--r-tarjeta);
+      background: var(--banda-superficie-luz); box-shadow: var(--e2-banda), var(--luz-borde-banda);
+    }
+    .movil li::before { content: ''; position: absolute; left: -26px; top: 20px; width: 12px; height: 12px; border-radius: 50%; background: var(--banda); border: 2px solid #2E8BA8; }
+    .movil b { display: block; font: 600 17px / 1.2 var(--fuente-texto); color: var(--sobre-oscuro); }
+    .movil span { display: block; margin-top: 4px; font-size: 14.5px; line-height: 1.4; color: var(--sobre-oscuro-suave); }
+    .movil .movil__final { background: linear-gradient(180deg, #FFFFFF, #EDE6D8); }
+    .movil .movil__final b { color: var(--mar-noche); }
+    .movil .movil__final::before { background: var(--sol); border-color: var(--sol); }
+    .caso__cierre { justify-content: flex-start; text-align: left; }
+  }
+  @media (max-width: 860px) and (prefers-reduced-motion: no-preference) {
+    .movil::after {
+      content: ''; position: absolute; left: 5px; top: 6px; width: 10px; height: 10px; border-radius: 50%;
+      background: var(--sol); box-shadow: 0 0 10px 2px rgba(233, 180, 76, .7); animation: baja 6s linear infinite;
+    }
+    @keyframes baja { 8%, 92% { opacity: 1; } from { top: 6px; opacity: 0; } to { top: calc(100% - 34px); opacity: 0; } }
+  }
+</style>

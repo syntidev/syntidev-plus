@@ -25,16 +25,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Grano de papel: ruido SVG muy tenue sobre la arena */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 100;
-  opacity: .035;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
+/* (v2) El grano de papel se retiró: la textura ahora es la cuadrícula de puntos de .puntos */
 
 h1, h2, h3 {
   font-family: var(--fuente-titulo);
@@ -86,7 +77,8 @@ img, svg { display: block; max-width: 100%; }
 .btn:hover { transform: translateY(-2px); }
 .btn:active { transform: translateY(0); background: var(--arena-2); }
 
-.btn--accion { background: var(--coral); border-color: var(--coral); color: var(--blanco); }
+.btn--accion { background: linear-gradient(180deg, #D14E33, var(--coral)); border-color: var(--coral); color: var(--blanco); border-radius: 6px; box-shadow: var(--luz-borde), 0 1px 2px rgba(121, 32, 15, .3); transition: transform var(--t-rapido) var(--ola-suave), box-shadow var(--t-rapido) var(--ola-suave), background var(--t-rapido); }
+.btn--accion:hover, .btn--accion:focus-visible { box-shadow: var(--luz-borde), var(--brillo-accion); }
 .btn--accion:hover { background: var(--coral-hondo); border-color: var(--coral-hondo); }
 .btn--accion:active { background: var(--coral-hondo); border-color: var(--coral-hondo); }
 /* Subrayado ondulado en "sol" que se desliza al pasar el cursor */
@@ -133,3 +125,46 @@ img, svg { display: block; max-width: 100%; }
     scroll-behavior: auto !important;
   }
 }
+
+/* ── Sistema visual v2 ─────────────────────────────────── */
+/* Fondo de tecnología: cuadrícula de puntos + viñeta de luz cenital */
+.puntos { position: relative; isolation: isolate; overflow: clip; }
+.puntos::before {
+  content: ''; position: absolute; inset: 0; z-index: -2; pointer-events: none;
+  background-image: radial-gradient(circle, var(--puntos) 1.2px, transparent 1.6px);
+  background-size: var(--puntos-paso) var(--puntos-paso);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 35%, #000 30%, transparent 100%);
+          mask-image: radial-gradient(ellipse 80% 70% at 50% 35%, #000 30%, transparent 100%);
+}
+.puntos::after {
+  content: ''; position: absolute; inset: 0; z-index: -3; pointer-events: none;
+  background: radial-gradient(ellipse 70% 60% at 60% 18%, rgba(255, 255, 255, .7), transparent 70%);
+}
+
+/* Banda oscura (el 30%): redefine los colores para que los componentes se adapten solos */
+.banda {
+  --tinta: var(--sobre-oscuro);
+  --grafito: var(--sobre-oscuro-suave);
+  --texto: var(--sobre-oscuro);
+  --texto-suave: var(--sobre-oscuro-suave);
+  --linea: rgba(255, 255, 255, .12);
+  --borde: 1px solid rgba(255, 255, 255, .12);
+  --borde-tinta: 1px solid rgba(255, 255, 255, .2);
+  --espuma: rgba(255, 255, 255, .04);
+  --caribe: #8CC7DA;
+  --marca: #8CC7DA;
+  --puntos: var(--puntos-banda);
+  background: var(--banda);
+  color: var(--sobre-oscuro);
+}
+.banda.puntos::after { background: radial-gradient(ellipse 60% 55% at 30% 0%, rgba(46, 139, 168, .28), transparent 70%); }
+.banda :focus-visible { outline-color: var(--sol); }
+.banda .btn:not(.btn--accion) { border-color: rgba(255, 255, 255, .5); color: var(--sobre-oscuro); }
+
+/* Formas de marca: proporción fija, tamaño por contenedor, detrás del contenido */
+.formas { container-type: inline-size; }
+.forma { position: absolute; pointer-events: none; z-index: -1; }
+.forma svg { width: 100%; height: auto; }
+.forma .c { fill: none; stroke: var(--marca); stroke-opacity: .2; }
+.forma .L { fill: none; stroke: var(--marca); stroke-opacity: .2; stroke-width: 7; stroke-linecap: round; }
+.forma .s { fill: var(--senal); }

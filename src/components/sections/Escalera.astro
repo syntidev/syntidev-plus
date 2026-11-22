@@ -1,0 +1,104 @@
+---
+// La escalera: la página web como primer escalón y, desde ahí, hacia adentro.
+// Cuatro peldaños con pantallas reales (demos públicas); el cuarto es una interfaz
+// ilustrada (sin datos de clientes). Un conducto con pulsos sube por la escalera.
+import site from '../../content/site.json';
+const { escalera: esc } = site;
+---
+
+<section class="escalera puntos formas" id="escalera" aria-labelledby="esc-t">
+  <div class="forma f-orbita-e" aria-hidden="true"><svg viewBox="0 0 100 100"><circle class="c" cx="50" cy="50" r="48" stroke-width="1.2" /></svg></div>
+  <div class="wrap">
+    <div class="sec__cab revela">
+      <h2 id="esc-t">{esc.titulo}</h2>
+      <p>{esc.bajada}</p>
+    </div>
+
+    <ol class="peldanos">
+      <svg class="conducto" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
+        <path id="esc-ruta" d="M60 280 C200 280 180 200 310 200 S440 120 560 120 S690 40 810 40 L960 40" />
+        <circle class="pulso" r="5"><animateMotion dur="6s" repeatCount="indefinite"><mpath href="#esc-ruta" /></animateMotion></circle>
+        <circle class="pulso" r="5"><animateMotion dur="6s" begin="-3s" repeatCount="indefinite"><mpath href="#esc-ruta" /></animateMotion></circle>
+      </svg>
+      {esc.peldanos.map((p, n) => (
+        <li class="peldano" style={`--n:${n}`}>
+          {p.pantallas.length === 0 ? (
+            <div class="pantalla pantalla--ilustrada" aria-hidden="true">
+              <div class="ui-semaforo">
+                {esc.semaforo.map((t, i) => <><i class={`s${i}`}></i><b>{t}</b></>)}
+              </div>
+              <div class="ui-barras">{[0.45, 0.6, 0.38, 0.82, 0.7].map((h) => <span style={`--h:${h}`}></span>)}</div>
+            </div>
+          ) : (
+            <div class={`pantalla ${p.pantallas.length > 1 ? 'pantalla--moviles' : ''}`}>
+              {p.pantallas.map((s) => <img src={s.src} width={s.w} height={s.h} alt={s.alt} loading="lazy" decoding="async" />)}
+            </div>
+          )}
+          <span class="peldano__num">{n + 1}</span>
+          <h3>{p.titulo}</h3>
+          <p>{p.texto}</p>
+          <a class="peldano__marca" href={p.href} rel={p.href.startsWith('http') ? 'noopener' : undefined}>{p.marca}</a>
+        </li>
+      ))}
+    </ol>
+    <p class="ademas">{esc.ademas}</p>
+  </div>
+</section>
+
+<style>
+  .escalera { background: var(--fondo-alterno); padding-block: var(--s-10); border-top: var(--borde); }
+  .sec__cab p { color: var(--texto-suave); }
+  .f-orbita-e { width: clamp(220px, 30cqi, 460px); left: -10cqi; top: -8cqi; }
+
+  .peldanos {
+    position: relative; margin-top: var(--s-8);
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(var(--s-3), 1.8vw, var(--s-5)); align-items: end;
+  }
+  .conducto { position: absolute; inset: -40px 0 auto; width: 100%; height: calc(100% - 140px); pointer-events: none; overflow: visible; }
+  .conducto path { fill: none; stroke: var(--marca); stroke-opacity: .35; stroke-width: 2; stroke-dasharray: 2 7; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+  .conducto .pulso { fill: var(--senal); }
+
+  .peldano {
+    position: relative; z-index: 1; display: flex; flex-direction: column;
+    margin-bottom: calc(var(--n) * clamp(28px, 4vw, 56px));
+    padding: var(--s-3) var(--s-3) var(--s-5);
+    border-radius: var(--r-tarjeta); background: var(--superficie-luz);
+    box-shadow: var(--e2), var(--luz-borde), 0 0 0 1px rgba(14, 47, 61, .05);
+  }
+  .pantalla {
+    margin-bottom: var(--s-4); aspect-ratio: 16 / 10; overflow: hidden; border-radius: 7px;
+    background: var(--arena-2); box-shadow: inset 0 0 0 1px rgba(14, 47, 61, .08);
+  }
+  .pantalla img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .pantalla--moviles { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-2); padding: 10px 14px 0; background: linear-gradient(180deg, #E9E1D0, #DCD3C1); }
+  .pantalla--moviles img { border-radius: 12px 12px 0 0; box-shadow: 0 10px 20px -10px rgba(14, 47, 61, .5); }
+  .pantalla--ilustrada { display: grid; grid-template-columns: auto 1fr; align-items: end; gap: 14px; padding: var(--s-4); background: var(--banda-superficie-luz); }
+  .ui-semaforo { display: grid; grid-template-columns: 10px auto; gap: 7px 8px; align-items: center; align-self: center; font: 600 12px / 1 var(--fuente-texto); color: var(--espuma); }
+  .ui-semaforo i { width: 10px; height: 10px; border-radius: 50%; }
+  .ui-semaforo .s0 { background: var(--semaforo-ok); } .ui-semaforo .s1 { background: var(--senal); } .ui-semaforo .s2 { background: var(--semaforo-riesgo); }
+  .ui-barras { height: 78%; display: flex; align-items: flex-end; gap: 6px; border-bottom: 1px solid rgba(255, 255, 255, .25); }
+  .ui-barras span { flex: 1; height: calc(var(--h) * 100%); border-radius: 3px 3px 0 0; background: linear-gradient(180deg, rgba(255, 255, 255, .85), rgba(255, 255, 255, .35)); }
+
+  .peldano__num {
+    display: grid; place-items: center; width: 30px; height: 30px; margin: 0 var(--s-1) var(--s-3);
+    border-radius: 50%; background: var(--marca); color: var(--espuma); font: 600 14px / 1 var(--fuente-texto);
+    box-shadow: var(--e1), inset 0 1px 0 rgba(255, 255, 255, .25);
+  }
+  .peldano h3 { margin: 0 var(--s-1); font-size: clamp(22px, 2vw, 26px); }
+  .peldano p { margin: var(--s-2) var(--s-1) 0; color: var(--texto-suave); font-size: var(--fs-peq); line-height: 1.5; }
+  .peldano__marca {
+    display: inline-flex; align-items: center; min-height: var(--toque-compacto); margin: auto var(--s-1) 0; padding-top: var(--s-3);
+    font: 600 13px / 1.3 var(--fuente-texto); color: var(--marca); text-decoration: none;
+  }
+  .peldano__marca:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .ademas { margin-top: var(--s-6); color: var(--texto-suave); font-size: var(--fs-peq); max-width: 70ch; }
+
+  @media (prefers-reduced-motion: reduce) { .conducto .pulso { display: none; } }
+  @media (max-width: 860px) {
+    .peldanos { grid-template-columns: minmax(0, 1fr); gap: var(--s-4); padding-left: 28px; }
+    .peldanos::before { content: ''; position: absolute; left: 9px; top: 8px; bottom: 8px; border-left: 2px dotted rgba(11, 93, 122, .35); }
+    .peldano { margin-bottom: 0; }
+    .conducto { display: none; }
+    .peldano__num { position: absolute; left: -34px; top: 16px; margin: 0; width: 22px; height: 22px; font-size: 12px; }
+  }
+</style>

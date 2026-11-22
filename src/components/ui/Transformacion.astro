@@ -88,7 +88,7 @@ const desorden = [
     /* Pegado bajo la barra de navegación fija */
     position: sticky; top: var(--nav-alto);
     height: calc(100vh - var(--nav-alto)); height: calc(100svh - var(--nav-alto));
-    display: grid; align-content: center;
+    display: grid; align-content: safe center;
     gap: clamp(var(--s-5), 5vh, var(--s-8));
   }
 
@@ -117,15 +117,16 @@ const desorden = [
   /* Tablero */
   .tf__tablero {
     list-style: none; padding: 0; margin: 0;
-    display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: var(--carta);
+    display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: minmax(var(--carta), auto);
     gap: var(--s-4);
     perspective: 1400px;
     margin-bottom: calc(var(--carta) * 1.5);
   }
   .carta { position: relative; z-index: calc(10 - var(--i)); }
-  .carta__giro { position: relative; height: 100%; transform-style: preserve-3d; }
+  /* Las dos caras se apilan en la misma celda: la tarjeta mide lo que mida su texto más largo */
+  .carta__giro { position: relative; height: 100%; display: grid; transform-style: preserve-3d; }
   .cara {
-    position: absolute; inset: 0; margin: 0;
+    grid-area: 1 / 1; position: relative; margin: 0;
     backface-visibility: hidden;
     display: flex; align-items: center;
     padding: var(--s-4) var(--s-5);
@@ -148,7 +149,6 @@ const desorden = [
   .cara--solucion {
     transform: rotateY(180deg);
     flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: var(--s-1);
-    padding-top: var(--s-7);
     border-radius: calc(var(--radio) * 2.5);
     background: linear-gradient(160deg, var(--caribe) 0%, var(--mar-noche) 120%);
     color: var(--blanco);
@@ -158,7 +158,7 @@ const desorden = [
   .cara--solucion small { font: 400 var(--fs-peq) / 1.35 var(--fuente-texto); color: var(--sobre-oscuro-suave); }
   /* La luz de estado: el sistema encendido */
   .cara--solucion::before {
-    content: ""; position: absolute; top: var(--s-4); left: var(--s-5);
+    content: ""; flex: none; margin-bottom: auto; padding: 0;
     width: 10px; height: 10px; border-radius: 50%;
     background: var(--sol);
   }
@@ -224,8 +224,8 @@ const desorden = [
     .tf__pegado { position: static; height: auto; padding-block: var(--s-8); }
     .tf__tablero { margin-bottom: 0; grid-auto-rows: auto; }
     .tf__antes, .cara--problema, .cara--solucion::before { display: none; }
-    .cara { position: static; min-height: var(--carta); }
-    .cara--solucion { transform: none; padding-top: var(--s-4); justify-content: center; }
+    .cara { min-height: var(--carta); }
+    .cara--solucion { transform: none; justify-content: center; }
     .cara__antes { display: block; font: italic 400 var(--fs-peq) / 1.3 var(--fuente-titulo); color: var(--sobre-oscuro-suave); text-decoration: line-through; }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -233,8 +233,8 @@ const desorden = [
     .tf__pegado { position: static; height: auto; padding-block: var(--s-8); }
     .tf__tablero { margin-bottom: 0; grid-auto-rows: auto; }
     .tf__antes, .cara--problema, .cara--solucion::before { display: none; }
-    .cara { position: static; min-height: var(--carta); }
-    .cara--solucion { transform: none; padding-top: var(--s-4); justify-content: center; }
+    .cara { min-height: var(--carta); }
+    .cara--solucion { transform: none; justify-content: center; }
     .cara__antes { display: block; font: italic 400 var(--fs-peq) / 1.3 var(--fuente-titulo); color: var(--sobre-oscuro-suave); text-decoration: line-through; }
   }
 
@@ -242,11 +242,10 @@ const desorden = [
     .tf { height: var(--tf-escena-movil); --carta: var(--tf-carta-movil); }
     .tf__tablero { grid-template-columns: repeat(2, 1fr); gap: var(--s-3); margin-bottom: calc(var(--carta) * .45); }
     .cara { padding: var(--s-3) var(--s-4); }
-    .cara--solucion { padding-top: var(--s-6); }
+    .cara--solucion { gap: 2px; }
     .cara--solucion b { font-size: 16px; }
     .cara--solucion small { font-size: 13px; line-height: 1.3; }
     .tf__pegado { gap: var(--s-4); }
-    .cara--solucion::before { top: var(--s-3); left: var(--s-4); }
   }
   @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) and (max-width: 760px) {
